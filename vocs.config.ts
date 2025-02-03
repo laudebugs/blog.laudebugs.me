@@ -30,8 +30,12 @@ export default defineConfig({
         { text: 'Archive', link: '/archive', match: '/archive' },
         { text: 'Personal Website', link: 'https://www.laudebugs.net' },
         {
-            text: 'Other Blogs',
+            text: 'More Links',
             items: [
+                {
+                    text: 'Dev Journal',
+                    link: 'https://journal.laudebugs.net',
+                },
                 {
                     text: 'Imperfect Place',
                     link: 'https://imperfect.place',
