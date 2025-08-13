@@ -272,7 +272,7 @@ To extend Angular router functions, we need to extend the `Router.prototype` wit
 We will need a few helper types to extract out the type of arguments that are passed into the `.navigate` and the `.navigateByUrl` functions:
 ```ts twoslash
 import { Router } from '@angular/router';
-
+// ---cut---
 type TRestOfNavigateMoreArgs = Parameters<Router['navigate']> extends [infer Arg, ...infer Rest] ? Rest : never
 type TNavigateReturn = ReturnType<Router['navigate']>
 
@@ -379,7 +379,6 @@ We even have auto-complete in our IDE:
 import { Router, Route, Routes } from '@angular/router';
 import { inject, Component } from '@angular/core';
 
-
 const routes = [
 	{
 		path: '',
@@ -435,7 +434,6 @@ declare module '@angular/router' {
 Router.prototype.route = Router.prototype.navigate
 Router.prototype.routeByUrl = Router.prototype.navigateByUrl
 // ---cut-before---
-
 @Component({template: ''})
 export class SomeComponent {
 	router = inject(Router)
