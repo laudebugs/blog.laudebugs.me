@@ -20,6 +20,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": ["/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx", "torchlight.config.js", "docs/helpers/get-tagged-posts.js", "types"]
 }

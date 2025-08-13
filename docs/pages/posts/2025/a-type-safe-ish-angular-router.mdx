@@ -1,0 +1,484 @@
+---
+title: 'A Type-Safe-ish Angular Router'
+publishedOn: '2025-08-13'
+author: Laurence Ininda
+summary: 'Attempting to typing the Angular Router navigation functions.'
+slug: 'a-type-safe-ish-angular-router'
+tags: ['angular', 'tutorials']
+type: dev
+image: ''
+imageDescription: ''
+imageCredit: Photo by <a href="https://unsplash.com/@yansavitsky?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Yan Savitsky</a> on <a href="https://unsplash.com/photos/brown-wooden-framed-glass-doors-BVLY6xZCYco?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+imageOriginalUrl: 'https://unsplash.com/photos/brown-wooden-framed-glass-doors-BVLY6xZCYco'
+---
+
+# Type-Safe-ish Angular Router
+![Cover Photo](/assets/post-covers/a-type-safe-ish-angular-router.jpg)
+
+> Attempting to typing the Angular Router navigation functions (`Router.navigate`; `Router.navigateByUrl`).
+
+## Angular Routing Overview
+Routing in Angular is mostly a straight-forward and opinionated when using Angular's build-in routing. 
+
+### Creating Routes
+To create routes in Angular, a developer first needs to create an array of type `Array<Route>` (`Routes`) and pass the array of routes to the `ApplicationConfig`. The following is a simple routing setup with [static url paths](https://angular.dev/guide/routing/define-routes#static-url-paths)
+```ts
+import { ApplicationConfig } from '@angular/core'
+import { provideRouter, Routes } from '@angular/router'
+import { HomeComponent } from '~/components/home/home.ts'
+import { DashboardComponent } from '~/components/dashboard/dashboard.ts'
+import { AnalyticsComponent } from '~/components/analytics/analytics.ts'
+import { ReportsComponent } from '~/components/reports/reports.ts'
+import { SettingsComponent } from '~/components/settings/settings.ts'
+
+const routes: Routes = [
+	{
+		path: '',
+		component: HomeComponent,
+	},
+	{
+		path: 'dashboard',
+		component: DashboardComponent,
+		children: [
+			{
+				path: 'analytics',
+				component: AnalyticsComponent,
+			},
+			{
+				path: 'reports',
+				component: ReportsComponent,
+			},
+		],
+	},
+	{
+		path: 'settings',
+		component: SettingsComponent,
+	},
+]
+
+/* Pass Routes to Application Config */
+export const appConfig: ApplicationConfig = {
+	providers: [
+		//...other providers
+		provideRouter(routes),
+	],
+}
+```
+
+### Routing Tasks
+Within a component, routing can be performed from the component's template or class.
+#### Routing from the Component Template
+A user might click a link or a button to take them to another page. To be able to perform routing tasks, a developer needs to pass in the `RouterLink` directive into the imports array of the component then use that `routerLink` directive within the template:
+```ts
+import { RouterLink } from '@angular/router'
+
+@Component({
+	template: `
+		<nav>
+			<a routerLink="/">Home</a>
+			<a routerLink="/dashboard">Dashboard</a>
+			<a routerLink="/settings">Settings</a>
+		</nav>`,
+	imports: [RouterLink, DashboardComponent, SettingsComponent],
+})
+export class HomeComponent {}
+```
+
+#### Routing from within the Component's Class
+To perform routing from within a component, a developer needs to inject the `Router` into the component and use either the [`Router.navigate`](https://angular.dev/guide/routing/navigate-to-routes#routernavigate) or the [`Router.navigateByUrl`](https://angular.dev/guide/routing/navigate-to-routes#routernavigatebyurl) functions
+
+The 
+```ts twoslash
+import { Router, ActivatedRoute } from '@angular/router'
+import { Component, inject } from '@angular/core'
+
+@Component({ template: '' })
+// ---cut---
+export class HomeComponent {
+	router = inject(Router);
+	activatedRoute = inject(ActivatedRoute);
+	
+	/* Using Router.navigate */
+	goToDashboard() {
+		this.router.navigate(['/dashboard'], { 
+			relativeTo: this.activatedRoute 
+		});
+	}
+	
+	/* Using Router.navigateByUrl */
+	goToSettings() {
+		this.router.navigateByUrl('/settings');
+	}
+}
+```
+
+## Motivation: Why Attempt to Add Types
+When calling the Router's `.navigate` or `.navigateByUrl` functions, a developer can pass in a string, any string and the TypeScript compiler will not throw an error. When a user attempts to access a route that doesn't exist, a developer can add a catch all path that catches all routes that don't exist: 
+```ts twoslash
+import { Routes } from '@angular/router';
+// ---cut---
+const routes: Routes = [
+	{
+		path: '**',
+		redirectTo: '/'
+	}
+]
+```
+The incentive to add more type-safety to the Router is more on developer ergonomics (DX) while they are writing the code so that they can catch invalid routes at the point where they are writing the code, instead of on the browser, or worse still, when the application is deployed.
+
+For a non-existent route, for instance a call to a non-existent route: 
+```ts
+import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
+
+@Component({template: ''})
+export class SomeComponent {
+	router = inject(Router)
+	routeToSomewhere() {
+		this.router.routeByUrl("non-existent-route");
+	}
+}
+
+```
+Should throw an error such as:
+![[Screenshot 2025-08-13 at 9.17.07 AM.png]]
+In the example above, the type `TRoutePath` is a union type of valid routes. This would help a developer track down the error faster.
+
+## Building Out the Types from the Routes Array
+Once the routes array is configured, we need to parse out the routes to a type such as:
+```ts twoslash
+type TRoutePath = '' | 'dashboard' | 'dashboard/analytics' | 'dashboard/reports' | 'settings'
+```
+
+While a developer can manually write down the paths, there will be two places where a developer will have to remember to update whenever the routes change. This is less ideal but may be simple enough for an application with few routes.
+
+A better approach would be to have the routes be the source of truth and the type be generated from this types array. Our approach for this will be to write out a generic type that will take in the routes.
+
+### Applying `const` Assertion and the `satisfies` operator
+The first thing we need to do is to apply [const assertion](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-4.html#const-assertions) to the `routes` array and combine it with the [`satisfies` operator](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html#the-satisfies-operator) to ensure that our `routes` fulfill the properties needed `Routes` type array:
+```ts twoslash
+import { Routes } from '@angular/router'
+import { Component } from '@angular/core'
+
+@Component({ template: '' })
+class DashboardComponent {}
+// ---cut---
+const routes = [
+	{
+		path: 'dashboard',
+		component: DashboardComponent
+	}
+	//... more routes
+] as const satisfies Routes
+```
+
+The type of routes can then be simplified as:
+```ts
+type TRoutes = typeof routes;
+```
+### Creating a Generic Function to Extract the types
+We need a way to extract the types from the `routes`  array. A generic type that would take as input the type `TRoutes` and output our union of valid routes.
+#### Drafting out the Generic type 
+One way to think about the generic type is as a function, that takes as input, a type `Route` (a single route) and as output, loops through the children and returns a combination of that route's the children's paths. 
+If we think of our generic type as a function, that would look like.
+```ts
+import { Route } from '@angular/router';
+function getRoutePaths<T extends Route, P extends string = ''>(route: T, parentPrefix: P) {
+	/* The base case is where route has no children */
+	if (!route.children?.length) {
+		return [route.path]
+	}
+	for (const childRoute of route.children) {
+		return [
+			...(childRoute.path ? [`${parentPrefix}${childRoute.path}`, childRoute.path] : []),
+			...getRoutePaths(childRoute, childRoute.path ?? ''),
+		]
+	}
+}
+
+```
+
+This helps us then build out our generic type which we will call: `TRoutePaths`. Our type takes as input a route, and loops through all the child routes
+```ts twoslash
+import { Route } from '@angular/router';
+// ---cut---
+type TRoutePaths<TRoute extends Route, ParentPrefix extends string = ''> =
+	/* Loop through each of the children - TDeepChild<C[number]> */
+	TRoute extends { children: infer ChildRoutes extends Route[] }
+		? /**
+			 * const childrenPaths = getRoutePaths(route, parentRoutePrefix)
+			 * const childPath = route.path
+			 * return childrenPaths + `${parentPrefixRoute}childPath`  + childPath
+			 **/
+			TRoutePaths<ChildRoutes[number], `${ParentPrefix}${TRoute['path']}/`> | `${ParentPrefix}${TRoute['path']}` | TRoute['path']
+		: /* base case - return the route path */
+			TRoute extends { path: string }
+			? `${ParentPrefix}${TRoute['path']}` | TRoute['path']
+			: never
+```
+
+When we apply this to our `TRoutes` to extract out the types, then we have: 
+
+```ts twoslash
+import { Route, Routes } from '@angular/router';
+
+const routes = [
+	{
+		path: '',
+	},
+	{
+		path: 'dashboard',
+		children: [
+			{
+				path: 'analytics',
+			},
+			{
+				path: 'reports',
+			},
+		],
+	},
+	{
+		path: 'settings',
+	},
+] as const satisfies Routes;
+
+type TRoutePaths<TRoute extends Route, ParentPrefix extends string = ''> =
+	/* Loop through each of the children - TDeepChild<C[number]> */
+	TRoute extends { children: infer ChildRoutes extends Route[] }
+		? /**
+			 * const childrenPaths = getRoutePaths(route, parentRoutePrefix)
+			 * const childPath = route.path
+			 * return childrenPaths + `${parentPrefixRoute}childPath`  + childPath
+			 **/
+			TRoutePaths<ChildRoutes[number], `${ParentPrefix}${TRoute['path']}/`> | `${ParentPrefix}${TRoute['path']}` | TRoute['path']
+		: /* base case - return the route path */
+			TRoute extends { path: string }
+			? `${ParentPrefix}${TRoute['path']}` | TRoute['path']
+			: never
+
+// ---cut---
+type TRoutes = typeof routes;
+type TAppRoutePaths = TRoutePaths<TRoutes[number]>
+```
+The above `TAppRoutePaths` is equivalent to: 
+```ts twoslash
+type TRoutePath = '' | 'dashboard' | 'dashboard/analytics' | 'dashboard/reports' | 'settings'
+```
+
+#### Applying our Extracted Type to Angular Router
+To extend Angular router functions, we need to extend the `Router.prototype` with two new methods that use our typed routes. We can extend the `@angular/router` module import with our new types using [TypeScript Modules](https://www.typescriptlang.org/docs/handbook/namespaces-and-modules.html#using-modules) and add two new functions `route` and `routeByUrl` that use our `TRoutePath` type.
+
+##### Helper Types
+We will need a few helper types to extract out the type of arguments that are passed into the `.navigate` and the `.navigateByUrl` functions:
+```ts twoslash
+import { Router } from '@angular/router';
+
+type TRestOfNavigateMoreArgs = Parameters<Router['navigate']> extends [infer Arg, ...infer Rest] ? Rest : never
+type TNavigateReturn = ReturnType<Router['navigate']>
+
+type TRestOfNavigateByUrlArgs = Parameters<Router['navigateByUrl']> extends [infer Arg, ...infer Rest] ? Rest : never
+type TFirstOfNavigateByUrlArgs = Parameters<Router['navigateByUrl']> extends [infer Arg, ...infer Rest] ? Exclude<Arg, string> : never
+type TNavigateByUrlReturn = ReturnType<Router['navigateByUrl']>
+```
+
+##### Extending `Router.navigate` and `Router.navigateByUrl`
+We can then extend the `@angular/router` module by declaring the `Router` interface with our new methods `Router.route` and `Router.routeByUrl` . We then extend the `Router.prototype` and pass in the same methods as the implementation.
+```ts
+declare module '@angular/router' {
+	interface Router {
+		route: (commands: readonly TAppRoutePaths, ...args: TRestOfNavigateMoreArgs) => TNavigateReturn
+		routeByUrl: (
+			url: TFirstOfNavigateByUrlArgs | TAppRoutePaths,
+			...args: TRestOfNavigateByUrlArgs
+		) => TNavigateByUrlReturn
+	}
+}
+
+Router.prototype.route = Router.prototype.navigate
+Router.prototype.routeByUrl = Router.prototype.navigateByUrl
+
+```
+
+And there we have it. If we use these `Router.route` and `Router.routeByUrl` functions, we can then use them in our application:
+```ts twoslash
+import { Router, Route, Routes } from '@angular/router';
+import { inject, Component } from '@angular/core';
+
+
+const routes = [
+	{
+		path: '',
+	},
+	{
+		path: 'dashboard',
+		children: [
+			{
+				path: 'analytics',
+			},
+			{
+				path: 'reports',
+			},
+		],
+	},
+	{
+		path: 'settings',
+	},
+] as const satisfies Routes;
+type TRoutePaths<TRoute extends Route, ParentPrefix extends string = ''> =
+	/* Loop through each of the children - TDeepChild<C[number]> */
+	TRoute extends { children: infer ChildRoutes extends Route[] }
+		? /**
+			 * const childrenPaths = getRoutePaths(route, parentRoutePrefix)
+			 * const childPath = route.path
+			 * return childrenPaths + `${parentPrefixRoute}childPath`  + childPath
+			 **/
+			TRoutePaths<ChildRoutes[number], `${ParentPrefix}${TRoute['path']}/`> | `${ParentPrefix}${TRoute['path']}` | TRoute['path']
+		: /* base case - return the route path */
+			TRoute extends { path: string }
+			? `${ParentPrefix}${TRoute['path']}` | TRoute['path']
+			: never
+
+type TRestOfNavigateMoreArgs = Parameters<Router['navigate']> extends [infer Arg, ...infer Rest] ? Rest : never
+type TNavigateReturn = ReturnType<Router['navigate']>
+
+type TRestOfNavigateByUrlArgs = Parameters<Router['navigateByUrl']> extends [infer Arg, ...infer Rest] ? Rest : never
+type TFirstOfNavigateByUrlArgs = Parameters<Router['navigateByUrl']> extends [infer Arg, ...infer Rest] ? Exclude<Arg, string> : never
+type TNavigateByUrlReturn = ReturnType<Router['navigateByUrl']>
+
+type TAppRoutePaths = TRoutePaths<typeof routes[number]>
+
+declare module '@angular/router' {
+	interface Router {
+		route: (commands: readonly TAppRoutePaths[], ...args: TRestOfNavigateMoreArgs) => TNavigateReturn
+		routeByUrl: (
+			url: TFirstOfNavigateByUrlArgs | TAppRoutePaths,
+			...args: TRestOfNavigateByUrlArgs
+		) => TNavigateByUrlReturn
+	}
+}
+
+Router.prototype.route = Router.prototype.navigate
+Router.prototype.routeByUrl = Router.prototype.navigateByUrl
+// ---cut---
+@Component({ template: '' })
+export class SomeComponent {
+	router = inject(Router)
+
+	navigateToDashboard() {
+		this.router.routeByUrl('dashboard')
+	}
+
+    routeToSomewhereNonExistent() {
+// @errors: 2345
+        this.router.routeByUrl("non-existent-route");
+	}
+}
+```
+We even have auto-complete in our IDE:
+```ts twoslash
+import { Router, Route, Routes } from '@angular/router';
+import { inject, Component } from '@angular/core';
+
+
+const routes = [
+	{
+		path: '',
+	},
+	{
+		path: 'dashboard',
+		children: [
+			{
+				path: 'analytics',
+			},
+			{
+				path: 'reports',
+			},
+		],
+	},
+	{
+		path: 'settings',
+	},
+] as const satisfies Routes;
+type TRoutePaths<TRoute extends Route, ParentPrefix extends string = ''> =
+	/* Loop through each of the children - TDeepChild<C[number]> */
+	TRoute extends { children: infer ChildRoutes extends Route[] }
+		? /**
+			 * const childrenPaths = getRoutePaths(route, parentRoutePrefix)
+			 * const childPath = route.path
+			 * return childrenPaths + `${parentPrefixRoute}childPath`  + childPath
+			 **/
+			TRoutePaths<ChildRoutes[number], `${ParentPrefix}${TRoute['path']}/`> | `${ParentPrefix}${TRoute['path']}` | TRoute['path']
+		: /* base case - return the route path */
+			TRoute extends { path: string }
+			? `${ParentPrefix}${TRoute['path']}` | TRoute['path']
+			: never
+
+type TRestOfNavigateMoreArgs = Parameters<Router['navigate']> extends [infer Arg, ...infer Rest] ? Rest : never
+type TNavigateReturn = ReturnType<Router['navigate']>
+
+type TRestOfNavigateByUrlArgs = Parameters<Router['navigateByUrl']> extends [infer Arg, ...infer Rest] ? Rest : never
+type TFirstOfNavigateByUrlArgs = Parameters<Router['navigateByUrl']> extends [infer Arg, ...infer Rest] ? Exclude<Arg, string> : never
+type TNavigateByUrlReturn = ReturnType<Router['navigateByUrl']>
+
+type TAppRoutePaths = TRoutePaths<typeof routes[number]>
+
+declare module '@angular/router' {
+	interface Router {
+		route: (commands: readonly TAppRoutePaths[], ...args: TRestOfNavigateMoreArgs) => TNavigateReturn
+		routeByUrl: (
+			url: TFirstOfNavigateByUrlArgs | TAppRoutePaths,
+			...args: TRestOfNavigateByUrlArgs
+		) => TNavigateByUrlReturn
+	}
+}
+
+Router.prototype.route = Router.prototype.navigate
+Router.prototype.routeByUrl = Router.prototype.navigateByUrl
+// ---cut-before---
+
+@Component({template: ''})
+export class SomeComponent {
+	router = inject(Router)
+
+	navigateToDashboard() {
+// @noErrors
+        this.router.routeByUrl("
+//                              ^|
+	}
+}
+```
+We now have type-checking on our paths which was our goal at the beginning.
+
+## More Complex Scenarios
+Our Router now handles the basic routing scenarios with static route URLs. However, and **realistically**, most applications pass in route and query parameters. An example would look like:
+```ts
+const routes: Routes = [
+	{
+		path: 'dashboard',
+		component: DashboardComponent,
+		children: [
+			{
+				path: 'reports',
+				component: ReportsComponent,
+				children: [
+					{
+						path: ':id',
+						component: SingleReportComponent,
+					},
+				]
+			},
+		],
+	},
+	// Other routes
+]
+
+```
+To access the `SingleReportComponent`, we need to pass in the the `id` to the `Router`'s navigation functions. Our implementation so far does not handle the parameters.
+
+## Limitations
+Even though most applications have more complex routing requirements, this was an attempt at making the router a bit more type-safe for simple use-cases.
+
+However, there are several limitations of this implementation such as: 
+1. This implementation relies on the underlying Angular router API. Changes to the function arguments (`Router.navigate` and `Router.navigateByUrl`) can break the types.
+2. The above implementation so far only handles routes with static URLs. Since we don't know the shape of the route params beforehand - the parameters can be any string. When we perform a union of this generated type with `string` , the output is a `string`.
+
