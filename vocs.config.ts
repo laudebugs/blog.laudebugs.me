@@ -28,7 +28,7 @@ export default defineConfig({
     topNav: [
         { text: 'Home', link: '/', match: '/' },
         { text: 'Archive', link: '/archive', match: '/archive' },
-        // { text: 'Personal Website', link: 'https://www.laudebugs.net' },
+        { text: 'Personal Website', link: 'https://www.laudebugs.net' },
         // {
         //     text: 'More Links',
         //     items: [
