@@ -2,3 +2,4 @@ node_modules
 docs/dist
 shades-of-purple.ts
 docs/public/assets/posts.json
+.DS_Store
