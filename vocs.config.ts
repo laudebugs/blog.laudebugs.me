@@ -3,6 +3,8 @@ import { formatTagsForSideNav, getPostsByYear } from './docs/helpers/get-tagged-
 
 export default defineConfig({
     title: "Bugasu's Tech Blog",
+    // disable ai call to action for now
+    aiCta: false, 
     sidebar: {
         '/posts/': [
             {
@@ -22,19 +24,19 @@ export default defineConfig({
         ]
     },
     editLink: {
-        pattern: 'https://github.com/laudebugs/blog.laudebugs.net/edit/main/docs/pages/:path',
+        pattern: 'https://github.com/laudebugs/blog.laudebugs.me/edit/main/docs/pages/:path',
         text: 'Suggest changes to this page',
     },
     topNav: [
         { text: 'Home', link: '/', match: '/' },
         { text: 'Archive', link: '/archive', match: '/archive' },
-        { text: 'Personal Website', link: 'https://www.laudebugs.net' },
+        { text: 'Personal Website', link: 'https://www.laudebugs.me' },
         // {
         //     text: 'More Links',
         //     items: [
         //         {
         //             text: 'Dev Journal',
-        //             link: 'https://journal.laudebugs.net',
+        //             link: 'https://journal.laudebugs.me',
         //         },
         //         {
         //             text: 'Imperfect Place',
@@ -54,16 +56,21 @@ export default defineConfig({
         },
     ],
     iconUrl: {
-        light: '/assets/icon-light.svg',
-        dark: '/assets/icon-dark.svg',
+        light: '/assets/logo.svg',
+        dark: '/assets/logo.svg',
     },
     logoUrl: {
-        light: '/assets/icon-light.svg',
-        dark: '/assets/icon-dark.svg',
+        light: '/assets/logo.svg',
+        dark: '/assets/logo.svg',
     },
     blogDir: 'blog',
     font: {
-        google: 'IBM Plex Sans',
+        default: {
+            google: 'Sedan',
+        },
+        mono: {
+            google: 'Inconsolata'
+        }
     },
     markdown: {
         code: {
