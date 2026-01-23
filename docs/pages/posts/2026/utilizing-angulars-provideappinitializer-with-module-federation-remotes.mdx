@@ -1,5 +1,5 @@
 ---
-title: "Utilizing Angular's provideAppInitializer to load a module federation remote environment file at runtime."
+title: "Utilizing Angular's provideAppInitializer to load a module federation remote during application initialization"
 publishedOn: '2026-01-22'
 author: Laurence Ininda
 summary: "Alternative title: intercepting Angular's bootstraping (starting up process) to running an async process"
@@ -14,11 +14,11 @@ imageOriginalUrl: 'https://unsplash.com/photos/two-pink-and-white-flowers-on-a-b
 
 import { Callout } from 'vocs/components'
 
-# Utilizing Angular's `provideAppInitializer` to load a module federation remote environment file at runtime.
+# Utilizing Angular's `provideAppInitializer` to load a module federation remote during application initialization
 
 ![Cover Image](/assets/post-covers/utilizing-angulars-provideappinitializer-with-module-federation-remotes.jpg)
 
-## TLDR
+## TLDR:
 In a micro-frontend setup with Angular and module federation, we can intercept Angular's bootstraping process to execute code from a remote application before the host application fully initializes using [`provideAppInitializer`](https://angular.dev/api/core/provideAppInitializer).
 
 ## Problem Context 
@@ -71,7 +71,7 @@ bootstrapApplication(AppComponent, {
       { path: '', component: HomeComponent },
 // @noErrors
       /* This loads the remote routes to the applications router such that going to /remoteUrl loads the routes from the microfrontend */
-      { path: 'remoteUrl', loadChildren: () => loadRemote('remote-app/remoteRoutes').then(m => m.remoteRoutes)}
+      { path: 'remoteUrl', loadChildren: () => loadRemote('remote-app/remoteRoutes').then(m => m.remoteRoutes)} // [!code focus] 
     ]),
     // other providers...
   ]
@@ -124,7 +124,7 @@ import { provideAppInitializer } from '@angular/core'
 bootstrapApplication(AppComponent, {
   providers: [
     // Inject the AppEnvironment and call the initialize function
-    provideAppInitializer(() => inject(AppEnvService).initialize()),
+    provideAppInitializer(() => inject(AppEnvService).initialize()), // [!code focus] 
     provideRouter([
       { path: '', component: HomeComponent },
 // @noErrors
@@ -141,4 +141,4 @@ During the application startup phase, Angular will run this async `AppEnvService
 ## Epilogue
 The main reason for implementing module federation was because two teams working on various parts of the application wanted to deploy independently. 
 This is not what micro-frontends were designed for as our micro-frontend does not operate independently. I do wonder what the `loadRemote` function does specifically under the hood to fetch and load the remote routes, and provides the same angular context as the host application.
-Something to investigate further
+Something to investigate further!
