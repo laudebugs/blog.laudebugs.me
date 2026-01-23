@@ -78,8 +78,13 @@ bootstrapApplication(AppComponent, {
 })
 ```
 
+The set up would look like this figuratively:
 
-![Image.png](https://resv2.craft.do/user/full/3b7a8717-f653-7c71-6103-0e405a552a5a/doc/DC8E895F-164C-4A89-80DC-FDCB4664C6DB/2B1605DD-F033-4744-9C0D-B5AD96E30EC3_2/yN9HEnGlhSBgp2VpDzEFknyiGtBIQelUSixnUvykZxgz/Image.png)
+<img
+    alt="Host and remote applications in module federation"
+    src={'/assets/images/host+remote.png'}
+    width={'100%'}
+/>
 
 This environment file contains mostly api endpoints that point to the specific environment. These values need to be available at run time. However, this environment file for our microfrontend is hosted on the remote url and so the host application does not know the values beforehand. 
 
@@ -96,7 +101,6 @@ export const environment = {
 <Callout type="info">
 The challenge then was how to load this environment file and make it available to the host application at runtime?
 </Callout>
-
 
 ## Utilizing `provideAppInitializer`
 Angular provides a way to load async logic in the application boostraping phase through the `provideAppInitializer` that is [injected at the application startup phase](https://angular.dev/api/core/provideAppInitializer). If an async process is to be run, we can pass this function to be executed in the bootstrap phase and angular will not complete initialization until this async logic completes - an observable completes or a promise resolve.
