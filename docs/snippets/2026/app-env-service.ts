@@ -8,7 +8,7 @@ export class AppEnvService {
   appInsightsUrl: string = '';
   cdnUrl: string = '';
 
-  initialize() {
+  initialize(): Promise<AppEnvService | null> {
 // @noErrors
     return loadRemote<typeof import('remote-app/environment')>('remote-app/environment')
     .then(({environment}) => {
@@ -17,6 +17,7 @@ export class AppEnvService {
       this.appInsightsUrl = envenvironment.appInsightsUrl;
 // @noErrors
       this.cdnUrl = envenvironment.cdnUrl;
+      return this;
     })
     .catch((error) => {
       console.error('Failed to load remote application/environment configuration', error?.message || error);
