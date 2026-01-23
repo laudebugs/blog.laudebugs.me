@@ -13,10 +13,11 @@ imageOriginalUrl: 'https://unsplash.com/photos/two-pink-and-white-flowers-on-a-b
 ---
 
 import { Callout } from 'vocs/components'
+import { CoverPhoto } from '../../../components/CoverPhoto'
 
 # Utilizing Angular's `provideAppInitializer` to load a module federation remote during application initialization
 
-![Cover Image](/assets/post-covers/utilizing-angulars-provideappinitializer-with-module-federation-remotes.jpg)
+<CoverPhoto src="/assets/post-covers/utilizing-angulars-provideappinitializer-with-module-federation-remotes.jpg" credit={"Photo by <a href=\"https://unsplash.com/@miyatankun?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Takashi Miyazaki</a> on <a href=\"https://unsplash.com/photos/two-pink-and-white-flowers-on-a-black-background-iPpJmIjypGg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>"} />
 
 ## TLDR:
 In a micro-frontend setup with Angular and module federation, we can intercept Angular's bootstraping process to execute code from a remote application before the host application fully initializes using [`provideAppInitializer`](https://angular.dev/api/core/provideAppInitializer).
