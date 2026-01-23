@@ -2,9 +2,11 @@ import { defineConfig } from 'vocs'
 import { formatTagsForSideNav, getPostsByYear } from './docs/helpers/get-tagged-posts.js'
 
 export default defineConfig({
-    title: "Bugasu's Tech Blog",
+    title: "Bugasu's Technical Blog",
     // disable ai call to action for now
     aiCta: false, 
+    /** The base of the documentation directory */
+    rootDir: 'docs',
     sidebar: {
         '/posts/': [
             {
