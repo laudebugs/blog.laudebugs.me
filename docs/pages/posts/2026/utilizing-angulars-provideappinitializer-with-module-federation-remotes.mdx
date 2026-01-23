@@ -29,10 +29,10 @@ These environments all have different environment variables such as api endpoint
 No secrets are stored in these environment files because they are all shipped to the client side.
 </Callout>
 
-We utilize NX for our micro-frontend setup which makes the setup easier to manage. The setup process is [well documented here](https://nx.dev/docs/technologies/angular/guides/dynamic-module-federation-with-angular)
+We utilize NX for our micro-frontend setup which makes the setup easier to manage. The NX docs provides [very good documentation on getting started with NX, Angular and Module Federation.](https://nx.dev/docs/technologies/angular/guides/dynamic-module-federation-with-angular)
 
-During a deployment of our microfrontend to each of the environments, the pipeline swaps out the values in the compiled `environment.ts` file for the correct values for each of these environments.
-The microfrontend (`remote-app`) [exposes](https://module-federation.io/configure/exposes.html) two remotes in the `module-federation.config.ts` file: 
+During a deployment of our microfrontend to each of the environments, the pipeline swaps out the values in the compiled `environment.ts` file with the appropriate values for each of these environments.
+The microfrontend (in our case called `remote-app`) [exposes](https://module-federation.io/configure/exposes.html) two remotes in the `module-federation.config.ts` file: 
 
 1. `remoteRoutes` - routes that configure the child routing logic
 2. `environment` - the environment file that contains environment variables
@@ -54,7 +54,7 @@ const moduleFederationConfig: ModuleFederationConfig = {
 };
 ```
 
-These remotes are then available to the host application by using the `loadRemote` module federation function. i.e.:
+These remotes can then be fetched from the host application by using the `loadRemote` module federation function from `@module-federation/enhanced/runtime`. i.e.:
 
 ```ts twoslash
 
@@ -86,11 +86,12 @@ The set up would look like this figuratively:
     width={'100%'}
 />
 
-This environment file contains mostly api endpoints that point to the specific environment. These values need to be available at run time. However, this environment file for our microfrontend is hosted on the remote url and so the host application does not know the values beforehand. 
+This environment file contains mostly environment variables specific to each environment. 
+These values need to be available at run time.
 
 An example of an environment file would be: 
 
-```typescript
+```ts twoslash
 export const environment = {
   apiUrl: 'https://api-dev.our-app.com/v1.0/',
   cdnUrl: 'https://cdn-dev.our-app.com/',
@@ -99,23 +100,26 @@ export const environment = {
 ```
 
 <Callout type="info">
-The challenge then was how to load this environment file and make it available to the host application at runtime?
+This environment file for our microfrontend is hosted on the remote url and so the host application does not know the values at the point of initialization. 
+The challenge then was how to load this environment file and make it available to the host application when the application starts up (at initialization).
 </Callout>
 
 ## Utilizing `provideAppInitializer`
-Angular provides a way to load async logic in the application boostraping phase through the `provideAppInitializer` that is [injected at the application startup phase](https://angular.dev/api/core/provideAppInitializer). If an async process is to be run, we can pass this function to be executed in the bootstrap phase and angular will not complete initialization until this async logic completes - an observable completes or a promise resolve.
+Angular provides a way to run async during the boostraping phase through the `provideAppInitializer` that is [provided at the application startup phase](https://angular.dev/api/core/provideAppInitializer). 
+If an async process is to be run, we can pass this function to be executed in the bootstrap phase and angular will not complete initialization until this async logic completes - an observable completes or a promise resolve.
 
-We would first need to modify how we pass in our environment variables and load them into a service with an initializer function that fetches the exposed environment remote:
+We would first need to modify how we pass in our environment variables and load them into a service. As well, we would need to define a function to run in the `provideAppInitializer` callback. For our example, we will name our function `initialize()` (but you can choose to call your function something different such as `init` or `setup`):
 
 ```ts twoslash
 // [!include ~/snippets/2026/app-env-service.ts:appenvservice]
 ```
 
-Notice here that our environment service contains a function that returns a promise. This is the function that we would pass into the `provideAppInitializer` function:
+Notice here that our environment service contains a function that returns a promise. 
+This is the function that we would pass into the `provideAppInitializer` function:
 
 --- 
 
-In the `bootstrap.ts` file, we can then initialize our `AppEnvService` to set up environment variables:
+In the `bootstrap.ts` file for our host application, we can then initialize our `AppEnvService` to set up environment variables:
 
 ```ts twoslash
 // [!include ~/snippets/2026/initializing-env-variables-in-ng-mf.ts] 
@@ -144,5 +148,7 @@ During the application startup phase, Angular will run this async `AppEnvService
 
 ## Epilogue
 The main reason for implementing module federation was because two teams working on various parts of the application wanted to deploy independently. 
-This is not what micro-frontends were designed for as our micro-frontend does not operate independently. I do wonder what the `loadRemote` function does specifically under the hood to fetch and load the remote routes, and provides the same angular context as the host application.
+This is not what micro-frontends were designed for as our micro-frontend does not operate independently. 
+
+I do wonder what the [`loadRemote`](https://module-federation.io/guide/basic/runtime/runtime-api#runtime-api) function does specifically under the hood to fetch and load the remote routes, and provides the same angular context as the host application.
 Something to investigate further!
