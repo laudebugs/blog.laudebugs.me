@@ -14,17 +14,10 @@ imageOriginalUrl: 'https://unsplash.com/photos/a-couple-of-wooden-statues-sittin
 ---
 import { Callout } from 'vocs/components'
 import { CoverPhoto } from '../../../components/CoverPhoto'
-export const {author, authorLink, publishedOn} = frontmatter;
-export const date = new Date(frontmatter.publishedOn).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-});
+import { AuthorAndDate } from '../../../components/AuthorAndDate'
 
 # The gap between man and machine
-
-by <a href={authorLink} target="_blank" rel="noopener noreferrer">{author}</a> on {date}
-
+<AuthorAndDate frontmatter={frontmatter} />
 <CoverPhoto src="/assets/post-covers/the-gap-between-man-and-machine.jpg" credit={"Photo by <a href=\"https://unsplash.com/@eddiepipocas?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Eddie Pipocas</a> on <a href=\"https://unsplash.com/photos/a-couple-of-wooden-statues-sitting-next-to-each-other-_TqoAyD2osw?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>"} />
 
 <Callout type="info">

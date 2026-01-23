@@ -15,16 +15,12 @@ imageOriginalUrl: 'https://unsplash.com/photos/two-pink-and-white-flowers-on-a-b
 
 import { Callout } from 'vocs/components'
 import { CoverPhoto } from '../../../components/CoverPhoto'
+import { AuthorAndDate } from '../../../components/AuthorAndDate'
 export const {author, authorLink, publishedOn} = frontmatter;
-export const date = new Date(frontmatter.publishedOn).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-});
 
 # Utilizing Angular's `provideAppInitializer` to load a module federation remote during application initialization
 
-by <a href={authorLink} target="_blank" rel="noopener noreferrer">{author}</a> on {date}
+<AuthorAndDate frontmatter={frontmatter} />
 
 <CoverPhoto src="/assets/post-covers/utilizing-angulars-provideappinitializer-with-module-federation-remotes.jpg" credit={"Photo by <a href=\"https://unsplash.com/@miyatankun?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Takashi Miyazaki</a> on <a href=\"https://unsplash.com/photos/two-pink-and-white-flowers-on-a-black-background-iPpJmIjypGg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>"} />
 
