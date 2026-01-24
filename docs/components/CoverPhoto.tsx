@@ -16,8 +16,8 @@ export const CoverPhoto = (props: { src: string; credit: string }) => {
                 style={{
                     fontSize: '0.75em',
                 }}
+                dangerouslySetInnerHTML={{ __html: props.credit }}
             >
-                {props.credit}
             </div>
         </div>
     )

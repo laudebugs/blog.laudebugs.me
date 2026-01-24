@@ -9,3 +9,14 @@
 :root.dark {
   --vocs-color_background: #232225;
 }
+
+.vocs_Header {
+  padding-bottom: 0.25em !important;
+  margin-bottom: 0.5em !important;
+}
+
+.vocs_H2 {
+  padding-top: 0 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+}

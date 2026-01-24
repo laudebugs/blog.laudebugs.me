@@ -33,24 +33,28 @@ export default defineConfig({
         { text: 'Home', link: '/', match: '/' },
         { text: 'Archive', link: '/archive', match: '/archive' },
         { text: 'Personal Website', link: 'https://www.laudebugs.me' },
-        // {
-        //     text: 'More Links',
-        //     items: [
-        //         {
-        //             text: 'Dev Journal',
-        //             link: 'https://journal.laudebugs.me',
-        //         },
-        //         {
-        //             text: 'Imperfect Place',
-        //             link: 'https://imperfect.place',
-        //         },
-        //     ],
-        // },
+        {
+            text: 'More Links',
+            items: [
+                {
+                    text: 'Dev Journal',
+                    link: 'https://journal.laudebugs.me',
+                },
+                {
+                    text: 'Imperfect Place',
+                    link: 'https://imperfect.place',
+                },
+            ],
+        },
     ],
     socials: [
         {
             icon: 'github',
             link: 'https://github.com/laudebugs',
+        },
+        {
+            icon: 'bluesky',
+            link: 'https://bsky.app/profile/laudebugs.me',
         },
         {
             icon: 'x',
