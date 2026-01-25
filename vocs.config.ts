@@ -75,7 +75,7 @@ export default defineConfig({
             google: 'Sedan',
         },
         mono: {
-            google: 'Inconsolata'
+            google: 'Google Sans Code'
         }
     },
     markdown: {
