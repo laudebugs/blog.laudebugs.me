@@ -1,0 +1,116 @@
+---
+title: 'Referencing viewChild queries within defer blocks'
+publishedOn: '2026-01-28'
+author: Laurence Ininda
+authorLink: https://bsky.app/profile/laudebugs.me
+summary: "How to reference template/component queries within Angular's @defer blocks."
+slug: 'referencing-viewchild-queries-within-defer-blocks'
+tags: ['angular']
+type: dev
+image: ''
+imageDescription: ''
+imageCredit: Photo by <a href="Photo by <a href="https://unsplash.com/@heyquilia?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Kenny Eliason</a> on <a href="https://unsplash.com/photos/grayscale-photography-of-building-txEjgaqYu_w?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>"
+imageOriginalUrl: 'https://unsplash.com/photos/a-couple-of-wooden-statues-sitting-next-to-each-other-_TqoAyD2osw'
+---
+
+import { Callout } from 'vocs/components'
+import { CoverPhoto } from '../../../components/CoverPhoto'
+import { AuthorAndDate } from '../../../components/AuthorAndDate'
+
+# Referencing `viewChild` queries within `@defer` blocks
+
+<AuthorAndDate frontmatter={frontmatter} />
+
+<CoverPhoto src="/assets/post-covers/referencing-viewchild-queries-within-defer-blocks.jpg" credit={"Photo by <a href=\"https://unsplash.com/@heyquilia?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Kenny Eliason</a> on <a href=\"https://unsplash.com/photos/grayscale-photography-of-building-txEjgaqYu_w?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText\">Unsplash</a>"} />
+
+
+## A Primer on `@defer`
+
+Angular's [`@defer`](https://angular.dev/guide/templates/defer) allows developers to delay when a component will be initialized within a component's template, until a [certain condition is met](https://angular.dev/guide/templates/defer#controlling-deferred-content-loading-with-triggers). This could be, when the content enters the viewport, or a user interacts with a specific element, e.t.c.
+
+In our case, we utilize [Angular Material Tabs](https://material.angular.dev/components/tabs/overview) with two tabs displaying two pieces of data:
+
+```html
+<mat-tab-group [(selectedIndex)]="tabIndex">
+    <mat-tab label="All Posts">
+        <all-posts/>
+    </mat-tab>
+    <mat-tab label="Gallery">
+        <gallery-view/>
+    </mat-tab>
+</mat-tab-group>
+```
+
+Our `<gallery-view/>` component may contain data that we don't want to load immediately until we click on that tab. We can wrap it within a `@defer` block to only initialize the component when it enters the viewport:
+
+```html
+<mat-tab-group [(selectedIndex)]="tabIndex">
+    <mat-tab label="All Posts">
+        <all-posts/>
+    </mat-tab>
+    <mat-tab label="Gallery">
+        @defer(on viewport) {
+            <gallery-view/>
+        } 
+    </mat-tab>
+</mat-tab-group>
+```
+
+## Referencing content within `@defer` blocks 
+
+If we would like to reference our `<gallery-view/>`component that contains a property `photoCount()` (`GalleryViewComponent.photoCount`) and use that reference within the same template, we cannot directly use a [template reference variable](https://angular.dev/guide/templates/variables#template-reference-variables) as such:
+
+```html twoslash
+@if(tabIndex === 1) {
+    <div>{{ galleryViewRef.photoCount() }} photos</div> // [!code focus] 
+}
+
+<mat-tab-group [(selectedIndex)]="tabIndex">
+    <mat-tab label="All Posts">
+        <all-posts/>
+    </mat-tab>
+    <mat-tab label="Gallery">
+        @defer(on viewport) {
+            <gallery-view #galleryViewRef/> // [!code focus] 
+        }
+    </mat-tab>
+</mat-tab-group>
+```
+
+<Callout type="info">
+The above `galleryViewRef.photoCount()` will be undefined. 
+</Callout>
+
+To properly reference the `<gallery-view/>` component, we'll utilize the [`viewChild`](https://angular.dev/guide/components/queries#view-queries) in the component's typescript file:
+
+```ts
+@Component({
+    template: `
+        @if(tabIndex === 1) {
+            <div>{{ galleryComponent()?.photoCount() }} photos</div>
+        }
+
+        <mat-tab-group [(selectedIndex)]="tabIndex">
+            <mat-tab label="All Posts">
+                <all-posts/>
+            </mat-tab>
+            <mat-tab label="Gallery">
+                @defer(on viewport) {
+                    <gallery-view #galleryViewRef/> 
+                }
+            </mat-tab>
+        </mat-tab-group>
+    `
+})
+export class HomeComponent {
+    galleryComponent = viewChild('galleryViewRef');
+    tabIndex = 0;
+}
+```
+
+Since `viewChild` keeps its result up to date as the application state changes, the variable `galleryComponent` is initially undefined until it inters the viewport. 
+
+<Callout type="tip">
+If a component is wrapped in an `@if` block, it will have the same behavior where a template reference will not have a value. Thus, we'll need to also utilize `viewChild` to reference the content within the `@if` block.
+</Callout>
+
