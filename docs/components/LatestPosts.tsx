@@ -4,7 +4,7 @@ import { useWindowSize } from "@uidotdev/usehooks";
 
 export const LatestPosts = () => {
     const latestPost = AllPosts[0]
-    const recentThreePosts = AllPosts.slice(1, 3)
+    const recentFourPosts = AllPosts.slice(1, 5)
     const size = useWindowSize();
 
     const getYear = (date: string) => new Date(date).getFullYear()
@@ -24,7 +24,7 @@ export const LatestPosts = () => {
             </a>
 
             <div style={{display: 'grid', gridTemplateColumns: (size.width ?? 601)  > 600 ? ('1fr 1fr'): '1fr', gap: '1em', paddingTop: 20}}>
-                {recentThreePosts.map((post, index) => (
+                {recentFourPosts.map((post, index) => (
                     <a key={index} style={{marginBottom: 10}} href={`/posts/${getYear(post.frontMatter.publishedOn)}/${post.frontMatter.slug}`}>
                         <h3 style={{fontSize: 20}}>{post.frontMatter.title}</h3>
                         <small>{formatDate(post.frontMatter.publishedOn)}</small>
