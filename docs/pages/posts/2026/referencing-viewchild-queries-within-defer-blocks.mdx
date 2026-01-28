@@ -63,6 +63,7 @@ If we would like to reference our `<gallery-view/>`component that contains a pro
 ```html twoslash
 @if(tabIndex === 1) {
     <div>{{ galleryViewRef.photoCount() }} photos</div> // [!code focus] 
+    // @error: Will throw error: Property 'photoCount' does not exist on type 'undefined'.
 }
 
 <mat-tab-group [(selectedIndex)]="tabIndex">
