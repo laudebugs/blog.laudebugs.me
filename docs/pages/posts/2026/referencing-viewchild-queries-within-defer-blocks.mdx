@@ -36,12 +36,12 @@ In our case, we utilize [Angular Material Tabs](https://material.angular.dev/com
         <all-posts/>
     </mat-tab>
     <mat-tab label="Gallery">
-        <gallery/>
+        <gallery-view/>
     </mat-tab>
 </mat-tab-group>
 ```
 
-Our `<gallery/>` component may contain data that we don't want to load immediately until we click on that tab. We can wrap it within a `@defer` block to only initialize the component when it enters the viewport:
+Our `<gallery-view/>` component may contain data that we don't want to load immediately until we click on that tab. We can wrap it within a `@defer` block to only initialize the component when it enters the viewport:
 
 ```html
 <mat-tab-group [(selectedIndex)]="tabIndex">
@@ -50,7 +50,7 @@ Our `<gallery/>` component may contain data that we don't want to load immediate
     </mat-tab>
     <mat-tab label="Gallery">
         @defer(on viewport) {
-            <gallery/>
+            <gallery-view/>
         } 
     </mat-tab>
 </mat-tab-group>
@@ -58,11 +58,11 @@ Our `<gallery/>` component may contain data that we don't want to load immediate
 
 ## Referencing content within `@defer` blocks 
 
-If we would like to reference our `<gallery/>`component that contains a property `photoCount()` (`GalleryComponent.photoCount`) and use that reference within the same template, we cannot directly use a [template reference variable](https://angular.dev/guide/templates/variables#template-reference-variables) as such:
+If we would like to reference our `<gallery-view/>`component that contains a property `photoCount()` (`GalleryViewComponent.photoCount`) and use that reference within the same template, we cannot directly use a [template reference variable](https://angular.dev/guide/templates/variables#template-reference-variables) as such:
 
 ```html twoslash
 @if(tabIndex === 1) {
-    <div>{{ galleryRef.photoCount() }} photos</div> // [!code focus] 
+    <div>{{ galleryViewRef.photoCount() }} photos</div> // [!code focus] 
 }
 
 <mat-tab-group [(selectedIndex)]="tabIndex">
@@ -71,17 +71,17 @@ If we would like to reference our `<gallery/>`component that contains a property
     </mat-tab>
     <mat-tab label="Gallery">
         @defer(on viewport) {
-            <gallery #galleryRef/> // [!code focus] 
+            <gallery-view #galleryViewRef/> // [!code focus] 
         }
     </mat-tab>
 </mat-tab-group>
 ```
 
 <Callout type="info">
-The above `galleryRef.photoCount()` will be undefined. 
+The above `galleryViewRef.photoCount()` will be undefined. 
 </Callout>
 
-To properly reference the `<gallery/>` component, we'll utilize the [`viewChild`](https://angular.dev/guide/components/queries#view-queries) in the component's typescript file:
+To properly reference the `<gallery-view/>` component, we'll utilize the [`viewChild`](https://angular.dev/guide/components/queries#view-queries) in the component's typescript file:
 
 ```ts
 @Component({
@@ -96,14 +96,14 @@ To properly reference the `<gallery/>` component, we'll utilize the [`viewChild`
             </mat-tab>
             <mat-tab label="Gallery">
                 @defer(on viewport) {
-                    <gallery #galleryRef/> 
+                    <gallery-view #galleryViewRef/> 
                 }
             </mat-tab>
         </mat-tab-group>
     `
 })
 export class HomeComponent {
-    galleryComponent = viewChild('galleryRef');
+    galleryComponent = viewChild('galleryViewRef');
     tabIndex = 0;
 }
 ```
