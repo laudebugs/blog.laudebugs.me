@@ -38,7 +38,7 @@ export default defineConfig({
             items: [
                 {
                     text: 'Dev Journal',
-                    link: 'https://journal.laudebugs.me',
+                    link: 'https://journal.laudebugs.net',
                 },
                 {
                     text: 'Imperfect Place',
