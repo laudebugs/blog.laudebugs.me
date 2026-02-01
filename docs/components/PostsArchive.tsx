@@ -18,7 +18,7 @@ export const PostsArchive = () => {
 
     const size = useWindowSize()
 
-    const formatDate = (date: string) => format(new Date(date), 'iii, do MMM, yyyy')
+    const formatDate = (date: string) => format(new Date(`${date}T00:00:00-05:00`), 'iii, do MMM, yyyy')
     const getYear = (date: string) => new Date(date).getFullYear()
 
     return (
