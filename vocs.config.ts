@@ -75,7 +75,7 @@ export default defineConfig({
             google: 'Crimson Pro',
         },
         mono: {
-            google: 'IBM Plex Mono'
+            google: 'SUSE Mono'
         }
     },
     markdown: {
