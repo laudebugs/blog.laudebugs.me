@@ -72,10 +72,10 @@ export default defineConfig({
     blogDir: 'blog',
     font: {
         default: {
-            google: 'Sedan',
+            google: 'Crimson Pro',
         },
         mono: {
-            google: 'Google Sans Code'
+            google: 'IBM Plex Mono'
         }
     },
     markdown: {
@@ -92,12 +92,35 @@ export default defineConfig({
             light: '#470FF4',
         },
         variables: {
-            fontFamily: {
-                // mono: "IBM Plex Mono",
-            },
             fontWeight: {
                 regular: '400',
             },
+           fontSize: {
+      root: '1.05em',
+    //   '9': string,
+    //   '11': string,
+    //   '12': string,
+    //   '13': string,
+    //   '14': string,
+    //   '15': string,
+    //   '16': string,
+    //   '18': string,
+    //   '20': '1.5em',
+    //   '24': string,
+    //   '32': string,
+      h1: '2em',
+    //   h2: string,
+    //   h3: string,
+    //   h4: string,
+    //   h5: string,
+    //   h6: string,
+    //   code: string,
+    //   codeBlock: string,
+    //   lineNumber: string,
+    //   subtitle: string,
+    //   th: string,
+    //   td: string,
+    },
         },
     },
 })

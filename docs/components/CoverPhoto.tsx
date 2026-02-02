@@ -2,7 +2,6 @@ import React from 'react'
 import { Fragment } from 'react'
 
 export const CoverPhoto = (props: { src: string; credit: string }) => {
-    console.log(props)
     return (
         <div
             style={{
