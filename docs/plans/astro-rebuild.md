@@ -79,7 +79,7 @@ scripts/                              repo tooling
 docs/                                 plans, decisions, guidelines (never site content)
 ```
 
-**D10. Tooling.** pnpm, Node 24, Biome (as Build an Agent) in place of Prettier, Vitest, `tsc` plus `astro check` for types, Playwright for the browser checks.
+**D10. Tooling.** pnpm, Node 24, Biome (as Build an Agent) in place of Prettier, Vitest, `tsc` plus `astro check` for types. No end-to-end tests (owner's decision, 2026-11-26); changed pages are checked in a browser by hand.
 
 **D11. Dependencies are pinned exactly**, to releases at least one week old (Build an Agent's rule), and each is added only when a todo needs it.
 - **Keep:** `astro`, `@astrojs/mdx`, `@astrojs/react` (islands only), `@astrojs/rss`, `@astrojs/sitemap`, `@codesandbox/sandpack-react`, `@stackblitz/sdk`, `typescript` (6.0.3).
@@ -107,8 +107,8 @@ docs/                                 plans, decisions, guidelines (never site c
 | BL8 | Search: Pagefind and the modal, "/" shortcut (D7) | BL4 |
 | BL9 | Search agent: spike to choose the in-browser model and runtime, then the tools, the opt-in download, the fallback and evals (D8) | BL8 |
 | BL10 | Dependencies: exact pins, the keep, replace, move and drop lists (D11); a check that fails on a range or a package under a week old | BL4 |
-| BL11 | Browser checks: every page at 390 and 1440 px in light and dark, no sideways scroll, axe, links, square-corner and no-border check | BL4, BL5 |
-| BL12 | Cutover: parity report, Cloudflare project and previews, DNS change, retire Vercel, delete Vocs (D12, D13) | BL6, BL7, BL9, BL10, BL11 |
+| BL11 | *Dropped 2026-11-26 (owner: no end-to-end testing).* The build tests in Vitest stay; pages are looked at in a browser by hand before a todo is closed, and that is recorded in the todo | n/a |
+| BL12 | Cutover: parity report, Cloudflare project and previews, DNS change, retire Vercel, delete Vocs (D12, D13) | BL6, BL7, BL9, BL10 |
 | BL13 | In the main-site repo: remove the fallback to the old file once the new blog has served real traffic | BL12 |
 
 BL2 to BL4 are the critical path. BL5, BL6 and BL7 can run in parallel after BL3, and BL8 after BL4.

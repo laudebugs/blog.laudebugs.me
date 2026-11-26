@@ -7,7 +7,7 @@
 | `make check` | `check-docs` + `check-code` |
 | `make check-docs` | `scripts/check-todos.mjs` (board consistency), `scripts/check-doc-indexes.mjs` (every doc is indexed) |
 | `make check-code` | `pnpm run site:check`: Biome, `astro check` and `tsc` on the Astro site (the dependency check arrives with BL10; duplication: `.jscpd.json` is ready, `npx jscpd .`) |
-| `make test` | `pnpm run site:test`: Vitest, including one real `astro build` into a temporary folder (the browser checks arrive with BL11); it also runs every file in `examples/` and compares it with its `.out.txt` |
+| `make test` | `pnpm run site:test`: Vitest, including one real `astro build` into a temporary folder (there are no end-to-end browser tests by the owner's decision; look at changed pages in a browser by hand); it also runs every file in `examples/` and compares it with its `.out.txt` |
 | `make fmt` | `pnpm run site:fmt`: Biome formats the Astro site's code |
 | `make todos` | Prints the derived todo board |
 | `make doctor` | Verifies git, gh, node and pnpm are installed |
