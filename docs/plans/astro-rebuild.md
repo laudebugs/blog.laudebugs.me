@@ -1,6 +1,6 @@
 # Rebuild the blog on Astro
 
-- **Status:** In progress (BL1 done 2026-11-26)
+- **Status:** In progress (BL1 to BL8, BL4b and BL10 done 2026-11-26; BL12's work is finished but it waits on BL9; BL9 open on its acceptance criteria; BL11 dropped; BL13 ready)
 - **Date:** 2026-11-26
 - **Baseline:** `laudebugs/blog.laudebugs.me` `main` at `723d680` (2 February 2026), inspected 2026-11-26
 - **Asked for by:** the owner

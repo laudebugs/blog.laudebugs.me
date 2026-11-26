@@ -22,7 +22,7 @@ export default defineConfig({
     // Astro 7's default processor runs no remark or rehype plugins, so the posts use `unified()`.
     // Shiki is configured here, not in `unified()`.
     processor: unified({ remarkPlugins: [remarkDirective, remarkCallouts] }),
-    // Code blocks: focus and highlight notation, twoslash type popovers for blocks marked `twoslash` (as in Vocs),
+    // Code blocks: focus and highlight notation, twoslash type popovers for blocks marked `twoslash`,
     // and the frame with its label and Copy button.
     shikiConfig: {
       theme: codeTheme,

@@ -5,5 +5,5 @@ Runbooks, setup, and how-tos. Write one when someone would otherwise ask. Each g
 | Guide | For |
 |---|---|
 | [update-the-ci-workflow.md](update-the-ci-workflow.md) | The owner: updating `ci.yml`, which a session cannot push |
-| [migrate-to-cloudflare.md](migrate-to-cloudflare.md) | The owner: moving the blog from Vercel to Cloudflare, step by step, with the staged deploy and preview workflows in `cloudflare/` |
+| [migrate-to-cloudflare.md](migrate-to-cloudflare.md) | The owner: moving the blog from Vercel to Cloudflare, step by step, with the deploy and preview workflows (installed in `.github/workflows/`; the copies in `cloudflare/` are kept the same) |
 | [cloudflare/](cloudflare/README.md) | The owner: the staged deploy and preview workflows |
