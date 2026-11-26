@@ -13,5 +13,7 @@
     "not_found_handling": "404-page"
   },
   "routes": [{ "pattern": "blog.laudebugs.me", "custom_domain": true }],
+  // Wrangler refuses to make a pull request preview (.github/workflows/preview.yml) without this block.
+  "previews": {},
   "workers_dev": true
 }
