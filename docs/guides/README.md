@@ -4,4 +4,4 @@ Runbooks, setup, and how-tos. Write one when someone would otherwise ask. Each g
 
 | Guide | For |
 |---|---|
-| [install-the-ci-workflow.md](install-the-ci-workflow.md) | The owner: installing `ci.yml`, which a session cannot push |
+| [update-the-ci-workflow.md](update-the-ci-workflow.md) | The owner: updating `ci.yml`, which a session cannot push |

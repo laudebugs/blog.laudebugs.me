@@ -18,9 +18,9 @@
 - Workflows that handle untrusted PR code use `pull_request_target` only to read, never to run PR code; pass PR fields through `env:`, never `${{ }}` inside `run:`.
 - Build with no secrets; deploy from `main` with the secrets.
 
-## The workflow file is staged, not installed
+## Workflow changes are staged, not pushed
 
-`.github/workflows/ci.yml` is not in the repo yet: a session cannot push workflow files. It waits at `docs/guides/ci-workflow.yml` until the owner installs it ([guide](../guides/install-the-ci-workflow.md)). Until then nothing runs `make check` on a pull request, so run it locally.
+A session cannot push workflow files. `.github/workflows/ci.yml` was installed by the owner on 2026-11-26; a newer version waits at `docs/guides/ci-workflow.yml` until the owner copies it over ([guide](../guides/update-the-ci-workflow.md)). Until then the `code` job fails on pull requests with "pnpm: command not found"; run `make check` and `make test` locally.
 
 ## Releases
 
