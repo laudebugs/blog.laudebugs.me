@@ -187,9 +187,32 @@
 }
 
 .code-frame .twoslash-query-persisted .twoslash-popup-container,
-.code-frame .twoslash-query-line .twoslash-popup-container,
-.code-frame .twoslash-hover:hover .twoslash-popup-container,
-.code-frame .twoslash-error-hover:hover .twoslash-popup-container {
+.code-frame .twoslash-query-line .twoslash-popup-container {
+  display: inline-flex;
+  pointer-events: auto;
+}
+
+/* The floating copy reuses the .code-frame rules for its contents, minus the frame itself. */
+.twoslash-float {
+  position: absolute;
+  z-index: 50;
+  margin: 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  pointer-events: none;
+}
+
+.twoslash-float .twoslash-popup-container {
+  position: static;
+  display: inline-flex;
+  transform: none;
+}
+
+/* Without the script (data-float-popups is set by it) the popup opens in place, where the block may clip it. With it,
+   a copy opens at the end of <body> instead (see src/scripts/twoslash-popup.ts). */
+:root:not([data-float-popups]) .code-frame .twoslash-hover:hover .twoslash-popup-container,
+:root:not([data-float-popups]) .code-frame .twoslash-error-hover:hover .twoslash-popup-container {
   display: inline-flex;
   pointer-events: auto;
 }
