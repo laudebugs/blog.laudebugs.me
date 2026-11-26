@@ -10,7 +10,7 @@
     "gen-types": "npx -p typescript tsc docs/helpers/*.js --declaration --allowJs --emitDeclarationOnly"
   },
   "dependencies": {
-    "@angular/core": "^21.1.1",
+    "@angular/core": "^21.2.20",
     "@angular/router": "^21.1.1",
     "@angular/platform-browser": "^21.1.1",
     "@codesandbox/sandpack-react": "^2.12.0",
