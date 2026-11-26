@@ -18,6 +18,7 @@
   --tone-d-ink: #2a6fa8;
 
   --font-serif: "Lora", Georgia, "Times New Roman", serif;
+  --font-body: "Karla", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --grid-size: 16px;
   --content-width: 1060px;

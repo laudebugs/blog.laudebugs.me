@@ -71,7 +71,8 @@ a {
   max-width: 52ch;
   margin: 0 0 32px;
   color: var(--dim);
-  font-size: 1.2rem;
+  font-family: var(--font-body);
+  font-size: 1.3rem;
   line-height: 1.45;
   /* A thin paper veil so the grid lines do not run through the text. */
   background: color-mix(in srgb, var(--paper) 90%, transparent);
@@ -81,7 +82,8 @@ a {
 .note {
   max-width: 62ch;
   padding: 14px 18px;
-  font-size: 1.05rem;
+  font-family: var(--font-body);
+  font-size: 1.15rem;
   color: var(--ink);
   background: color-mix(in srgb, var(--tone-d-ink) 13%, var(--paper));
 }

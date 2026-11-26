@@ -41,7 +41,7 @@ As of 2026-11-26, from the repository at `723d680`.
 **D2. Keep every address; replace `posts.json` with a slim index.** Posts stay at `/posts/<year>/<slug>`, plus `/archive`. The live site had no feed or sitemap (all 404 on 2026-11-26) and an `llms.txt` that cut some titles short, so those are new rather than kept; each post also gets a Markdown copy at `<post>.md`, and cover images keep their paths under `/assets/post-covers/`. The 167 KB `/assets/posts.json` is retired (O5, owner's choice D) and replaced by `/assets/posts-index.json`, described in section 6. A parity check (BL4, BL12) compares the old and new address lists before the switch.
 
 **D3. Design: the one agreed in this session.**
-- **Colour and type:** the Orchid palette on graph paper (tokens in [docs/design/README.md](../design/README.md)), Lora for titles and reading, DM Mono for labels and code, light and dark following the system with a toggle that remembers the choice.
+- **Colour and type:** the Orchid palette on graph paper (tokens in [docs/design/README.md](../design/README.md)), Lora for titles and headings, Karla for the reading text (chosen 2026-11-26), DM Mono for labels and code, light and dark following the system with a toggle that remembers the choice.
 - **Shape:** every corner square, no shadows, no borders around sections. Callouts, chips, cards and the live example are quiet tints. Only the header and footer rules remain.
 - **Code blocks:** frosted glass (a lilac tint, no border) with a filename label and Copy; keep the old blog's dimmed focus lines, error band and callout.
 - **Article:** the text on a white panel (a dark purple one in dark mode), cover with credit, an "On this page" rail, previous and next.
@@ -49,7 +49,7 @@ As of 2026-11-26, from the repository at `723d680`.
 - **Mark:** the blog's own "L B I" mark, chosen 2026-11-26: a big L, a small B in the L's inner corner and an I standing to its right, no border and one colour. The favicon follows the system theme; the app icon sits on a dark square. The main site keeps its own L logo.
 - **Source of truth:** the final mockup `docs/design/blog-site.html` (open it in a browser; also at https://claude.ai/artifact/UakAnvKGezMFGV7E67MAhQ), the logo mock `docs/design/blog-logos.html` and the logo files in `docs/design/logo/`. Tokens live in one `src/styles/tokens.css` (BL2).
 
-**D4. Fonts self-hosted** from `@fontsource` (Lora and DM Mono; the design uses no other face), so the site makes no request to Google Fonts, as laudebugs.me does.
+**D4. Fonts self-hosted** from `@fontsource` (Lora for titles and headings, Karla for the reading text, DM Mono for labels and code; the design uses no other face), so the site makes no request to Google Fonts, as laudebugs.me does.
 
 **D5. Code blocks use Shiki with transformers.** `@shikijs/transformers` for focus, highlight and error lines, `@shikijs/twoslash` for the 35 existing twoslash blocks, and a small rehype step that wraps each block in the glass frame with its label and Copy. The site pins **TypeScript 6.0.3**, not 7, because `astro check` refuses TypeScript 7 and TypeScript 7 has no compiler API (Build an Agent's notes say both; the second is about TypeDoc, which uses the same API twoslash does, so BL5 re-verifies on this repo).
 
@@ -86,7 +86,7 @@ docs/                                 plans, decisions, guidelines (never site c
 - **Replace:** `gray-matter` and `marked` (Astro content collections), `feed` and `feed-core` (`@astrojs/rss`), `prettier` (Biome), `vocs`, `react` and `react-dom` (pinned, not `latest`).
 - **Move:** the Angular, RxJS and module-federation packages become dev dependencies of `examples/` only, so twoslash can still type-check those posts.
 - **Drop:** `@uidotdev/usehooks`, `date-fns`, `ts-node`, `@nx/module-federation`.
-- **Add:** `pagefind`, `shiki`, `@shikijs/transformers`, `@shikijs/twoslash`, `sucrase`, `@fontsource/lora`, `@fontsource/dm-mono`, `@biomejs/biome`, `vitest`, `@astrojs/check`, `playwright`.
+- **Add:** `pagefind`, `shiki`, `@shikijs/transformers`, `@shikijs/twoslash`, `sucrase`, `@fontsource/lora`, `@fontsource/karla`, `@fontsource/dm-mono`, `@biomejs/biome`, `vitest`, `@astrojs/check`, `playwright`.
 
 **D12. Move hosting from Vercel to Cloudflare.** Static output on Cloudflare Workers assets with a preview for each pull request, as Build an Agent does. No adapter is needed (D8 has no server part). The domain `blog.laudebugs.me` moves with the cutover (BL12): the Cloudflare project is deployed and checked on its own address first, then the DNS record changes, and the Vercel project is retired only after the new site has served real traffic for a few days.
 

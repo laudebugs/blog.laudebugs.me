@@ -5,6 +5,7 @@ The agreed look of the blog, as mockups and assets. The mockups are single HTML 
 | File | What it is |
 |---|---|
 | [blog-site.html](blog-site.html) | **The final design.** Home, article, archive, topics, one topic, search and 404, with a Light and Dark toggle. Also published at https://claude.ai/artifact/UakAnvKGezMFGV7E67MAhQ |
+| [body-fonts.html](body-fonts.html) | The body font exploration: 24 sans-serif fonts for the reading text, with Lora kept for titles. The chosen font is **Karla** (2026-11-26). Also at https://claude.ai/artifact/R1s3wHoenAxcb4KibA9Tdz |
 | [blog-logos.html](blog-logos.html) | The logo exploration. The chosen mark is **A2**: a big L, a small B in the L's inner corner and an I standing to the right, no border |
 | [logo/](logo/) | The chosen mark as files: `logo.svg` and `logo-dark.svg` (header), `favicon.svg` (follows the system theme), `icon-tile.svg` and the PNG icons (a dark square), `logo-sheet.png` (a preview) |
 
@@ -12,7 +13,7 @@ The mockups load their fonts from Google Fonts so they open anywhere. The site i
 
 ## Decisions the mockups record
 
-- **Type:** Lora (400, 500, 600 and the 400 italic) for titles and reading; DM Mono (400, 500) for labels and code.
+- **Type:** Lora (400, 500, 600 and the 400 italic) for titles, headings and the brand; **Karla** (400, 400 italic, 600) for the reading text, the intro, bylines, callouts and card text; DM Mono (400, 500) for labels and code. Karla runs small, so reading text is set at 1.28rem against Lora's 1.2rem. `blog-site.html` still shows Lora for the reading text because it predates this choice; `body-fonts.html` shows Karla.
 - **Shape:** every corner square, no shadows, no borders around sections. Callouts, chips, cards and the live example are quiet tints. Only the header and footer rules remain (2px).
 - **Page:** graph paper, 16px cells.
 - **Code blocks:** frosted glass (a lilac tint, no border), a filename label and Copy; focus lines dimmed, an error band, a highlighted line.

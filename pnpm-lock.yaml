@@ -87,6 +87,9 @@ importers:
       '@fontsource/dm-mono':
         specifier: 5.3.0
         version: 5.3.0
+      '@fontsource/karla':
+        specifier: 5.3.0
+        version: 5.3.0
       '@fontsource/lora':
         specifier: 5.3.0
         version: 5.3.0
@@ -1534,6 +1537,9 @@ packages:
 
   '@fontsource/dm-mono@5.3.0':
     resolution: {integrity: sha512-OINjI8C1S/wpchhQxl7njZdMn4+hnDCpQ4YtvvOpKNARo+0J8O1x1IcrChxNjHOhfVv1by8C/FQoy3hXK+C1Ug==}
+
+  '@fontsource/karla@5.3.0':
+    resolution: {integrity: sha512-zHBkxMumwFE+K4RgHQAv2xH0O2lAX9y4zPun5JEFZyNQQclZ5Oz/XvByE3CB5+rnxKEV5BXlZShIEfz0VILDmQ==}
 
   '@fontsource/lora@5.3.0':
     resolution: {integrity: sha512-OK1g1z01rHVPqO5aw/FOIoDqc46KKYZdgL3NOLkxLWDk6QhDHhdr/h2BV1cke6gTvR1tzpDfdKyUkGsC+sQLeQ==}
@@ -9235,6 +9241,8 @@ snapshots:
   '@floating-ui/utils@0.2.10': {}
 
   '@fontsource/dm-mono@5.3.0': {}
+
+  '@fontsource/karla@5.3.0': {}
 
   '@fontsource/lora@5.3.0': {}
 

@@ -21,6 +21,10 @@ describe('the built site', () => {
       expect(content, file).not.toMatch(/fonts\.(googleapis|gstatic)\.com/);
     }
     expect(files(out).some((file) => file.endsWith('.woff2'))).toBe(true);
+    const css = text('.css')
+      .map(({ content }) => content)
+      .join('\n');
+    for (const family of ['Lora', 'Karla', 'DM Mono']) expect(css, family).toContain(family);
   });
 
   it('keeps every corner square and uses no shadows', () => {

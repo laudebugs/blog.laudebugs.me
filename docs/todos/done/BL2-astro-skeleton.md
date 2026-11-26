@@ -93,7 +93,7 @@ Astro, Biome and TypeScript 6 must work together (`astro check` needs TypeScript
 
 Done 2026-11-26.
 
-- **Built:** Astro 7.4.13 beside Vocs, static output; design tokens in `src/styles/tokens.css` (light, and dark twice: system and explicit); self-hosted Lora (400, 400 italic, 500, 600) and DM Mono from `@fontsource`; the layout with header, footer and the inline mark; a light and dark toggle that remembers the choice and sets the theme before first paint; icons from `docs/design/logo`; a placeholder home page.
+- **Built:** Astro 7.4.13 beside Vocs, static output; design tokens in `src/styles/tokens.css` (light, and dark twice: system and explicit); self-hosted Lora (400, 400 italic, 500, 600) and DM Mono from `@fontsource` (Karla for the reading text was added afterwards, see the plan, D4); the layout with header, footer and the inline mark; a light and dark toggle that remembers the choice and sets the theme before first paint; icons from `docs/design/logo`; a placeholder home page.
 - **Pinned, each at least a week old:** `astro` 7.4.13, `@astrojs/check` 0.9.12, `typescript` 6.0.3, `@biomejs/biome` 2.6.9, `vitest` 5.1.2, `@fontsource/lora` and `@fontsource/dm-mono` 5.3.0. The rest of `package.json` is Vocs's and is pinned in BL10.
 - **Checked in a browser** at 390 and 1440 px, light and dark: no sideways scroll, no request outside the site, the five faces used all load from the site, the toggle changes the theme and keeps it after a reload, and with JavaScript off the button stays hidden. Compared with the mockup by eye, not by pixel diff.
 - **Deviations from the sketch:**

@@ -51,7 +51,8 @@
     "unist-util-visit": "5.2.0",
     "@astrojs/markdown-remark": "7.3.8",
     "@astrojs/rss": "4.0.19",
-    "@astrojs/sitemap": "3.7.6"
+    "@astrojs/sitemap": "3.7.6",
+    "@fontsource/karla": "5.3.0"
   },
   "prettier": {
     "trailingComma": "all",
