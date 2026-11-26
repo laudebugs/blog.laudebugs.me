@@ -1,5 +1,6 @@
 import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import remarkDirective from 'remark-directive';
 import { remarkCallouts } from './src/plugins/remark-callouts.mjs';
@@ -11,7 +12,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   build: { format: 'directory' },
   devToolbar: { enabled: false },
-  integrations: [mdx()],
+  integrations: [mdx(), sitemap()],
   markdown: {
     // Astro 7's default processor runs no remark or rehype plugins, so the posts use `unified()`.
     // Both Shiki themes are emitted as CSS variables; src/styles/code.css picks one. BL5 restyles the blocks.

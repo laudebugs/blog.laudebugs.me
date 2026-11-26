@@ -17,6 +17,7 @@ const toc = headings.filter((heading) => heading.depth === 2);
 ---
 
 <Base title={`${data.title} | Laurence Ininda / blog`} description={data.summary || undefined}>
+  <link slot="head" rel="alternate" type="text/markdown" href={`${postPath(post)}.md`} />
   <div class="art">
     <article class="sheet">
       <p class="mono kicker">{data.tags[0] ?? 'post'}</p>

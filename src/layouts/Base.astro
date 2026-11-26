@@ -35,6 +35,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#fdf5fc" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#17112b" media="(prefers-color-scheme: dark)" />
+    <link rel="alternate" type="application/rss+xml" title="Laurence Ininda / blog" href="/rss.xml" />
+    <slot name="head" />
     <script is:inline set:html={themeInit} />
   </head>
   <body>

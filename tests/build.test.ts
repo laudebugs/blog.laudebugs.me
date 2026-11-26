@@ -12,7 +12,7 @@ const text = (extension: string) =>
 describe('the built site', () => {
   it('writes a home page with the title and the header', () => {
     const home = read(join(out, 'index.html'));
-    expect(home).toContain('<h1>Field notes on <em>work and projects</em></h1>');
+    expect(home).toMatch(/<h1[^>]*>Field notes on <em[^>]*>work and projects<\/em><\/h1>/);
     expect(home).toContain('Laurence Ininda');
   });
 

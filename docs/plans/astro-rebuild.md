@@ -38,7 +38,7 @@ As of 2026-11-26, from the repository at `723d680`.
 
 **D1. Plain Astro 7, static output, MDX posts.** Not Starlight, which is shaped like a docs site with a sidebar. Reasons: the agreed design is far from a docs template, and both reference projects already use Astro. Hard to reverse, so it also gets an ADR (BL1).
 
-**D2. Keep every address; replace `posts.json` with a slim index.** Posts stay at `/posts/<year>/<slug>`, plus `/archive`. The feed, `llms.txt` and `llms-full.txt` keep working, each post also gets a Markdown copy at `<post>.md`, and cover images keep their paths under `/assets/post-covers/`. The 167 KB `/assets/posts.json` is retired (O5, owner's choice D) and replaced by `/assets/posts-index.json`, described in section 6. A parity check (BL4, BL12) compares the old and new address lists before the switch.
+**D2. Keep every address; replace `posts.json` with a slim index.** Posts stay at `/posts/<year>/<slug>`, plus `/archive`. The live site had no feed or sitemap (all 404 on 2026-11-26) and an `llms.txt` that cut some titles short, so those are new rather than kept; each post also gets a Markdown copy at `<post>.md`, and cover images keep their paths under `/assets/post-covers/`. The 167 KB `/assets/posts.json` is retired (O5, owner's choice D) and replaced by `/assets/posts-index.json`, described in section 6. A parity check (BL4, BL12) compares the old and new address lists before the switch.
 
 **D3. Design: the one agreed in this session.**
 - **Colour and type:** the Orchid palette on graph paper (tokens in [docs/design/README.md](../design/README.md)), Lora for titles and reading, DM Mono for labels and code, light and dark following the system with a toggle that remembers the choice.

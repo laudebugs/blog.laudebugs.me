@@ -1,0 +1,55 @@
+---
+import PostRow from '../components/PostRow.astro';
+import Base from '../layouts/Base.astro';
+import { allPosts } from '../lib/posts';
+
+const latest = (await allPosts()).slice(0, 3);
+---
+
+<Base title="Not found | Laurence Ininda / blog">
+  <div class="nf">
+    <p class="big" aria-hidden="true">404</p>
+    <h1>That page isn't in the notebook</h1>
+    <p class="lede">It may have moved, or the link may be wrong. Try the archive, the topics, or one of the latest posts.</p>
+    <ul class="chips mono">
+      <li><a href="/archive">archive</a></li>
+      <li><a href="/topics">topics</a></li>
+    </ul>
+    {latest.map((post) => <PostRow post={post} />)}
+  </div>
+</Base>
+
+<style>
+  .nf {
+    padding-top: 30px;
+  }
+
+  .big {
+    margin: 0;
+    color: var(--accent);
+    font-size: clamp(5rem, 16vw, 11rem);
+    font-weight: 500;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  h1 {
+    margin-top: 6px;
+  }
+
+  .chips {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 26px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chips a {
+    display: inline-block;
+    padding: 4px 10px;
+    color: var(--tone-a-ink);
+    text-decoration: none;
+    background: color-mix(in srgb, var(--tone-a) 65%, transparent);
+  }
+</style>
