@@ -63,7 +63,7 @@ The Astro site is in `src/`, `public/` and `tests/` (BL2 onward), with its confi
 - **2026-11-26: `/assets/posts-index.json` is read by laudebugs.me.** It reads that file and falls back to the old `posts.json` (BL4b); BL13 removes the fallback. Do not rename or reshape the index without a new `version` (schema in `src/lib/index-schema.ts`).
 - **2026-11-26: the repo pins TypeScript 6.0.3, not 7.** `astro check` refuses TypeScript 7 and twoslash needs the compiler API. 
 - **2026-11-26: a session cannot push `.github/workflows/*`.** GitHub refuses it without the `workflow` scope. Stage the file under `docs/guides/` and add a guide for the owner, as `docs/guides/update-the-ci-workflow.md` does.
-- **2026-11-26: the blog is served by Cloudflare (Workers static assets); Vercel is shut down.** The owner manages DNS and the Cloudflare account; do not change them. The first deploy was by hand, and the deploy workflows are not installed yet.
+- **2026-11-26: the blog is served by Cloudflare (Workers static assets); Vercel is shut down.** The owner manages DNS and the Cloudflare account; do not change them. The deploy and preview workflows are installed; deploys run when `SITE_DEPLOY_ENABLED` is `true`.
 
 ## Run `make check` before every commit
 

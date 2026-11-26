@@ -1,6 +1,6 @@
-# Staged Cloudflare workflows
+# Cloudflare workflows
 
-The deploy and preview workflows for the move to Cloudflare. A session cannot push `.github/workflows/*`, so they wait here until the owner copies them. The runbook is [../migrate-to-cloudflare.md](../migrate-to-cloudflare.md).
+The deploy and preview workflows for Cloudflare. They are installed in `.github/workflows/`; the copies here are kept identical, so change both. The runbook is [../migrate-to-cloudflare.md](../migrate-to-cloudflare.md).
 
 | File | Install as | What it does |
 |---|---|---|
