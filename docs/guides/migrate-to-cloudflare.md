@@ -122,7 +122,7 @@ One thing differs from Vercel and is worth knowing: with `drop-trailing-slash`, 
 
 ### 6. Let GitHub deploy
 
-1. Merge the pull request to `main`. Vercel will also build `main` with `pnpm build` (the old Vocs site) until you retire it; that still works.
+1. Merge the pull request to `main`. (Vercel is already shut down; nothing else builds `main`.)
 2. Set the variable `SITE_DEPLOY_ENABLED` to `true`.
 3. Re-run the **Deploy** workflow (Actions → Deploy → Run workflow). Check that the run is green and that the `workers.dev` address shows the latest build.
 
@@ -173,9 +173,9 @@ In one pull request, remove what only Vocs used. It is safe once Vercel is gone,
 - `vocs.config.ts`, and under `docs/`: `pages/`, `components/`, `helpers/`, `public/`, `snippets/`, `styles.css`;
 - `scripts/migrate-posts.mjs`;
 - the dependencies `vocs`, `@uidotdev/usehooks`, `date-fns`, `gray-matter`, `@stackblitz/sdk` and `prettier`, plus the `prettier` block in `package.json`;
-- the `dev`, `prebuild`, `build`, `preview` and `gen-types` scripts; rename the `site:*` scripts to the plain names and update the `Makefile` and the workflows to match;
+- rename the `site:*` scripts to the plain names and update the `Makefile` and the workflows to match;
 - the audit exceptions in `docs/agents/ci-and-release.md` that came through Vocs, and re-run `pnpm audit`;
-- the "posts exist twice" and "keep `pnpm build` for Vocs" lines in `AGENTS.md`, and the Vocs rows in `docs/agents/layout.md`.
+- the "posts exist twice" and "the Vocs scripts are removed" lines in `AGENTS.md`, and the Vocs rows in `docs/agents/layout.md`.
 
 Then run `make check` and `make test`, and move BL12 to `done/`.
 

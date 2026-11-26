@@ -3,11 +3,6 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node docs/helpers/gen-post-archive.js && vocs dev",
-    "prebuild": "node docs/helpers/gen-post-archive.js",
-    "build": "node docs/helpers/gen-post-archive.js && vocs build",
-    "preview": "vocs preview",
-    "gen-types": "npx -p typescript tsc docs/helpers/*.js --declaration --allowJs --emitDeclarationOnly",
     "site:dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "site:build": "ASTRO_TELEMETRY_DISABLED=1 astro build && pagefind --site dist",
     "site:preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",

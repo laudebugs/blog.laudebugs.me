@@ -17,13 +17,7 @@ The source of https://blog.laudebugs.me: field notes on work and projects, mostl
 
 Built with [Vocs](https://vocs.dev), with [Sandpack](https://sandpack.codesandbox.io/) and [StackBlitz](https://stackblitz.com/) embeds in three posts.
 
-```sh
-pnpm install
-pnpm dev      # writes docs/public/assets/posts.json first, then runs vocs dev
-pnpm build
-```
-
-`prebuild` runs `docs/helpers/gen-post-archive.js`, which writes `docs/public/assets/posts.json`. laudebugs.me reads that file for its latest-post cards.
+The Vocs files are still in the repo but nothing builds them any more: Vercel is shut down and the `pnpm dev` and `pnpm build` scripts are gone. They are deleted in the last step of [the cutover guide](docs/guides/migrate-to-cloudflare.md). Use the `site:*` commands below.
 
 When using twoslash, the `// comments` must be at the start of the line.
 

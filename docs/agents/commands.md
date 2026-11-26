@@ -27,7 +27,7 @@ Astro's anonymous telemetry is switched off in these scripts.
 
 ## The current Vocs site
 
-Until the cutover (BL12) it still builds with `pnpm install` and `pnpm build` (`prebuild` writes `docs/public/assets/posts.json`) and runs with `pnpm dev`. These go away with BL12.
+Its files are still in the repo, but the `dev`, `prebuild`, `build`, `preview` and `gen-types` scripts are gone (Vercel is shut down), so nothing builds it. The files go with the last step of BL12.
 
 ## Pin tool versions in one place
 
