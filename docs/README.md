@@ -16,8 +16,6 @@ Everything the project knows, written down. Agents and humans read the same file
 | [guides/](guides/) | Runbooks, setup, how-tos | Written when someone would otherwise ask |
 | [reference/](reference/) | External specs, vendored docs, reading lists | Cite version and date |
 
-`pages/`, `components/`, `helpers/`, `public/` and `snippets/` also sit here today: they are the current Vocs site, not documentation. They stay until the cutover ([BL12](todos/ongoing/BL12-cutover.md)), because Vercel still builds them, and the doc-index check skips them until then.
-
 ## Every folder needs a README index
 
 - File names are `kebab-case.md`. An ordered series uses a numeric prefix.

@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v4.4.0
         with: { node-version-file: .nvmrc, cache: pnpm }
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run site:build
+      - run: pnpm run build
       - uses: actions/upload-artifact@v4.6.2
         with:
           name: site

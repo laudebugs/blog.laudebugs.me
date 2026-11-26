@@ -1,5 +1,5 @@
 // Pagefind's browser library, loaded the first time something searches. The index is a static folder (/pagefind) made
-// by `pnpm site:build`, so nothing typed into search leaves the page.
+// by `pnpm build`, so nothing typed into search leaves the page.
 
 export interface PostHit {
   url: string;

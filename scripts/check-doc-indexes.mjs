@@ -8,8 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const DOCS = join(ROOT, "docs");
-// docs/{components,helpers,pages,public,snippets} are the current Vocs site, and docs/dist is its (gitignored) build output; this exemption goes when the Vocs files are deleted.
-const SKIP = [/^docs\/(components|helpers|pages|public|snippets|dist)$/, /^docs\/todos\/(ready|ongoing|done)$/, /^docs\/research\/[^/]+\/(notes|sources)$/, /^docs\/reference\/[^/]+\/source$/];
+const SKIP = [/^docs\/todos\/(ready|ongoing|done)$/, /^docs\/research\/[^/]+\/(notes|sources)$/, /^docs\/reference\/[^/]+\/source$/];
 const problems = [];
 // A link target must match whole: "](name)", "](name#anchor)", or "](name/...)" (not a substring of another name).
 const linked = (readme, target) => readme.includes(`](${target}`) && new RegExp(`\\]\\(${target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(\\)|#|/)`).test(readme);

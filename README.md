@@ -2,7 +2,7 @@
 
 The source of https://blog.laudebugs.me: field notes on work and projects, mostly Angular, TypeScript and building with AI.
 
-> **Being rebuilt.** The site is moving from Vocs on Vercel to a plain Astro 7 site on Cloudflare, in a new design. Start with [AGENTS.md](AGENTS.md), the [plan](docs/plans/astro-rebuild.md) and the [design](docs/design/README.md). Until the cutover this repo still holds the running Vocs site.
+> The site is a plain Astro 7 site served by Cloudflare. It was rebuilt from Vocs on Vercel; start with [AGENTS.md](AGENTS.md), the [plan](docs/plans/astro-rebuild.md) and the [design](docs/design/README.md).
 
 ## Where things are
 
@@ -13,11 +13,9 @@ The source of https://blog.laudebugs.me: field notes on work and projects, mostl
 | [docs/todos/](docs/todos/README.md) | The work board: `make todos` |
 | [docs/decisions/](docs/decisions/README.md) | ADRs |
 
-## The current site (until BL12)
+## Writing posts
 
-Built with [Vocs](https://vocs.dev), with [Sandpack](https://sandpack.codesandbox.io/) and [StackBlitz](https://stackblitz.com/) embeds in three posts.
-
-The Vocs files are still in the repo but nothing builds them any more: Vercel is shut down and the `pnpm dev` and `pnpm build` scripts are gone. They are deleted in the last step of [the cutover guide](docs/guides/migrate-to-cloudflare.md). Use the `site:*` commands below.
+Posts are MDX files in `src/content/posts/<year>/`. Some have Sandpack and StackBlitz embeds, and one has a live example.
 
 When using twoslash, the `// comments` must be at the start of the line.
 
@@ -32,6 +30,6 @@ make test      # Vitest, including one real build
 
 ```sh
 pnpm install
-pnpm site:dev     # http://localhost:4321
-pnpm site:build   # static build into dist/
+pnpm dev     # http://localhost:4321
+pnpm build   # static build into dist/
 ```

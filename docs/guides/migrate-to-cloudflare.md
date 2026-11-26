@@ -10,7 +10,7 @@
 
 ## The plan in one paragraph
 
-The new site is a folder of static files, `dist/`, made by `pnpm site:build`. Cloudflare serves that folder with Workers static assets: no server code. You first deploy it to a Cloudflare address of its own (`*.workers.dev`) while Vercel keeps serving `blog.laudebugs.me`. A script checks that every old link still works on the new copy. Then you move the domain, watch for a few days, retire Vercel, and delete the old Vocs code. Nothing changes for readers until you move the domain, and moving it back undoes the switch.
+The new site is a folder of static files, `dist/`, made by `pnpm build`. Cloudflare serves that folder with Workers static assets: no server code. You first deploy it to a Cloudflare address of its own (`*.workers.dev`) while Vercel keeps serving `blog.laudebugs.me`. A script checks that every old link still works on the new copy. Then you move the domain, watch for a few days, retire Vercel, and delete the old Vocs code. Nothing changes for readers until you move the domain, and moving it back undoes the switch.
 
 ## What is already in the repository
 
@@ -18,7 +18,7 @@ The new site is a folder of static files, `dist/`, made by `pnpm site:build`. Cl
 |---|---|
 | `wrangler.jsonc` | Tells Cloudflare to serve `dist/`. Trailing slashes are dropped (`/posts/2025/slug`, as on the old site), and an unknown path gets `dist/404.html` with a 404. It has no domain yet, on purpose (step 8). |
 | `public/_headers` | Caches `/_astro/*` for a year (those files are fingerprinted) and sends two safe headers. Everything else revalidates, so a new post shows at once. |
-| `scripts/parity.mjs` (`pnpm site:parity <address>`) | Fetches the 21 old post addresses, their Markdown copies, the feed, sitemap, `llms.txt`, `posts-index.json` and every cover from a deployed copy, and lists what fails. It only reads. |
+| `scripts/parity.mjs` (`pnpm parity <address>`) | Fetches the 21 old post addresses, their Markdown copies, the feed, sitemap, `llms.txt`, `posts-index.json` and every cover from a deployed copy, and lists what fails. It only reads. |
 | `docs/guides/cloudflare/deploy.yml` | Staged workflow: builds with no secrets, then deploys from `main`. |
 | `docs/guides/cloudflare/preview.yml` | Staged workflow: a preview address for each pull request, deleted when it closes. |
 | `scripts/cloudflare-create-tokens.sh` | Creates the scoped deploy token from a temporary bootstrap token and stores it in GitHub without ever showing it (step 1). |
@@ -96,7 +96,7 @@ This gives you the address and proves the setup before any automation:
 
 ```sh
 pnpm install
-pnpm site:build
+pnpm build
 pnpm exec wrangler login      # opens a browser once
 pnpm exec wrangler deploy
 ```
@@ -108,7 +108,7 @@ Limits to be aware of (from Cloudflare's [limits page](https://developers.cloudf
 ### 5. Run the parity check
 
 ```sh
-pnpm site:parity https://blog-laudebugs-me.<your-subdomain>.workers.dev
+pnpm parity https://blog-laudebugs-me.<your-subdomain>.workers.dev
 ```
 
 It checks 71 paths and prints each failure, or `71 of 71 paths ok`. It exits with an error if anything fails, so it can gate a deploy. **Do not move the domain until it is clean.** On a clean run it has proven:
@@ -146,7 +146,7 @@ Do this when parity is clean and you have a quiet hour.
    ```
 
    Adding it only now matters: with it in place, a deploy tries to claim the domain, and before step 1 that would fail or fight with Vercel.
-4. **Run parity again** against the real address: `pnpm site:parity https://blog.laudebugs.me`.
+4. **Run parity again** against the real address: `pnpm parity https://blog.laudebugs.me`.
 
 ### 9. Check what depends on the old address
 
@@ -167,18 +167,9 @@ After a few days of real traffic with no problems:
 2. Delete the Vercel project (or pause it; deleting also stops its preview builds on pull requests).
 3. Remove Vercel's GitHub app access to this repository if it is no longer used, and any `vercel` settings files if they exist.
 
-### 12. Delete the old site (the last commit of BL12)
+### 12. Delete the old site (done)
 
-In one pull request, remove what only Vocs used. It is safe once Vercel is gone, because nothing builds it any more:
-
-- `vocs.config.ts`, and under `docs/`: `pages/`, `components/`, `helpers/`, `public/`, `snippets/`, `styles.css`;
-- `scripts/migrate-posts.mjs`;
-- the dependencies `vocs`, `@uidotdev/usehooks`, `date-fns`, `gray-matter`, `@stackblitz/sdk` and `prettier`, plus the `prettier` block in `package.json`;
-- rename the `site:*` scripts to the plain names and update the `Makefile` and the workflows to match;
-- the audit exceptions in `docs/agents/ci-and-release.md` that came through Vocs, and re-run `pnpm audit`;
-- the "posts exist twice" and "the Vocs scripts are removed" lines in `AGENTS.md`, and the Vocs rows in `docs/agents/layout.md`.
-
-Then run `make check` and `make test`, and move BL12 to `done/`.
+The pull request that finished BL12 removed what only Vocs used, once Vercel was shut down: `vocs.config.ts`; under `docs/`, `pages/`, `components/`, `helpers/`, `public/`, `snippets/` and `styles.css`; `scripts/migrate-posts.mjs`; the empty `blog/` folder; the Vocs `tsconfig.json`; and the dependencies `vocs`, `@uidotdev/usehooks`, `date-fns`, `gray-matter`, `@stackblitz/sdk` and `prettier` with its `package.json` block. The `site:*` scripts were renamed to `dev`, `build`, `preview`, `check`, `test`, `fmt` and `parity`, and the `Makefile` and workflows follow. The remaining `pnpm audit` advisories come only from three dev-only packages (`@module-federation/enhanced`, `@nx/module-federation`, `@astrojs/check`), listed in `docs/agents/ci-and-release.md`.
 
 ## If something goes wrong
 

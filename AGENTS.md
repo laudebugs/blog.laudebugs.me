@@ -6,7 +6,7 @@ This file holds what every session needs. Detail lives in `docs/agents/`, one fi
 
 ## What this project is
 
-Laurence Ininda's technical blog at https://blog.laudebugs.me: field notes on work and projects, with 21 posts (2020 to 2026) that are mostly about Angular, TypeScript and building with AI. It is being rebuilt from Vocs on Vercel to a plain Astro 7 site on Cloudflare, in the design recorded in `docs/design/` ([ADR 0002](docs/decisions/0002-rebuild-the-blog-on-astro.md), [plan](docs/plans/astro-rebuild.md)). Until the cutover (BL12) the repo holds both: the running Vocs site (`vocs.config.ts`, and under `docs/`: `pages/`, `components/`, `helpers/`, `public/`, `snippets/`) and the written docs.
+Laurence Ininda's technical blog at https://blog.laudebugs.me: field notes on work and projects, with 21 posts (2020 to 2026) that are mostly about Angular, TypeScript and building with AI. It is a plain Astro 7 site served by Cloudflare, rebuilt from Vocs on Vercel in the design recorded in `docs/design/` ([ADR 0002](docs/decisions/0002-rebuild-the-blog-on-astro.md), [plan](docs/plans/astro-rebuild.md)). The repo holds the site (`src/`, `public/`, `tests/`, `examples/`) and the written docs.
 
 Decisions are recorded as ADRs (architecture decision records) in `docs/decisions/`. Do not assume a decision that is not written there.
 
@@ -34,10 +34,9 @@ Makefile                            single task entry point; CI runs the same ta
 docs/                               everything written down; every folder has a README index
   agents/ decisions/ plans/ todos/{ready,ongoing,done}/ bugs/ design/
   research/ guidelines/ standards/ guides/ reference/
-  pages/ components/ helpers/ public/ snippets/   the current Vocs site (deleted by BL12)
 scripts/                            repo tooling (todo board, doc-index check, worktree helpers)
 .github/                            workflows, dependabot, PR and issue templates
-vocs.config.ts, package.json        the current Vocs site (replaced by BL2 to BL12)
+package.json, astro.config.mjs      the site's scripts and config
 ```
 
 The Astro site is in `src/`, `public/` and `tests/` (BL2 onward), with its config at the root (`astro.config.mjs`, `tsconfig.site.json`, `biome.json`); the posts are in `src/content/posts` (BL3) and the tested examples in `examples/` (BL6).
@@ -59,12 +58,10 @@ The Astro site is in `src/`, `public/` and `tests/` (BL2 onward), with its confi
 
 ## Environment quirks, dated, with the reason
 
-- **2026-11-26: the posts exist twice until BL12.** `docs/pages/posts` (Vocs, what Vercel builds) and `src/content/posts` (Astro, made by `scripts/migrate-posts.mjs`). Edit a post in both, or re-run the script after editing the Vocs copy. The `<Example>` in the viewChild post exists only in the Astro copy, so re-running the script removes it; add it again.
 - **2026-11-26: Astro 7 runs no remark or rehype plugins by default.** `astro.config.mjs` uses `unified()` from `@astrojs/markdown-remark`.
 - **2026-11-26: Shiki is configured in `markdown.shikiConfig`, not in `unified()`.** `unified()` takes only remark and rehype options and ignores the rest silently.
-- **2026-11-26: `/assets/posts.json` is read by laudebugs.me.** Do not rename or reshape it until BL4b has shipped there; `docs/plans/astro-rebuild.md` (O5) says how it is replaced.
-- **2026-11-26: the repo pins TypeScript 6.0.3, not 7.** `astro check` refuses TypeScript 7 and twoslash needs the compiler API. Vocs's twoslash step needs `twoslash.compilerOptions.ignoreDeprecations: '6.0'` in `vocs.config.ts` on TypeScript 6; without it the old Vocs build fails.
-- **2026-11-26: the Vocs scripts (`pnpm dev`, `pnpm build`) are removed; Vercel is shut down.** The Astro site uses `pnpm site:*`; renaming them to the plain names is part of BL12.
+- **2026-11-26: `/assets/posts-index.json` is read by laudebugs.me.** It reads that file and falls back to the old `posts.json` (BL4b); BL13 removes the fallback. Do not rename or reshape the index without a new `version` (schema in `src/lib/index-schema.ts`).
+- **2026-11-26: the repo pins TypeScript 6.0.3, not 7.** `astro check` refuses TypeScript 7 and twoslash needs the compiler API. 
 - **2026-11-26: a session cannot push `.github/workflows/*`.** GitHub refuses it without the `workflow` scope. Stage the file under `docs/guides/` and add a guide for the owner, as `docs/guides/update-the-ci-workflow.md` does.
 - **2026-11-26: the blog is served by Cloudflare (Workers static assets); Vercel is shut down.** The owner manages DNS and the Cloudflare account; do not change them. The first deploy was by hand, and the deploy workflows are not installed yet.
 
