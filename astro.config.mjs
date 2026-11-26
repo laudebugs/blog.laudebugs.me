@@ -1,9 +1,16 @@
 import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import { transformerNotationDiff, transformerNotationFocus, transformerNotationHighlight } from '@shikijs/transformers';
+import { rendererRich, transformerTwoslash } from '@shikijs/twoslash';
 import { defineConfig } from 'astro/config';
 import remarkDirective from 'remark-directive';
+import { createCssVariablesTheme } from 'shiki';
+import { codeFrame } from './src/plugins/code-frame.mjs';
 import { remarkCallouts } from './src/plugins/remark-callouts.mjs';
+
+// Code colours are CSS variables (--code-*), so the blocks follow the light and dark tokens in src/styles/code.css.
+const codeTheme = createCssVariablesTheme({ name: 'blog', variablePrefix: '--code-', fontStyle: true });
 
 // The blog is a static site. `site` is the production origin; previews override it with ASTRO_SITE.
 export default defineConfig({
@@ -15,10 +22,19 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   markdown: {
     // Astro 7's default processor runs no remark or rehype plugins, so the posts use `unified()`.
-    // Both Shiki themes are emitted as CSS variables; src/styles/code.css picks one. BL5 restyles the blocks.
-    processor: unified({
-      remarkPlugins: [remarkDirective, remarkCallouts],
-      shikiConfig: { themes: { light: 'github-light', dark: 'night-owl' }, defaultColor: false },
-    }),
+    // Shiki is configured here, not in `unified()`.
+    processor: unified({ remarkPlugins: [remarkDirective, remarkCallouts] }),
+    // Code blocks: focus and highlight notation, twoslash type popovers for blocks marked `twoslash` (as in Vocs),
+    // and the frame with its label and Copy button.
+    shikiConfig: {
+      theme: codeTheme,
+      transformers: [
+        transformerNotationFocus(),
+        transformerNotationHighlight(),
+        transformerNotationDiff(),
+        transformerTwoslash({ explicitTrigger: true, renderer: rendererRich() }),
+        codeFrame(),
+      ],
+    },
   },
 });

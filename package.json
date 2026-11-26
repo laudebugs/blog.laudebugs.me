@@ -52,7 +52,10 @@
     "@astrojs/markdown-remark": "7.3.8",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.6",
-    "@fontsource/karla": "5.3.0"
+    "@fontsource/karla": "5.3.0",
+    "shiki": "4.6.0",
+    "@shikijs/transformers": "4.6.0",
+    "@shikijs/twoslash": "4.6.0"
   },
   "prettier": {
     "trailingComma": "all",

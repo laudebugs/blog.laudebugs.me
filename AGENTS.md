@@ -61,6 +61,7 @@ The Astro site is in `src/`, `public/` and `tests/` (BL2 onward), with its confi
 
 - **2026-11-26: the posts exist twice until BL12.** `docs/pages/posts` (Vocs, what Vercel builds) and `src/content/posts` (Astro, made by `scripts/migrate-posts.mjs`). Edit a post in both, or re-run the script after editing the Vocs copy.
 - **2026-11-26: Astro 7 runs no remark or rehype plugins by default.** `astro.config.mjs` uses `unified()` from `@astrojs/markdown-remark`.
+- **2026-11-26: Shiki is configured in `markdown.shikiConfig`, not in `unified()`.** `unified()` takes only remark and rehype options and ignores the rest silently.
 - **2026-11-26: `/assets/posts.json` is read by laudebugs.me.** Do not rename or reshape it until BL4b has shipped there; `docs/plans/astro-rebuild.md` (O5) says how it is replaced.
 - **2026-11-26: the repo pins TypeScript 6.0.3, not 7.** `astro check` refuses TypeScript 7 and twoslash needs the compiler API. Vocs's twoslash step needs `twoslash.compilerOptions.ignoreDeprecations: '6.0'` in `vocs.config.ts` on TypeScript 6; without it `pnpm build` fails.
 - **2026-11-26: keep `pnpm build` and `pnpm dev` for Vocs until BL12.** Vercel runs them. The Astro site uses `pnpm site:*`.

@@ -42,6 +42,44 @@ describe('the posts', () => {
   });
 });
 
+describe('code blocks', () => {
+  it('leak no notation markers or @error lines into the page', () => {
+    for (const address of expected) {
+      const html = read(join(out, address.slice(1), 'index.html'));
+      expect(html, address).not.toMatch(/\[!code/);
+      expect(html, address).not.toMatch(/\/\/ @error:/);
+    }
+  });
+
+  it('put every block in a frame with a label and a Copy button', () => {
+    let blocks = 0;
+    for (const address of expected) {
+      const html = read(join(out, address.slice(1), 'index.html'));
+      // Blocks only: twoslash popups hold their own small <pre class="shiki"> previews.
+      const pre = html.match(/<pre class="astro-code/g)?.length ?? 0;
+      expect(html.match(/class="code-frame"/g)?.length ?? 0, address).toBe(pre);
+      expect(html.match(/class="code-label"/g)?.length ?? 0, address).toBe(pre);
+      expect(html.match(/<button[^>]*\bdata-copy\b/g)?.length ?? 0, address).toBe(pre);
+      blocks += pre;
+    }
+    expect(blocks).toBeGreaterThan(100);
+  });
+
+  it('run twoslash on the blocks that ask for it, with type popovers', () => {
+    const html = read(join(out, 'posts/2025/a-more-type-safe-ish-angular-router/index.html'));
+    expect(html).toContain('twoslash-popup-container');
+  });
+
+  it('mark the focus, highlight and diff lines', () => {
+    expect(read(join(out, 'posts/2026/referencing-viewchild-queries-within-defer-blocks/index.html'))).toContain(
+      'class="line focused"',
+    );
+    expect(
+      read(join(out, 'posts/2022/nx-tips-managing-tsconfig-paths-with-multiple-angular-libraries/index.html')),
+    ).toContain('class="line diff add"');
+  });
+});
+
 describe('the post schema', () => {
   const valid = { title: 'A post', publishedOn: '2026-01-28', slug: 'a-post' };
 
