@@ -20,7 +20,14 @@
 
 ## Workflow changes are staged, not pushed
 
-A session cannot push workflow files. `.github/workflows/ci.yml` was installed by the owner on 2026-11-26; a newer version waits at `docs/guides/ci-workflow.yml` until the owner copies it over ([guide](../guides/update-the-ci-workflow.md)). Until then the `code` job fails on pull requests with "pnpm: command not found"; run `make check` and `make test` locally.
+A session cannot push workflow files. The owner installed `.github/workflows/ci.yml` on 2026-11-26 from `docs/guides/ci-workflow.yml` ([guide](../guides/update-the-ci-workflow.md)); the two must stay the same. To change the workflow, edit the staged copy and ask the owner to copy it over.
+
+## Dependencies
+
+- **Exact pins, at least a week old.** `.npmrc` sets `save-exact`; `scripts/check-deps.mjs` (part of `make check-code`) fails on a range or a tag such as `latest`, and, when the npm registry is reachable, on a pinned version published less than 7 days ago. A newer release is allowed only for a known vulnerability, with an entry in `scripts/dependency-exceptions.json` (name@version, reason, date). If the registry cannot be reached the age check is skipped with a warning.
+- **Transitive fixes** go in `pnpm.overrides` in `package.json`, each pinned to one release and limited to the vulnerable range.
+- **Audit exceptions, reviewed at BL12 (recorded 2026-11-26):** `pnpm audit` still reports advisories that are accepted for now. Those through `vocs` go away when Vocs is deleted at the cutover. `@module-federation/enhanced` and `@nx/module-federation` (one critical, in `proxy-addr`) are dev dependencies that exist only so twoslash can type-check one post; nothing runs or ships from them. `@astrojs/check` is a dev tool. None of these reach the built site. Remove or re-check them at BL12.
+- Biome and Vitest were first set to their newest releases and moved back when the check found them under a week old.
 
 ## Releases
 

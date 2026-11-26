@@ -16,50 +16,47 @@
     "site:fmt": "biome format --write ."
   },
   "dependencies": {
-    "@angular/core": "^21.1.1",
-    "@angular/platform-browser": "^21.1.1",
-    "@angular/router": "^21.1.1",
-    "@codesandbox/sandpack-react": "^2.12.0",
-    "@module-federation/enhanced": "^0.22.1",
-    "@nx/module-federation": "^22.4.0",
-    "@stackblitz/sdk": "^1.9.0",
-    "@types/react": "latest",
-    "@uidotdev/usehooks": "^2.4.1",
-    "date-fns": "^3.3.1",
-    "feed": "^4.2.2",
-    "feed-core": "^1.1.6",
-    "gray-matter": "^4.0.3",
-    "marked": "^12.0.0",
-    "react": "latest",
-    "react-dom": "latest",
-    "rxjs": "^7.8.1",
+    "@codesandbox/sandpack-react": "2.20.0",
+    "@stackblitz/sdk": "1.11.0",
+    "@types/react": "19.1.10",
+    "@uidotdev/usehooks": "2.4.1",
+    "date-fns": "3.6.0",
+    "gray-matter": "4.0.3",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
     "typescript": "6.0.3",
     "vocs": "1.4.1"
   },
   "devDependencies": {
+    "@angular/common": "21.2.26",
+    "@angular/core": "21.2.26",
+    "@angular/platform-browser": "21.2.26",
+    "@angular/router": "21.2.26",
     "@astrojs/check": "0.9.12",
     "@astrojs/markdown-remark": "7.3.8",
     "@astrojs/mdx": "8.1.6",
     "@astrojs/react": "7.1.9",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.6",
-    "@biomejs/biome": "2.6.9",
+    "@biomejs/biome": "2.6.8",
     "@fontsource/dm-mono": "5.3.0",
     "@fontsource/karla": "5.3.0",
     "@fontsource/lora": "5.3.0",
+    "@module-federation/enhanced": "0.22.1",
+    "@nx/module-federation": "22.4.0",
     "@shikijs/transformers": "4.6.0",
     "@shikijs/twoslash": "4.6.0",
-    "@types/node": "^20.11.17",
+    "@types/node": "20.19.10",
     "@types/react-dom": "19.3.0",
     "astro": "7.4.13",
     "pagefind": "1.6.0",
-    "prettier": "^3.2.5",
+    "prettier": "3.6.2",
     "remark-directive": "4.0.0",
+    "rxjs": "7.8.2",
     "shiki": "4.6.0",
     "sucrase": "3.35.1",
-    "ts-node": "^10.9.2",
     "unist-util-visit": "5.2.0",
-    "vitest": "5.1.2"
+    "vitest": "5.1.1"
   },
   "prettier": {
     "trailingComma": "all",
@@ -71,5 +68,12 @@
   "packageManager": "pnpm@10.28.0",
   "engines": {
     "node": ">=22"
+  },
+  "pnpm": {
+    "overrides": {
+      "mdast-util-to-hast@>=13.0.0 <13.2.1": "13.2.2",
+      "yaml@>=2.0.0 <2.8.3": "2.9.1",
+      "source-map-js@<1.2.2": "1.2.4"
+    }
   }
 }
