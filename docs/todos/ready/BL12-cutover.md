@@ -18,6 +18,7 @@ The new site serves `blog.laudebugs.me` from Cloudflare, the old site and Vocs a
 
 ## Context
 
+- The step-by-step runbook, with what a session has already prepared, is [docs/guides/migrate-to-cloudflare.md](../../guides/migrate-to-cloudflare.md).
 - Plan D12, D13. Build an Agent's deploy workflows are the pattern (build with no secrets, deploy from `main`, a preview per pull request).
 
 ## Scope
@@ -30,8 +31,8 @@ The new site serves `blog.laudebugs.me` from Cloudflare, the old site and Vocs a
 
 | File | Change |
 |---|---|
-| `wrangler.jsonc` | (new) static assets |
-| `.github/workflows/deploy.yml`, `preview.yml` | (new) |
+| `wrangler.jsonc`, `public/_headers`, `scripts/parity.mjs` | Done in advance (see the guide); the `routes` entry is added at step 8 |
+| `.github/workflows/deploy.yml`, `preview.yml` | Staged in `docs/guides/cloudflare/`; the owner installs them |
 | `vocs.config.ts`, Vocs dependencies | (removed) |
 
 ## Steps

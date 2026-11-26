@@ -34,5 +34,6 @@ A session cannot push workflow files. The owner installed `.github/workflows/ci.
 The blog is a static site, so there are no package releases. Deploys are described by [plan D12](../plans/astro-rebuild.md):
 
 - **Today:** Vercel builds the Vocs site from `main`. Nothing in this repo controls it.
+- **Ready to switch on:** `wrangler.jsonc`, `public/_headers`, `scripts/parity.mjs` and the staged workflows in `docs/guides/cloudflare/`; the runbook is [migrate-to-cloudflare.md](../guides/migrate-to-cloudflare.md).
 - **After BL12:** a workflow builds the site with no secrets and uploads `dist/`; a second workflow runs from `main` and deploys to Cloudflare Workers assets with the secrets. Each pull request from a branch of this repository gets a preview.
 - **Supply chain:** Dependabot (weekly, 7 day cooldown) for GitHub Actions and npm; exact pins and a minimum release age of one week (BL10).

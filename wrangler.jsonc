@@ -1,0 +1,17 @@
+{
+  // The blog is static files in dist/, served by Cloudflare Workers static assets. There is no Worker script.
+  // The domain is attached at the cutover, in the dashboard (docs/guides/migrate-to-cloudflare.md, step 8), not here:
+  // a "routes" entry would make the first deploy try to take blog.laudebugs.me from Vercel.
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "blog-laudebugs-me",
+  "compatibility_date": "2026-11-26",
+  "assets": {
+    "directory": "./dist",
+    // The old site had no trailing slash (/posts/2025/slug), and posts-index.json and the feed use that form,
+    // so that is the canonical one; /posts/2025/slug/ redirects to it.
+    "html_handling": "drop-trailing-slash",
+    // Unknown paths get dist/404.html with a 404 status.
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true
+}

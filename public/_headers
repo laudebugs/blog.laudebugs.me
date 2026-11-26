@@ -1,0 +1,9 @@
+# Read by Cloudflare static assets (https://developers.cloudflare.com/workers/static-assets/headers/).
+# Astro fingerprints everything under /_astro/, so it can be cached for a year; everything else keeps Cloudflare's
+# default of revalidating on each visit, so a new post shows at once.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
