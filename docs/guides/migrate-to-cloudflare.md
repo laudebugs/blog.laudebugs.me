@@ -40,7 +40,7 @@ The new site is a folder of static files, `dist/`, made by `pnpm site:build`. Cl
 The workflows need one Cloudflare API token. A script creates it from a temporary bootstrap token you make by hand, and puts it straight into GitHub, so the deploy token's value is never shown, saved or pasted anywhere.
 
 1. **Make the bootstrap token.** Cloudflare dashboard → Manage Account → Account API Tokens → Create Token → Custom token, with one permission: Account → Account API Tokens → Edit. Add Zone → Zone → Read only if you want the script to look up the `laudebugs.me` zone by name; otherwise pass the zone id (Zone overview, right-hand side). Set a short expiry (a day). Copy the value and your **Account ID** (Workers & Pages overview, right-hand side).
-2. **Run the script** (needs `curl`, `jq` and `gh`, signed in with `gh auth login`):
+2. **Run the script** (needs `curl`, `jq` and `gh`; over SSH sign in with `gh auth login -p ssh -w`, which gives a one-time code to enter in a browser on your own machine, or export `GH_TOKEN`):
 
    ```sh
    export CF_ACCOUNT_ID='your-account-id'
@@ -53,6 +53,8 @@ The workflows need one Cloudflare API token. A script creates it from a temporar
    In order: `--dry-run` shows the token it would create and creates nothing; the plain run is for before the domain is in `wrangler.jsonc`; `--zone` is for after it is (see below). Leave `CF_BOOTSTRAP_TOKEN` unset to be asked for it with a hidden prompt, which also keeps it out of your shell history.
 
    It looks up the permission groups by name (and stops, naming the closest ones, if a name has changed), creates an account-owned token valid for a year, and pipes it into `gh secret set CLOUDFLARE_API_TOKEN --env cloudflare`, then sets `CLOUDFLARE_ACCOUNT_ID` the same way. The `cloudflare` environment must exist first (step 2.1 below creates it; do that before running the script).
+   Before it creates anything, the script checks that `gh` is signed in and creates the `cloudflare` environment if it is missing (that needs admin rights on the repository). If storing the secrets fails after the token is created, it deletes the token again, because a token's value cannot be read a second time.
+
 3. **Delete the bootstrap token** in the dashboard when the script finishes.
 
 What the deploy token can do:

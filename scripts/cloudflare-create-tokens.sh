@@ -7,7 +7,9 @@
 #   1. In the Cloudflare dashboard, make a TEMPORARY account API token with the permission
 #      Account > Account API Tokens > Edit (and, only if you want the zone looked up by name, Zone > Zone > Read).
 #      Give it a short expiry. Delete it when this script is done.
-#   2. `gh auth login` as someone who can write secrets on the repository.
+#   2. gh signed in as someone who can administer the repository. Over SSH use `gh auth login -p ssh -w` (a one-time code
+#      you enter in a browser on your own machine), or export GH_TOKEN with a token that can administer the repository.
+#      The script checks this before it creates anything.
 #
 # Usage (run it with ./ or bash; the first line makes it use bash even when your shell is zsh):
 #   CF_ACCOUNT_ID=<account id> scripts/cloudflare-create-tokens.sh [--zone laudebugs.me | --zone-id <id>] [--dry-run]
@@ -55,6 +57,18 @@ cf() {
   local method="$1" path="$2"; shift 2
   printf 'header = "Authorization: Bearer %s"\n' "$CF_BOOTSTRAP_TOKEN" |
     curl -sS --fail-with-body -K - -X "$method" "$API$path" -H "Content-Type: application/json" "$@"
+}
+
+# Check GitHub first. The new token's value is shown only once, so the secret must be certain to land.
+echo "Checking GitHub access..." >&2
+gh auth status >/dev/null 2>&1 || {
+  echo "gh is not signed in. Run: gh auth login -p ssh -w   (or export GH_TOKEN)" >&2
+  exit 1
+}
+# Creates the environment if it is missing and succeeds if it exists; it needs admin rights on the repository.
+gh api -X PUT "repos/$REPO/environments/$ENVIRONMENT" --silent || {
+  echo "cannot create or reach the \"$ENVIRONMENT\" environment of $REPO; gh needs admin access to the repository" >&2
+  exit 1
 }
 
 echo "Looking up permission groups..." >&2
@@ -112,9 +126,17 @@ response="$(cf POST "/accounts/$CF_ACCOUNT_ID/tokens" --data "$body")"
 jq -e '.success == true' >/dev/null <<<"$response" || { jq '.errors' <<<"$response" >&2; exit 1; }
 token_id="$(jq -r '.result.id' <<<"$response")"
 
-# The value goes from the response straight into gh's stdin.
-jq -j '.result.value' <<<"$response" | gh secret set CLOUDFLARE_API_TOKEN --env "$ENVIRONMENT" --repo "$REPO"
-printf '%s' "$CF_ACCOUNT_ID" | gh secret set CLOUDFLARE_ACCOUNT_ID --env "$ENVIRONMENT" --repo "$REPO"
+# The value goes from the response straight into gh's stdin. If storing it fails, delete the token again: its value
+# cannot be read a second time, so an unstored token is only a loose end.
+store() {
+  jq -j '.result.value' <<<"$response" | gh secret set CLOUDFLARE_API_TOKEN --env "$ENVIRONMENT" --repo "$REPO" &&
+    printf '%s' "$CF_ACCOUNT_ID" | gh secret set CLOUDFLARE_ACCOUNT_ID --env "$ENVIRONMENT" --repo "$REPO"
+}
+if ! store; then
+  echo "Storing the secrets failed; deleting the token that was just created..." >&2
+  cf DELETE "/accounts/$CF_ACCOUNT_ID/tokens/$token_id" >/dev/null || echo "could not delete it; delete token $token_id in the dashboard" >&2
+  exit 1
+fi
 
 cat >&2 <<DONE
 
