@@ -1,5 +1,6 @@
 import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
+import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { transformerNotationDiff, transformerNotationFocus, transformerNotationHighlight } from '@shikijs/transformers';
 import { rendererRich, transformerTwoslash } from '@shikijs/twoslash';
@@ -16,7 +17,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   build: { format: 'directory' },
   devToolbar: { enabled: false },
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), react(), sitemap()],
   markdown: {
     // Astro 7's default processor runs no remark or rehype plugins, so the posts use `unified()`.
     // Shiki is configured here, not in `unified()`.

@@ -49,3 +49,20 @@ describe('the built post', () => {
     expect(page).toMatch(/<button[^>]*\bhidden\b[^>]*data-run/);
   });
 });
+
+describe('the framework examples', () => {
+  const pages = [
+    'posts/2022/dynamic-components-angular',
+    'posts/2023/guarding-against-unsaved-changes-with-route-guards-angular',
+    'posts/2022/rxjx-pitfalls-passing-observer-next-to-pipe-able-operator',
+  ];
+
+  it.each(pages)('%s loads nothing from an embed host until the button is pressed', (page) => {
+    const html = readFileSync(join(inject('siteDir'), page, 'index.html'), 'utf8');
+    expect(html).toContain('Load the example');
+    // The only address allowed is a plain link; no iframe or script from the embed hosts is in the page.
+    // (A post may hold other embeds, such as the Spotify track, which are not this component's concern.)
+    expect(html).not.toMatch(/<iframe[^>]*(stackblitz|codesandbox)/);
+    expect(html).not.toMatch(/<script[^>]*src="https:\/\/(stackblitz|[a-z0-9.-]*codesandbox)/);
+  });
+});
