@@ -1,0 +1,235 @@
+---
+import type { MarkdownHeading } from 'astro';
+import Base from './Base.astro';
+import { postPath, type Post } from '../lib/posts';
+import { formatDate, headingHtml } from '../lib/text';
+
+interface Props {
+  post: Post;
+  headings: MarkdownHeading[];
+  previous?: Post;
+  next?: Post;
+}
+
+const { post, headings, previous, next } = Astro.props;
+const { data } = post;
+const toc = headings.filter((heading) => heading.depth === 2);
+---
+
+<Base title={`${data.title} | Laurence Ininda / blog`} description={data.summary || undefined}>
+  <div class="art">
+    <article class="sheet">
+      <p class="mono kicker">{data.tags[0] ?? 'post'}</p>
+      <h1 set:html={headingHtml(data.heading ?? data.title)} />
+      <p class="by">
+        by <a href={data.authorLink} rel="noopener noreferrer">{data.author}</a> on {formatDate(data.publishedOn)}
+      </p>
+      {
+        data.image && (
+          <figure class="cover">
+            <img src={`/assets/post-covers/${data.image}`} alt={data.imageDescription} />
+            {data.imageCredit && <figcaption class="mono" set:html={data.imageCredit} />}
+          </figure>
+        )
+      }
+      <div class="prose">
+        <slot />
+      </div>
+      {
+        data.tags.length > 0 && (
+          <ul class="chips mono" aria-label="Topics">
+            {data.tags.map((tag) => (
+              <li>
+                <a href={`/topics/${tag.replaceAll(' ', '-')}`}>{tag}</a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+      <nav class="pn" aria-label="Posts">
+        {
+          previous ? (
+            <a href={postPath(previous)}>
+              <small class="mono">← Newer</small>
+              <span>{previous.data.title}</span>
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          next && (
+            <a href={postPath(next)} class="next">
+              <small class="mono">Older →</small>
+              <span>{next.data.title}</span>
+            </a>
+          )
+        }
+      </nav>
+    </article>
+    {
+      toc.length > 0 && (
+        <aside class="toc" aria-label="On this page">
+          <p class="mono">On this page</p>
+          <ul>
+            {toc.map((heading) => (
+              <li>
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
+  </div>
+</Base>
+
+<style>
+  .art {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 200px;
+    gap: 28px;
+    align-items: start;
+    padding-top: 24px;
+  }
+
+  /* The article text sits on a panel: white in light mode, dark purple in dark mode. */
+  .sheet {
+    padding: 38px 44px 28px;
+    background: var(--panel);
+  }
+
+  .kicker {
+    margin: 0;
+    color: var(--dim);
+  }
+
+  .sheet h1 {
+    margin: 6px 0 8px;
+    font-size: clamp(2rem, 4.6vw, 2.9rem);
+  }
+
+  .by {
+    margin: 0 0 18px;
+    color: var(--dim);
+    font-size: 1.05rem;
+  }
+
+  .cover {
+    margin: 0 0 20px;
+  }
+
+  .cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 360px;
+    object-fit: cover;
+  }
+
+  .cover figcaption {
+    margin-top: 6px;
+    color: var(--dim);
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 26px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chips a {
+    display: inline-block;
+    padding: 4px 10px;
+    color: var(--tone-a-ink);
+    text-decoration: none;
+    background: color-mix(in srgb, var(--tone-a) 65%, transparent);
+  }
+
+  .pn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 30px 0 10px;
+  }
+
+  .pn a {
+    display: block;
+    padding: 14px 16px;
+    color: var(--ink);
+    text-decoration: none;
+    background: color-mix(in srgb, var(--tone-a) 55%, transparent);
+  }
+
+  .pn .next {
+    text-align: right;
+    grid-column: 2;
+  }
+
+  .pn small {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--tone-a-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .toc {
+    position: sticky;
+    top: 24px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .toc p {
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .toc ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .toc li {
+    margin-bottom: 8px;
+  }
+
+  .toc a {
+    color: var(--dim);
+    text-decoration: none;
+  }
+
+  .toc a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 860px) {
+    .art {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .toc {
+      display: none;
+    }
+
+    .sheet {
+      padding: 24px 18px 12px;
+    }
+
+    .pn {
+      grid-template-columns: 1fr;
+    }
+
+    .pn .next {
+      grid-column: 1;
+    }
+  }
+</style>

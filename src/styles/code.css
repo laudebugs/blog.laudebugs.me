@@ -1,0 +1,33 @@
+/* A first pass at code blocks so posts are readable: a tinted block, mono type, both Shiki themes as variables.
+   BL5 replaces this with the frosted-glass blocks of the design. */
+.prose pre {
+  margin: 1.2rem 0 1.6rem;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  line-height: 1.65;
+  tab-size: 4;
+  background: color-mix(in srgb, var(--tone-a) 55%, transparent);
+}
+
+.prose pre code {
+  font-family: inherit;
+}
+
+.astro-code,
+.astro-code span {
+  color: var(--shiki-light);
+}
+
+:root[data-theme="dark"] .astro-code,
+:root[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .astro-code,
+  :root:not([data-theme="light"]) .astro-code span {
+    color: var(--shiki-dark);
+  }
+}

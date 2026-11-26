@@ -7,18 +7,20 @@ One line per top-level path: what it is, and which ADR explains it. Keep long ex
 | `docs/` | Everything written down; see [docs/README.md](../README.md) |
 | `docs/design/` | The agreed look: mockups, tokens, logo files |
 | `astro.config.mjs`, `tsconfig.site.json`, `biome.json`, `vitest.config.ts` | The Astro site's config (BL2). The root `tsconfig.json` is the Vocs site's, so the Astro site has its own |
-| `src/` | The Astro site: `layouts/`, `components/`, `pages/`, `styles/` (`tokens.css` holds the design tokens), `scripts/` (theme logic) |
-| `public/` | Icons and favicon (from `docs/design/logo`); covers and `assets/` arrive with BL3 and BL4 |
+| `src/` | The Astro site: `content/posts/<year>/<slug>.mdx` (the 21 posts), `content.config.ts`, `layouts/`, `components/`, `pages/`, `lib/` (post helpers and the schema), `plugins/` (the `:::tip` remark plugin), `styles/` (`tokens.css` holds the design tokens), `scripts/` (theme logic) |
+| `public/` | Icons and favicon (from `docs/design/logo`), `assets/post-covers/` and `assets/images/` (copies of the Vocs ones until BL12) |
+| `fixtures/` | Test inputs: the 21 post addresses of the live site |
+| `scripts/migrate-posts.mjs` | One-time conversion of the Vocs posts into `src/content/posts`; deleted with Vocs in BL12 |
 | `tests/` | Vitest tests: the theme logic and one real build of the site |
 | `.nvmrc` | Node version for local work and CI |
-| `docs/pages/`, `components/`, `helpers/`, `public/`, `snippets/`, `styles.css` | **The current Vocs site** (21 posts, custom components, covers). Moved out of `docs/` by BL3; the doc-index check skips them until then |
+| `docs/pages/`, `components/`, `helpers/`, `public/`, `snippets/`, `styles.css` | **The current Vocs site** (21 posts, custom components, covers). Deleted in BL12; until then the doc-index check skips them and the posts also exist, converted, in `src/content/posts` |
 | `vocs.config.ts`, `package.json`, `pnpm-lock.yaml`, `tsconfig.json` | The current Vocs site's config. Replaced by the Astro config in BL2 and deleted in BL12 |
 | `blog/` | An empty folder (`.gitkeep`) that `vocs.config.ts` names as `blogDir`. Deleted with Vocs in BL12 |
 | `scripts/` | Repo tooling: todo board check, doc-index check, worktree helpers |
 | `.github/` | Workflows, dependabot, PR and issue templates |
 | `.agents/skills/` | Skills; `.claude/skills` symlinks here |
 
-The site source follows [plan D9](../plans/astro-rebuild.md). BL2 added the first part; BL3 adds `src/content/posts/<year>/<slug>.mdx`, `src/lib/`, covers under `public/assets/`, and `examples/` (the tested example files). Update this table as each lands.
+The site source follows [plan D9](../plans/astro-rebuild.md). BL2 added the first part; BL2 and BL3 added the first parts; `examples/` (the tested example files) arrives with BL6. Update this table as each lands.
 
 ## One home per concept
 

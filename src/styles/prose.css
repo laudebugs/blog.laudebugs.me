@@ -1,0 +1,103 @@
+/* The article text: the reading column, inline code, callouts, tables and images. Code blocks are in code.css. */
+.prose {
+  font-size: 1.2rem;
+  line-height: 1.68;
+}
+
+.prose p {
+  margin: 0 0 1.1em;
+}
+
+.prose h2 {
+  margin: 1.8em 0 0.5em;
+  font-size: 1.55rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.prose h3 {
+  margin: 1.5em 0 0.4em;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.prose a {
+  color: var(--tone-a-ink);
+  text-underline-offset: 3px;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+
+.prose li {
+  margin-bottom: 0.3em;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.prose blockquote {
+  margin: 1.2em 0;
+  padding: 2px 18px;
+  color: var(--dim);
+  background: color-mix(in srgb, var(--tone-a) 35%, transparent);
+}
+
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+  padding: 6px 12px;
+  text-align: left;
+}
+
+.prose :not(pre) > code {
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  background: color-mix(in srgb, var(--tone-a) 60%, transparent);
+}
+
+.embed {
+  margin: 1.4rem 0 1.8rem;
+}
+
+/* Callouts: a quiet tint and a small label, no border. Used by the Callout component and by :::tip blocks. */
+.callout {
+  margin: 1.3rem 0 1.7rem;
+  padding: 14px 18px 15px;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  --callout-ink: var(--tone-d-ink);
+  background: color-mix(in srgb, var(--callout-ink) 13%, var(--panel));
+}
+
+.callout-tip {
+  --callout-ink: var(--tone-c-ink);
+}
+
+.callout-warning {
+  --callout-ink: var(--tone-b-ink);
+}
+
+.callout > :last-child {
+  margin-bottom: 0;
+}
+
+.callout-label {
+  margin: 0 0 4px;
+  color: var(--callout-ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

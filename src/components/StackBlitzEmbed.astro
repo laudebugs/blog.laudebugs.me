@@ -1,0 +1,15 @@
+---
+// A placeholder until BL7 builds the click-to-load example: a link to the project.
+interface Props {
+  projectId: string;
+  openFile?: string;
+  view?: string;
+}
+const { projectId, openFile } = Astro.props;
+const href = `https://stackblitz.com/edit/${projectId}${openFile ? `?file=${encodeURIComponent(openFile)}` : ''}`;
+---
+
+<aside class="callout callout-note">
+  <p class="callout-label">Live example</p>
+  <p>This example opens on StackBlitz: <a href={href} rel="noopener noreferrer">open the project</a>.</p>
+</aside>
