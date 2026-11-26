@@ -1,4 +1,4 @@
-# Install as .github/workflows/preview.yml (a session cannot push workflow files; see docs/guides/migrate-to-cloudflare.md).
+# Installed as .github/workflows/preview.yml; the same file is kept in docs/guides/cloudflare/preview.yml, so change both (docs/guides/migrate-to-cloudflare.md).
 # One preview per pull request from a branch of this repository (never a fork's), deleted when the pull request closes.
 name: Preview
 
@@ -19,14 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.4.0
         with: { persist-credentials: false }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4.3.0
+      - uses: actions/setup-node@v4.4.0
         with: { node-version-file: .nvmrc, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm run site:build
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4.6.2
         with:
           name: site
           path: dist
@@ -43,13 +43,13 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.4.0
         with: { persist-credentials: false }
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4.3.0
         with:
           name: site
           path: dist
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4.4.0
         with: { node-version-file: .nvmrc }
       # This job reads the pull request's own wrangler.jsonc and holds the Cloudflare token, so it runs only for
       # branches of this repository (see the job's condition), never for forks.
@@ -80,7 +80,7 @@ jobs:
     timeout-minutes: 5
     environment: cloudflare
     steps:
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4.4.0
         with: { node-version: 22 }
       - run: npx --yes wrangler@4.165.0 preview delete --name "pr-${PR}" --skip-confirmation
         env:

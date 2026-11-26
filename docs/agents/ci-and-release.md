@@ -20,7 +20,9 @@
 
 ## Workflow changes are staged, not pushed
 
-A session cannot push workflow files. The owner installed `.github/workflows/ci.yml` on 2026-11-26 from `docs/guides/ci-workflow.yml` ([guide](../guides/update-the-ci-workflow.md)); the two must stay the same. To change the workflow, edit the staged copy and ask the owner to copy it over.
+Workflow files can be pushed only with a GitHub token that has the `workflow` scope; check `gh auth status` before assuming either way. `ci.yml`, `deploy.yml` and `preview.yml` are each kept twice, in `.github/workflows/` and under `docs/guides/` (`ci-workflow.yml`, `cloudflare/deploy.yml`, `cloudflare/preview.yml`); change both so they stay the same.
+
+**Actions are locked.** `.github/workflows/actions.lock` (made by GitHub's `gh actions-lock` extension) pins every direct and transitive action to a verified commit, and the `Verify lockfile` workflow fails a pull request when it is out of date. After you add a workflow or change any `uses:` line, run `gh actions-lock` and commit the lockfile with it; `gh actions-lock --verify` checks it without writing.
 
 ## Dependencies
 

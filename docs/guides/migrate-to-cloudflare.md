@@ -74,7 +74,7 @@ In the repository's **Settings**:
 
 ### 3. Install the two workflows
 
-Copy the staged files into place and push them from your machine (a session cannot):
+The pull request that added these two workflows copied the staged files into place. To do it by hand instead, copy them and push:
 
 ```sh
 cp docs/guides/cloudflare/deploy.yml  .github/workflows/deploy.yml
@@ -85,6 +85,7 @@ What they do, so you can judge them before pushing:
 
 - **`deploy.yml`** runs on every push to `main`. The `build` job has no secrets: it installs from the lockfile, builds the site and uploads `dist/`. The `deploy` job runs only when `SITE_DEPLOY_ENABLED` is `true`, in the `cloudflare` environment, downloads that artifact and runs `wrangler deploy`. It installs nothing from the repository, because this is the job that holds the token. Deploys never cancel each other.
 - **`preview.yml`** runs for each pull request opened from a branch of this repository, never a fork (a fork's code must not get the secrets). It builds, creates a Cloudflare preview named `pr-<number>`, runs the parity script against it, and comments the address on the pull request. When the pull request closes, a cleanup job deletes the preview. Preview addresses are public.
+- The actions they use are pinned by `.github/workflows/actions.lock` (`gh actions-lock`), and `verify-lockfile.yml` fails a pull request if the lockfile is stale.
 - Both set `permissions: contents: read` and add `pull-requests: write` only to the job that comments.
 
 If you change either file, change the staged copy in the repository too, so the two stay the same.  The existing CI workflow does not change.

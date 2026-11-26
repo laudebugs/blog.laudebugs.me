@@ -1,4 +1,4 @@
-# Install as .github/workflows/deploy.yml (a session cannot push workflow files; see docs/guides/migrate-to-cloudflare.md).
+# Installed as .github/workflows/deploy.yml; the same file is kept in docs/guides/cloudflare/deploy.yml, so change both (docs/guides/migrate-to-cloudflare.md).
 # Builds the site with no secrets, then deploys it from main with the Cloudflare secrets.
 name: Deploy
 
@@ -20,16 +20,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.4.0
         with: { persist-credentials: false }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4.3.0
+      - uses: actions/setup-node@v4.4.0
         with: { node-version-file: .nvmrc, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm run site:build
         env:
           ASTRO_SITE: https://blog.laudebugs.me
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4.6.2
         with:
           name: site
           path: dist
@@ -45,13 +45,13 @@ jobs:
     timeout-minutes: 10
     environment: cloudflare
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.4.0
         with: { persist-credentials: false }
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4.3.0
         with:
           name: site
           path: dist
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4.4.0
         with: { node-version-file: .nvmrc }
       # The version matches the one pinned in package.json. Nothing from the repository is installed or run here:
       # this job holds the Cloudflare token.

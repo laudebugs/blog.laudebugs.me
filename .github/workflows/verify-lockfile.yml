@@ -1,0 +1,20 @@
+# Fails a pull request if .github/workflows/actions.lock is out of sync with the workflows or has been tampered with.
+# After changing any `uses:` line, run `gh actions-lock` and commit the result.
+name: Verify lockfile
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4.4.0
+        with: { persist-credentials: false }
+      - uses: github/gh-actions-lock@verify/v0.5.1
