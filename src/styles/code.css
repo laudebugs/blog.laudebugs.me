@@ -1,17 +1,40 @@
 /* Code blocks, as in the design: frosted glass (a tint, no border, no shadow), a label and Copy, then the code.
-   Shiki writes its colours as the --code-* variables below, so the blocks follow the light and dark tokens. */
+   Shiki writes its colours as the --code-* variables below, so the blocks follow the light and dark themes. */
 :root {
   --code-foreground: var(--ink);
   --code-background: transparent;
-  --code-token-keyword: color-mix(in srgb, var(--ink) 8%, var(--tone-a-ink));
-  --code-token-string: color-mix(in srgb, var(--ink) 15%, var(--tone-c-ink));
-  --code-token-string-expression: color-mix(in srgb, var(--ink) 15%, var(--tone-c-ink));
-  --code-token-function: color-mix(in srgb, var(--ink) 15%, var(--tone-d-ink));
-  --code-token-constant: color-mix(in srgb, var(--ink) 20%, var(--tone-b-ink));
+  --code-token-keyword: #7424d0;
+  --code-token-string: #216b27;
+  --code-token-string-expression: #216b27;
+  --code-token-function: #1a52c4;
+  --code-token-constant: #a33f08;
   --code-token-parameter: var(--ink);
-  --code-token-punctuation: color-mix(in srgb, var(--ink) 75%, var(--panel));
-  --code-token-comment: color-mix(in srgb, var(--ink) 70%, var(--panel));
+  --code-token-punctuation: #5f6179;
+  --code-token-comment: #645f82;
   --code-token-link: var(--tone-d-ink);
+}
+
+/* The dark values are declared twice, as in tokens.css, so the theme toggle wins in both directions. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --code-token-keyword: #cba6f7;
+    --code-token-string: #a6e3a1;
+    --code-token-string-expression: #a6e3a1;
+    --code-token-function: #89b4fa;
+    --code-token-constant: #fab387;
+    --code-token-punctuation: #9fa3be;
+    --code-token-comment: #9a96b8;
+  }
+}
+
+:root[data-theme="dark"] {
+  --code-token-keyword: #cba6f7;
+  --code-token-string: #a6e3a1;
+  --code-token-string-expression: #a6e3a1;
+  --code-token-function: #89b4fa;
+  --code-token-constant: #fab387;
+  --code-token-punctuation: #9fa3be;
+  --code-token-comment: #9a96b8;
 }
 
 .code-frame {
