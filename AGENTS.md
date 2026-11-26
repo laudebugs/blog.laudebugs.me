@@ -40,7 +40,7 @@ scripts/                            repo tooling (todo board, doc-index check, w
 vocs.config.ts, package.json        the current Vocs site (replaced by BL2 to BL12)
 ```
 
-The Astro source (`src/`, `examples/`, `public/`) appears with BL2 and BL3; the line above moves with it.
+The Astro site is in `src/`, `public/` and `tests/` (BL2 onward), with its config at the root (`astro.config.mjs`, `tsconfig.site.json`, `biome.json`); `examples/` and the posts arrive with BL3 and BL6.
 
 ## Twelve working agreements
 
@@ -60,7 +60,8 @@ The Astro source (`src/`, `examples/`, `public/`) appears with BL2 and BL3; the 
 ## Environment quirks, dated, with the reason
 
 - **2026-11-26: `/assets/posts.json` is read by laudebugs.me.** Do not rename or reshape it until BL4b has shipped there; `docs/plans/astro-rebuild.md` (O5) says how it is replaced.
-- **2026-11-26: the site pins TypeScript 6.0.3, not 7.** `astro check` refuses TypeScript 7 and twoslash needs the compiler API (BL2, BL5).
+- **2026-11-26: the repo pins TypeScript 6.0.3, not 7.** `astro check` refuses TypeScript 7 and twoslash needs the compiler API. Vocs's twoslash step needs `twoslash.compilerOptions.ignoreDeprecations: '6.0'` in `vocs.config.ts` on TypeScript 6; without it `pnpm build` fails.
+- **2026-11-26: keep `pnpm build` and `pnpm dev` for Vocs until BL12.** Vercel runs them. The Astro site uses `pnpm site:*`.
 - **2026-11-26: a session cannot push `.github/workflows/*`.** GitHub refuses it without the `workflow` scope. Stage the file under `docs/guides/` and add a guide for the owner, as `docs/guides/install-the-ci-workflow.md` does.
 - **2026-11-26: the blog is hosted on Vercel until BL12.** Do not change DNS or the Vercel project; the owner does that.
 

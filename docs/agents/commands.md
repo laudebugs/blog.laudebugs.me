@@ -6,11 +6,24 @@
 |---|---|
 | `make check` | `check-docs` + `check-code` |
 | `make check-docs` | `scripts/check-todos.mjs` (board consistency), `scripts/check-doc-indexes.mjs` (every doc is indexed) |
-| `make check-code` | **Stub until BL2.** Then: `astro check`, Biome, `tsc`, the dependency check (BL10), duplication (`.jscpd.json` is ready: `npx jscpd .`) |
-| `make test` | **Stub until BL2.** Then: Vitest, plus the browser checks (BL11) |
+| `make check-code` | `pnpm run site:check`: Biome, `astro check` and `tsc` on the Astro site (the dependency check arrives with BL10; duplication: `.jscpd.json` is ready, `npx jscpd .`) |
+| `make test` | `pnpm run site:test`: Vitest, including one real `astro build` into a temporary folder (the browser checks arrive with BL11) |
+| `make fmt` | `pnpm run site:fmt`: Biome formats the Astro site's code |
 | `make todos` | Prints the derived todo board |
 | `make doctor` | Verifies git, gh, node and pnpm are installed |
 | `make ci` | `check` + `test`: the whole fast lane |
+
+## The Astro site
+
+| Script | What it does |
+|---|---|
+| `pnpm site:dev` | Dev server (http://localhost:4321) |
+| `pnpm site:build` | Static build into `dist/` |
+| `pnpm site:preview` | Serves `dist/` |
+| `pnpm site:check` | Biome, `astro check --tsconfig tsconfig.site.json`, `tsc -p tsconfig.site.json` |
+| `pnpm site:test` | Vitest |
+
+Astro's anonymous telemetry is switched off in these scripts.
 
 ## The current Vocs site
 
@@ -18,4 +31,4 @@ Until the cutover (BL12) it still builds with `pnpm install` and `pnpm build` (`
 
 ## Pin tool versions in one place
 
-Pin runtimes and package managers in a file CI also reads (`.nvmrc`, `packageManager` in `package.json`), and have `make doctor` verify them. BL2 adds both.
+Node is pinned by `.nvmrc` (24) and `engines` (`>=22`); pnpm by `packageManager` in `package.json`. `make doctor` checks that node and pnpm exist.

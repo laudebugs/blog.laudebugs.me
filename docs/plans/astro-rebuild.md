@@ -119,7 +119,7 @@ BL2 to BL4 are the critical path. BL5, BL6 and BL7 can run in parallel after BL3
 - **O1. Hosting:** Vercel today, Cloudflare after the move (D12).
 - **O2. Search model:** in the browser (D8).
 - **O3. Angular examples:** all three move to the new demo stack (D6.3).
-- **O4. twoslash on TypeScript 6 with the Angular type packages:** expected to work. BL5 still proves it on one post before moving the rest.
+- **O4. twoslash on TypeScript 6 with the Angular type packages:** expected to work. Vocs's twoslash already builds all 21 posts on TypeScript 6.0.3 once `ignoreDeprecations: '6.0'` is set (BL2; the built page is byte-for-byte the same size as the live one). BL5 still proves the Astro and Shiki twoslash on one post before moving the rest.
 - **O6. Navigation:** the two "More Links" (Dev Journal, Imperfect Place) are dropped.
 - **O7. Topics:** every tag counts, so the numbers change.
 - **O8. Logo:** the blog's mark is the "L B I" mark (D3). The main site keeps its own logo.

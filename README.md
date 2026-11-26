@@ -30,5 +30,14 @@ When using twoslash, the `// comments` must be at the start of the line.
 ## Checks
 
 ```sh
-make check     # todo board and doc indexes (code checks arrive with BL2)
+make check     # todo board, doc indexes, Biome, astro check and tsc
+make test      # Vitest, including one real build
+```
+
+## The Astro site (in progress)
+
+```sh
+pnpm install
+pnpm site:dev     # http://localhost:4321
+pnpm site:build   # static build into dist/
 ```

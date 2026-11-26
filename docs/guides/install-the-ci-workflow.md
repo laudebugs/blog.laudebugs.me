@@ -9,7 +9,7 @@ For the repo owner. The Claude Code session that set up this repo cannot push fi
 3. Delete `docs/guides/ci-workflow.yml` in the same commit, so there is one copy.
 4. In the repository settings, make the `gate` job the only required status check on `main`, require pull requests, and allow squash merges only.
 
-The workflow runs `make check-docs` on every pull request and `make check-code` and `make test` when code changes. They are stubs until BL2, so the `code` job passes without checking anything until then.
+The workflow runs `make check-docs` on every pull request and, when code changes, installs Node and pnpm and runs `make check-code` and `make test` (Biome, `astro check`, `tsc`, and Vitest with one real build).
 
 ## Roll back
 

@@ -69,6 +69,8 @@ export default defineConfig({
         light: '/assets/logo.svg',
         dark: '/assets/logo.svg',
     },
+    // TypeScript 6 deprecates options that twoslash still sets (baseUrl, moduleResolution node10); silence the errors until Vocs is removed.
+    twoslash: { compilerOptions: { ignoreDeprecations: '6.0' } },
     blogDir: 'blog',
     font: {
         default: {

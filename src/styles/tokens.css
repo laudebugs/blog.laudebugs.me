@@ -1,0 +1,65 @@
+/* The design tokens from docs/design/README.md. Light values live on :root; the dark values are declared twice,
+   once for the system setting and once for an explicit choice, so the toggle wins in both directions. */
+:root {
+  --paper: #fdf5fc;
+  --grid: #f1dcf0;
+  --ink: #2b1530;
+  --dim: #7a5a80;
+  --accent: #9a3fc4;
+  --mark: #ffd6ec;
+  --panel: #ffffff;
+  --tone-a: #d9ccf5;
+  --tone-a-ink: #6b4fc0;
+  --tone-b: #ffd3be;
+  --tone-b-ink: #b2502a;
+  --tone-c: #c8ebdd;
+  --tone-c-ink: #1f7a5a;
+  --tone-d: #bedcf5;
+  --tone-d-ink: #2a6fa8;
+
+  --font-serif: "Lora", Georgia, "Times New Roman", serif;
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --grid-size: 16px;
+  --content-width: 1060px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #17112b;
+    --grid: #261e44;
+    --ink: #f0eaff;
+    --dim: #a99dc9;
+    --accent: #c78bf0;
+    --mark: #4b2f78;
+    --panel: #211a3b;
+    --tone-a: #3a2d73;
+    --tone-a-ink: #b9a2ff;
+    --tone-b: #5a3322;
+    --tone-b-ink: #ff9d78;
+    --tone-c: #1d4437;
+    --tone-c-ink: #6fd6a8;
+    --tone-d: #233f66;
+    --tone-d-ink: #7ebcff;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #17112b;
+  --grid: #261e44;
+  --ink: #f0eaff;
+  --dim: #a99dc9;
+  --accent: #c78bf0;
+  --mark: #4b2f78;
+  --panel: #211a3b;
+  --tone-a: #3a2d73;
+  --tone-a-ink: #b9a2ff;
+  --tone-b: #5a3322;
+  --tone-b-ink: #ff9d78;
+  --tone-c: #1d4437;
+  --tone-c-ink: #6fd6a8;
+  --tone-d: #233f66;
+  --tone-d-ink: #7ebcff;
+  color-scheme: dark;
+}

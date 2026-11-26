@@ -29,6 +29,9 @@ coverage/
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
 
+# Astro
+.astro/
+
 # The Vocs site (removed at cutover, see docs/plans/astro-rebuild.md)
 node_modules
 docs/dist

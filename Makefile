@@ -12,14 +12,14 @@ check-docs: ## Todo board consistency and doc index checks (no network, no build
 	node scripts/check-todos.mjs
 	node scripts/check-doc-indexes.mjs
 
-check-code: ## STUB until BL2: typecheck, lint, duplication and dead-code checks
-	@echo "check-code: not configured yet. BL2 adds astro check, Biome and tsc (see docs/guidelines/maintainability.md)."
+check-code: ## Biome, astro check and tsc for the Astro site
+	pnpm run site:check
 
-fmt: ## STUB: format the code
-	@echo "fmt: not configured yet."
+fmt: ## Format the Astro site's code with Biome
+	pnpm run site:fmt
 
-test: ## STUB: run the tests
-	@echo "test: not configured yet."
+test: ## Vitest, including one real build of the site
+	pnpm run site:test
 
 todos: ## Print the todo board (derived, never committed)
 	node scripts/check-todos.mjs --board

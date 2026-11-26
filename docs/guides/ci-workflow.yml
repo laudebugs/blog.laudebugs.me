@@ -54,7 +54,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { persist-credentials: false }
-      # BL2 adds the toolchain here (setup-node and pnpm) when check-code and test become real.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .nvmrc, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
       - run: make check-code
       - run: make test
 
