@@ -65,7 +65,7 @@ function sandpackTheme(mode: 'light' | 'dark') {
     },
     font: {
       body: 'Karla, system-ui, sans-serif',
-      mono: '"DM Mono", ui-monospace, monospace',
+      mono: '"IBM Plex Mono", ui-monospace, monospace',
       size: '14px',
       lineHeight: '1.6',
     },

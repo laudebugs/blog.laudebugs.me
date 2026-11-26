@@ -2,7 +2,7 @@
   --code-background: transparent;
   margin: 1.4rem 0 1.8rem;
   font:
-    400 0.86rem / 1.6 "DM Mono",
+    400 0.86rem / 1.6 "IBM Plex Mono",
     monospace;
   color: var(--ink);
   background: color-mix(in srgb, var(--tone-a) 55%, transparent);
@@ -37,7 +37,7 @@
   background: transparent;
   color: var(--ink);
   font:
-    400 0.86rem / 1.65 "DM Mono",
+    400 0.86rem / 1.65 "IBM Plex Mono",
     monospace;
   white-space: pre;
   overflow: auto;

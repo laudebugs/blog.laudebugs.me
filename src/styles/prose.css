@@ -68,7 +68,7 @@
   /* A long identifier or address must wrap rather than widen the page. */
   overflow-wrap: anywhere;
   padding: 2px 6px;
-  font-family: var(--font-mono);
+  font-family: var(--font-code);
   font-size: 0.78em;
   background: color-mix(in srgb, var(--tone-a) 60%, transparent);
 }

@@ -20,6 +20,8 @@
   --font-serif: "Lora", Georgia, "Times New Roman", serif;
   --font-body: "Karla", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Code, as opposed to the small-caps labels above, which keep --font-mono. */
+  --font-code: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --grid-size: 16px;
   --content-width: 1060px;
   color-scheme: light;
