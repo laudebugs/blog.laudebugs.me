@@ -61,6 +61,14 @@ a {
   color: inherit;
 }
 
+/* The browser gives these their own "monospace" font, and that beats inheriting one from a wrapper, so set it here. */
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--font-code);
+}
+
 .mono {
   font-family: var(--font-mono);
   font-size: 0.8rem;
