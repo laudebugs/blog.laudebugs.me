@@ -18,8 +18,17 @@
       autocomplete="off"
       spellcheck="false"
     />
+    <button type="button" class="mono ask-toggle" data-ask-toggle aria-pressed="false" hidden>Ask</button>
     <button type="submit" class="mono" aria-label="Esc, close search">Esc</button>
   </form>
+  <div class="consent" data-ask-consent hidden>
+    <p>
+      Ask uses the model built into your browser. Chrome downloads it once and keeps it on your computer; what you type
+      stays in your browser and is not sent to this site or anyone else.
+    </p>
+    <button type="button" class="mono" data-ask-download>Download and ask</button>
+    <progress data-ask-progress max="1" value="0" hidden aria-label="Model download"></progress>
+  </div>
   <ul id="search-results" role="listbox" aria-label="Results" data-search-results></ul>
   <p class="status mono" role="status" aria-live="polite" data-search-status>Type to search the posts.</p>
 </dialog>

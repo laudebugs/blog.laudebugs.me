@@ -1,0 +1,55 @@
+{
+  "note": "Questions a reader might ask, each with the post that answers it. Written from the posts' titles and summaries, not from search results, so they do not favour one search method.",
+  "questions": [
+    {
+      "ask": "How do I reach a component that sits inside an @defer block?",
+      "expect": "/posts/2026/referencing-viewchild-queries-within-defer-blocks"
+    },
+    {
+      "ask": "How can I load a module federation remote before my Angular app starts?",
+      "expect": "/posts/2026/utilizing-angulars-provideappinitializer-with-module-federation-remotes"
+    },
+    {
+      "ask": "Is there a way to make Angular router navigation type safe?",
+      "expect": "/posts/2025/a-more-type-safe-ish-angular-router"
+    },
+    {
+      "ask": "How do I stop users leaving a form with unsaved changes?",
+      "expect": "/posts/2023/guarding-against-unsaved-changes-with-route-guards-angular"
+    },
+    {
+      "ask": "How do I share path aliases between several Angular libraries in an Nx workspace?",
+      "expect": "/posts/2022/nx-tips-managing-tsconfig-paths-with-multiple-angular-libraries"
+    },
+    {
+      "ask": "Why does passing next to an RxJS operator go wrong?",
+      "expect": "/posts/2022/rxjx-pitfalls-passing-observer-next-to-pipe-able-operator"
+    },
+    {
+      "ask": "How do I change the colours of Angular Material to my own brand?",
+      "expect": "/posts/2022/customizing-angular-material-palette"
+    },
+    { "ask": "How do I write my own RxJS operator?", "expect": "/posts/2022/writing-a-custom-rxjs-operator" },
+    { "ask": "How do I create Angular components at runtime?", "expect": "/posts/2022/dynamic-components-angular" },
+    {
+      "ask": "How do I use GraphQL subscriptions in React Native?",
+      "expect": "/posts/2022/graphql-subs-with-aws-lambda-and-apollo-client"
+    },
+    {
+      "ask": "How do I enforce commit messages and linting automatically?",
+      "expect": "/posts/2021/organizing-codebases-js"
+    },
+    {
+      "ask": "Can I store app data in a GitHub repository?",
+      "expect": "/posts/2021/using-your-github-repository-as-a-database"
+    },
+    {
+      "ask": "How do I build a GraphQL server with Express and TypeScript?",
+      "expect": "/posts/2021/build-graphql-api-in-typescript"
+    },
+    {
+      "ask": "What are good ways to speed up everyday git commands?",
+      "expect": "/posts/2023/improve-your-git-workflows-with-aliases"
+    }
+  ]
+}

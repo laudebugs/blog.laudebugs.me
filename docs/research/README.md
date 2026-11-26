@@ -15,6 +15,7 @@ Add each topic below in the same PR.
 
 | Topic | Summary |
 |---|---|
+| [search-agent](search-agent/README.md) | What an in-browser search agent can run on: what was measured here (plain-search baseline, CPU models, the built-in model API), what was not, and what follows |
 
 ## Cite, date, and say what was not verified
 
