@@ -1,0 +1,8 @@
+{
+  "threshold": 0,
+  "minLines": 10,
+  "minTokens": 50,
+  "gitignore": true,
+  "ignore": ["**/docs/**", "**/*.lock", "**/*.min.js", "**/.worktrees/**"],
+  "reporters": ["console"]
+}

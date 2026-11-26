@@ -1,29 +1,34 @@
-# Tech Blog Site
+# Laurence's Technical Blog
 
-> A Minimal Tech Blog built with [Vocs](https://vocs.dev)
+The source of https://blog.laudebugs.me: field notes on work and projects, mostly Angular, TypeScript and building with AI.
 
-## Technologies Used
-- [Vocs](https://vocs.dev)
-- [CodeSandbox Sandpack](https://sandpack.codesandbox.io/)
-- [Stackblitz](https://stackblitz.com/)
+> **Being rebuilt.** The site is moving from Vocs on Vercel to a plain Astro 7 site on Cloudflare, in a new design. Start with [AGENTS.md](AGENTS.md), the [plan](docs/plans/astro-rebuild.md) and the [design](docs/design/README.md). Until the cutover this repo still holds the running Vocs site.
 
-## Libraries Used
-- [useHooks](https://github.com/uidotdev/usehooks)
-- [Feed Core](https://github.com/laudebugs/feed-core#readme)
-- [gray-matter](https://github.com/jonschlinkert/gray-matter)
+## Where things are
 
-## Scripts
-### `prebuild`
-> [!NOTE] This script is automatically run when you run `pnpm run build`
-Generates the list of blog posts to be used in the home page.
+| | |
+|---|---|
+| [docs/design/](docs/design/README.md) | The agreed look: open `blog-site.html` in a browser |
+| [docs/plans/astro-rebuild.md](docs/plans/astro-rebuild.md) | The plan: decisions and the order of work |
+| [docs/todos/](docs/todos/README.md) | The work board: `make todos` |
+| [docs/decisions/](docs/decisions/README.md) | ADRs |
 
-## Twoslash
+## The current site (until BL12)
 
-When using [twoslash](https://vocs.dev/docs/guides/twoslash#errors-num), i.e. the `// comments` must be at the start of the line as shown below:
+Built with [Vocs](https://vocs.dev), with [Sandpack](https://sandpack.codesandbox.io/) and [StackBlitz](https://stackblitz.com/) embeds in three posts.
 
-```ts twoslash
-function add(a: number, b: number): number {
+```sh
+pnpm install
+pnpm dev      # writes docs/public/assets/posts.json first, then runs vocs dev
+pnpm build
+```
 
-// @noErrors
-  return a + b; 
-}
+`prebuild` runs `docs/helpers/gen-post-archive.js`, which writes `docs/public/assets/posts.json`. laudebugs.me reads that file for its latest-post cards.
+
+When using twoslash, the `// comments` must be at the start of the line.
+
+## Checks
+
+```sh
+make check     # todo board and doc indexes (code checks arrive with BL2)
+```

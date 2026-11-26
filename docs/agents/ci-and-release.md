@@ -1,0 +1,31 @@
+# CI and release
+
+## Principles
+
+- CI calls the same `make` targets developers run.
+- **One aggregate gate job** (`gate`) is the only required status check in branch protection. Individual jobs can then change without editing the protection rule.
+- Permissions default to `contents: read`; a job asks for more only when it needs it.
+- Concurrency cancels superseded runs on a PR. Deploys are serialized and never cancelled.
+- Every job has `timeout-minutes`.
+- No retries in PR lanes: report flaky tests, do not hide them.
+- Hangs are caught by the test runner's timeout, not by wall-clock assertions.
+
+## Supply chain (turn these on when the project has dependencies)
+
+- Pin actions: `gh actions-lock` records each tag's commit in `.github/workflows/actions.lock`; a CI job verifies it.
+- Dependabot weekly with a cooldown, and the same minimum release age in your package manager.
+- Every audit or licence ignore carries a reason and a review date.
+- Workflows that handle untrusted PR code use `pull_request_target` only to read, never to run PR code; pass PR fields through `env:`, never `${{ }}` inside `run:`.
+- Build with no secrets; deploy from `main` with the secrets.
+
+## The workflow file is staged, not installed
+
+`.github/workflows/ci.yml` is not in the repo yet: a session cannot push workflow files. It waits at `docs/guides/ci-workflow.yml` until the owner installs it ([guide](../guides/install-the-ci-workflow.md)). Until then nothing runs `make check` on a pull request, so run it locally.
+
+## Releases
+
+The blog is a static site, so there are no package releases. Deploys are described by [plan D12](../plans/astro-rebuild.md):
+
+- **Today:** Vercel builds the Vocs site from `main`. Nothing in this repo controls it.
+- **After BL12:** a workflow builds the site with no secrets and uploads `dist/`; a second workflow runs from `main` and deploys to Cloudflare Workers assets with the secrets. Each pull request from a branch of this repository gets a preview.
+- **Supply chain:** Dependabot (weekly, 7 day cooldown) for GitHub Actions and npm; exact pins and a minimum release age of one week (BL10).
