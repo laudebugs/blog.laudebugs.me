@@ -1,6 +1,7 @@
 ---
-// Code from a tested file in examples/, shown with the output recorded next to it. With JavaScript, "Edit and run"
-// turns the code into an editor and runs it in a worker; without JavaScript the code and its recorded output remain.
+// Code from a tested file in examples/, shown with the output recorded next to it. With JavaScript, Run runs the code
+// in a worker and Edit turns it into an editor with line numbers; without JavaScript the code and its recorded output
+// remain.
 import { Code } from 'astro:components';
 import { codeTheme } from '../plugins/code-theme.mjs';
 
@@ -24,12 +25,13 @@ if (output === undefined) throw new Error(`Example: examples/${file.replace(/\.t
 <figure class="live" data-example>
   <figcaption class="cap"><span>{caption}</span><span class="hint" hidden data-note>runs in your browser</span></figcaption>
   <div data-view><Code code={source.trimEnd()} lang="ts" theme={codeTheme} /></div>
-  <textarea hidden spellcheck="false" aria-label={`Editable code for ${caption}`} data-editor>{source}</textarea>
+  <textarea hidden aria-hidden="true" tabindex="-1" data-source>{source}</textarea>
+  <div class="editor" hidden data-editor data-label={`Editable code for ${caption}`}></div>
   <div class="op">
     <div class="cap b">
       <span>Output</span>
       <span class="actions">
-        <button type="button" class="edit" hidden data-edit>Edit and run</button>
+        <button type="button" class="edit" hidden data-edit>Edit</button>
         <button type="button" class="run" hidden data-run>Run ▸</button>
       </span>
     </div>

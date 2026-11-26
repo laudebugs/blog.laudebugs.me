@@ -26,25 +26,9 @@
   padding: 6px 18px 12px;
   overflow: auto;
 }
-.live textarea {
+/* The editor (CodeMirror) draws its own look, from the theme in src/scripts/code-editor.ts. */
+.live .editor {
   display: block;
-  width: 100%;
-  min-height: 190px;
-  resize: vertical;
-  border: 0;
-  outline: 0;
-  padding: 14px 18px;
-  background: transparent;
-  color: var(--ink);
-  font:
-    400 0.86rem / 1.65 "IBM Plex Mono",
-    monospace;
-  white-space: pre;
-  overflow: auto;
-}
-.live textarea:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: -3px;
 }
 .live .actions {
   display: flex;

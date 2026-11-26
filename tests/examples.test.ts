@@ -44,8 +44,14 @@ describe('the built post', () => {
     expect(page).toMatch(/data-out[^>]*>before: undefined\nafter: 12</);
   });
 
+  it('does not load the editor with the page: it is fetched when Edit is pressed', () => {
+    expect(page).not.toMatch(/codemirror|code-editor/i);
+    expect(readdirSync(join(inject('siteDir'), '_astro')).some((name) => name.startsWith('code-editor.'))).toBe(true);
+  });
+
   it('keeps the editor and buttons hidden until the script runs', () => {
-    expect(page).toMatch(/<textarea hidden/);
+    expect(page).toMatch(/<div[^>]*\bhidden\b[^>]*data-editor/);
+    expect(page).toMatch(/<button[^>]*\bhidden\b[^>]*data-edit>Edit</);
     expect(page).toMatch(/<button[^>]*\bhidden\b[^>]*data-run/);
   });
 });
