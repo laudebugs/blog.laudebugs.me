@@ -59,7 +59,7 @@ export function codeFrame() {
             {
               type: 'element',
               tagName: 'div',
-              properties: { className: ['code-head', 'mono'] },
+              properties: { className: ['code-head', 'mono'], 'data-pagefind-ignore': '' },
               children: [
                 {
                   type: 'element',

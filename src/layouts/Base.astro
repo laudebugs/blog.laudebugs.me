@@ -13,7 +13,9 @@ import '../styles/global.css';
 import '../styles/prose.css';
 import '../styles/code.css';
 import '../styles/example.css';
+import '../styles/search.css';
 import Footer from '../components/Footer.astro';
+import SearchDialog from '../components/SearchDialog.astro';
 import Header from '../components/Header.astro';
 import { themeInit } from '../scripts/theme';
 
@@ -49,5 +51,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <Footer />
+    <SearchDialog />
   </body>
 </html>

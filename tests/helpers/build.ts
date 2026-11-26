@@ -10,6 +10,7 @@ export function buildSite(): string {
     env: { ...process.env, ASTRO_TELEMETRY_DISABLED: '1' },
     stdio: 'pipe',
   });
+  execFileSync('pnpm', ['exec', 'pagefind', '--site', out], { stdio: 'pipe' });
   return out;
 }
 

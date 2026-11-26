@@ -19,15 +19,16 @@ const toc = headings.filter((heading) => heading.depth === 2);
 <Base title={`${data.title} | Laurence Ininda / blog`} description={data.summary || undefined}>
   <link slot="head" rel="alternate" type="text/markdown" href={`${postPath(post)}.md`} />
   <div class="art">
-    <article class="sheet">
-      <p class="mono kicker">{data.tags[0] ?? 'post'}</p>
+    <article class="sheet" data-pagefind-body>
+      <p class="mono kicker" data-pagefind-ignore>{data.tags[0] ?? 'post'}</p>
       <h1 set:html={headingHtml(data.heading ?? data.title)} />
-      <p class="by">
+      <p class="by" data-pagefind-ignore>
         by <a href={data.authorLink} rel="noopener noreferrer">{data.author}</a> on {formatDate(data.publishedOn)}
       </p>
+      <span hidden data-pagefind-meta="published">{formatDate(data.publishedOn)}</span>
       {
         data.image && (
-          <figure class="cover">
+          <figure class="cover" data-pagefind-ignore>
             <img src={`/assets/post-covers/${data.image}`} alt={data.imageDescription} />
             {data.imageCredit && <figcaption class="mono" set:html={data.imageCredit} />}
           </figure>
@@ -41,13 +42,13 @@ const toc = headings.filter((heading) => heading.depth === 2);
           <ul class="chips mono" aria-label="Topics">
             {data.tags.map((tag) => (
               <li>
-                <a href={`/topics/${tag.replaceAll(' ', '-')}`}>{tag}</a>
+                <a href={`/topics/${tag.replaceAll(' ', '-')}`} data-pagefind-filter="tag">{tag}</a>
               </li>
             ))}
           </ul>
         )
       }
-      <nav class="pn" aria-label="Posts">
+      <nav class="pn" aria-label="Posts" data-pagefind-ignore>
         {
           previous ? (
             <a href={postPath(previous)}>

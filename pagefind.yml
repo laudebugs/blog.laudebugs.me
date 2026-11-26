@@ -1,0 +1,4 @@
+# What search should not read: the code popups (type hints repeat the code), the frame's label and Copy button.
+exclude_selectors:
+  - ".twoslash-popup-container"
+  - ".code-head"

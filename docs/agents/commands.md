@@ -18,7 +18,7 @@
 | Script | What it does |
 |---|---|
 | `pnpm site:dev` | Dev server (http://localhost:4321) |
-| `pnpm site:build` | Static build into `dist/` |
+| `pnpm site:build` | Static build into `dist/`, then `pagefind --site dist` writes the search index to `dist/pagefind/` (config in `pagefind.yml`). `pnpm site:dev` has no index, so the dialog says search needs the built site; use `site:build` then `site:preview` to try search |
 | `pnpm site:preview` | Serves `dist/` |
 | `pnpm site:check` | Biome, `astro check --tsconfig tsconfig.site.json`, `tsc -p tsconfig.site.json` |
 | `pnpm site:test` | Vitest |

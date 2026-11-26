@@ -1,0 +1,30 @@
+---
+// The search dialog. A native <dialog> gives the focus trap, Escape to close and focus back to the opener. Hidden
+// triggers appear once the script runs; without JavaScript the header's archive link is the way to browse.
+---
+
+<dialog data-search aria-label="Search the posts" class="search">
+  <form method="dialog" class="q">
+    <span aria-hidden="true">⌕</span>
+    <input
+      type="text"
+      data-search-input
+      role="combobox"
+      aria-expanded="false"
+      aria-controls="search-results"
+      aria-autocomplete="list"
+      aria-label="Search the posts"
+      placeholder="Search the posts"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button type="submit" class="mono" aria-label="Esc, close search">Esc</button>
+  </form>
+  <ul id="search-results" role="listbox" aria-label="Results" data-search-results></ul>
+  <p class="status mono" role="status" aria-live="polite" data-search-status>Type to search the posts.</p>
+</dialog>
+
+<script>
+  import { initSearch } from '../scripts/search';
+  initSearch();
+</script>

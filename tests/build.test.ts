@@ -6,7 +6,8 @@ const out = inject('siteDir');
 
 const text = (extension: string) =>
   files(out)
-    .filter((file) => file.endsWith(extension))
+    // Pagefind's own folder holds its stock UI files, which the site does not use (search is our own dialog).
+    .filter((file) => file.endsWith(extension) && !file.includes('/pagefind/'))
     .map((file) => ({ file, content: read(file) }));
 
 describe('the built site', () => {
