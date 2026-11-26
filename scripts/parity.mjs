@@ -4,6 +4,7 @@
 // Checks every old post address, the feed, the sitemap, llms.txt, the index file and the cover images, and exits 1
 // with a list of what failed. It only reads: it makes GET requests to the address it is given.
 import { readdirSync, readFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 
 const FILES = ['/', '/archive', '/topics', '/rss.xml', '/sitemap-index.xml', '/llms.txt', '/llms-full.txt', '/assets/posts-index.json'];
 
@@ -29,7 +30,7 @@ async function main() {
     process.exit(2);
   }
   const addresses = readFileSync('fixtures/addresses.txt', 'utf8').split('\n').filter(Boolean);
-  const covers = readdirSync('public/assets/post-covers');
+  const covers = readdirSync('public/assets/post-covers').filter((name) => /\.(jpe?g|png|webp|avif|gif|svg)$/i.test(name));
   const paths = expectedPaths(addresses, covers);
   const failures = (await Promise.all(paths.map((path) => check(base, path)))).filter(Boolean);
   // The index file is what laudebugs.me reads, so its shape matters as much as its presence.
@@ -44,4 +45,4 @@ async function main() {
   if (failures.length > 0) process.exit(1);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();

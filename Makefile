@@ -1,5 +1,4 @@
 # One task entry point. CI runs exactly these targets, so "green locally" means "green in CI".
-# Swap the stubbed targets for your stack's commands (pnpm, cargo, uv, ...) when you start a project.
 
 .PHONY: help check check-docs check-code fmt test todos doctor ci
 

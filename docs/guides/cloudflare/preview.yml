@@ -51,6 +51,8 @@ jobs:
           path: dist
       - uses: actions/setup-node@v4
         with: { node-version-file: .nvmrc }
+      # This job reads the pull request's own wrangler.jsonc and holds the Cloudflare token, so it runs only for
+      # branches of this repository (see the job's condition), never for forks.
       - id: preview
         run: |
           set -o pipefail

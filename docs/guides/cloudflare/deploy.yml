@@ -39,7 +39,8 @@ jobs:
   deploy:
     needs: build
     # Switch: nothing deploys until the repository variable SITE_DEPLOY_ENABLED is "true".
-    if: vars.SITE_DEPLOY_ENABLED == 'true'
+    # Only from main, so a manual run on another branch never gets the token.
+    if: vars.SITE_DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: cloudflare

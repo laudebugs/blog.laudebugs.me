@@ -29,7 +29,10 @@ export const siteTools: Tools = {
     return hits.map((hit) => ({ url: hit.url, title: hit.title, excerpt: stripTags(hit.excerpt) }));
   },
   async getPost(url) {
-    const response = await fetch(markdownAddress(url));
+    // Only this site's posts: a path under /posts/, whatever address the model produced.
+    const { origin, pathname } = new URL(url, location.origin);
+    if (origin !== location.origin || !pathname.startsWith('/posts/')) return null;
+    const response = await fetch(markdownAddress(pathname));
     return response.ok ? await response.text() : null;
   },
   async listTopics() {

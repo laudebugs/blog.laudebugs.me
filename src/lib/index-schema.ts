@@ -1,6 +1,6 @@
 import { z } from 'astro/zod';
 
-/** The shape of /assets/posts-index.json, which laudebugs.me reads (docs/plans/astro-rebuild.md, O5). */
+/** The shape of /assets/posts-index.json, which laudebugs.me reads (see docs/plans/astro-rebuild.md for how it replaces posts.json). */
 export const postsIndexSchema = z
   .object({
     version: z.literal(1),

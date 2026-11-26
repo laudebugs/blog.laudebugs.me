@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Dependencies are pinned exactly, to releases at least a week old (plan D11).
+// Dependencies are pinned exactly, to releases at least a week old (docs/plans/astro-rebuild.md, dependencies).
 //   node scripts/check-deps.mjs          exact pins only, offline
 //   node scripts/check-deps.mjs --age    also asks the npm registry when each pinned version was published
 // A version under a week old passes only with an entry in scripts/dependency-exceptions.json that names the

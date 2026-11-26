@@ -13,7 +13,7 @@ The mockups load their fonts from Google Fonts so they open anywhere. The site i
 
 ## Decisions the mockups record
 
-- **Type:** Lora (400, 500, 600 and the 400 italic) for titles, headings and the brand; **Karla** (400, 400 italic, 600) for the reading text, the intro, bylines, callouts and card text; DM Mono (400, 500) for labels, and IBM Plex Mono (400, 400 italic, 500) for code. Karla runs small, so reading text is set at 1.28rem against Lora's 1.2rem. `blog-site.html` still shows Lora for the reading text because it predates this choice; `body-fonts.html` shows Karla.
+- **Type:** Lora (400, 500, 600 and the 400 italic) for titles, headings and the brand; **Karla** (400, 400 italic, 600) for the reading text, the intro, bylines, callouts and card text; DM Mono (400, 500) for labels, and IBM Plex Mono (400, 400 italic, 500) for code, chosen by the owner after the mockups. Code colours are the "Dusk" palette (light and dark values in `src/styles/code.css`, repeated in `FrameworkExample.tsx`), at least 4.5:1 on the code block. Karla runs small, so reading text is set at 1.28rem against Lora's 1.2rem. `blog-site.html` still shows Lora for the reading text because it predates this choice; `body-fonts.html` shows Karla.
 - **Shape:** every corner square, no shadows, no borders around sections. Callouts, chips, cards and the live example are quiet tints. Only the header and footer rules remain (2px).
 - **Page:** graph paper, 16px cells.
 - **Code blocks:** frosted glass (a lilac tint, no border), a filename label and Copy; focus lines dimmed, an error band, a highlighted line.

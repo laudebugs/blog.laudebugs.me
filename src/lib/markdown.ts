@@ -14,18 +14,20 @@ export function postMarkdown(body: string): string {
   const lines = body.split('\n');
   let inFence = false;
   let quote: string | null = null; // the label of the callout being copied, until it closes
+  // Inside a callout every line, code included, keeps the "> " so the quote does not end at a fence.
+  const push = (line: string) => out.push(quote === null ? line : line === '' ? '>' : `> ${line}`);
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
     if (/^```/.test(line)) {
       inFence = !inFence;
-      out.push(inFence ? line.replace(/\s+twoslash\b.*$/, '') : line);
+      push(inFence ? line.replace(/\s+twoslash\b.*$/, '') : line);
       continue;
     }
     if (inFence) {
       if (/^\s*\/\/ @(noErrors|ts-\w+|showEmit)\b/.test(line)) continue;
-      out.push(line.replace(/\s*\/\/ \[!code [^\]]*\]\s*$/, ''));
+      push(line.replace(/\s*\/\/ \[!code [^\]]*\]\s*$/, ''));
       continue;
     }
 
@@ -44,7 +46,7 @@ export function postMarkdown(body: string): string {
       continue;
     }
     if (quote !== null) {
-      out.push(line.trim() === '' ? '>' : `> ${line}`);
+      push(line.trim() === '' ? '' : line);
       continue;
     }
 

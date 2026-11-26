@@ -18,6 +18,13 @@ describe('postMarkdown', () => {
     expect(md).toBe('Before\n\n_An interactive example is on the web version of this post._\n\nAfter');
   });
 
+  it('keeps a code fence inside a callout in the quote', () => {
+    const md = postMarkdown(
+      '<Callout type="tip">\nTry this:\n```ts\nconst a = 1;\n\nconst b = 2;\n```\n</Callout>\n\nAfter.',
+    );
+    expect(md).toBe('> **Tip**\n>\n> Try this:\n> ```ts\n> const a = 1;\n>\n> const b = 2;\n> ```\n\nAfter.');
+  });
+
   it('strips code annotations and the twoslash fence meta, and leaves the code alone', () => {
     const md = postMarkdown('```ts twoslash\n// @noErrors\nconst a = 1; // [!code focus]\n```');
     expect(md).toBe('```ts\nconst a = 1;\n```');

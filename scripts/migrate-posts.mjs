@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // One-time conversion of the Vocs posts (docs/pages/posts) into the Astro content collection (src/content/posts).
-// Run it again to regenerate every file; delete it with Vocs in BL12.
+// Run it again to regenerate every file; delete it when the Vocs files are deleted.
 //   node scripts/migrate-posts.mjs
 //
 // What it changes, and nothing else:

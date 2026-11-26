@@ -49,7 +49,7 @@ As of 2026-11-26, from the repository at `723d680`.
 - **Mark:** the blog's own "L B I" mark, chosen 2026-11-26: a big L, a small B in the L's inner corner and an I standing to its right, no border and one colour. The favicon follows the system theme; the app icon sits on a dark square. The main site keeps its own L logo.
 - **Source of truth:** the final mockup `docs/design/blog-site.html` (open it in a browser; also at https://claude.ai/artifact/UakAnvKGezMFGV7E67MAhQ), the logo mock `docs/design/blog-logos.html` and the logo files in `docs/design/logo/`. Tokens live in one `src/styles/tokens.css` (BL2).
 
-**D4. Fonts self-hosted** from `@fontsource` (Lora for titles and headings, Karla for the reading text, DM Mono for labels and code; the design uses no other face), so the site makes no request to Google Fonts, as laudebugs.me does.
+**D4. Fonts self-hosted** from `@fontsource` (Lora for titles and headings, Karla for the reading text, DM Mono for labels, and from 2026-11-26 IBM Plex Mono for code, as the owner asked; the design uses no other face), so the site makes no request to Google Fonts, as laudebugs.me does.
 
 **D5. Code blocks use Shiki with transformers.** `@shikijs/transformers` for focus, highlight and error lines, `@shikijs/twoslash` for the 35 existing twoslash blocks, and a small rehype step that wraps each block in the glass frame with its label and Copy. The site pins **TypeScript 6.0.3**, not 7, because `astro check` refuses TypeScript 7 and TypeScript 7 has no compiler API (Build an Agent's notes say both; the second is about TypeDoc, which uses the same API twoslash does, so BL5 re-verifies on this repo).
 
