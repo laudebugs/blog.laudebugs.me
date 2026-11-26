@@ -1,29 +1,37 @@
-# Tech Blog Site
+# Laurence's Technical Blog
 
-> A Minimal Tech Blog built with [Vocs](https://vocs.dev)
+The source of https://blog.laudebugs.me: field notes on work and projects, mostly Angular, TypeScript and building with AI.
 
-## Technologies Used
-- [Vocs](https://vocs.dev)
-- [CodeSandbox Sandpack](https://sandpack.codesandbox.io/)
-- [Stackblitz](https://stackblitz.com/)
+> **Being rebuilt.** The site is moving from Vocs on Vercel to a plain Astro 7 site on Cloudflare, in a new design. Start with [AGENTS.md](AGENTS.md), the [plan](docs/plans/astro-rebuild.md) and the [design](docs/design/README.md). Until the cutover this repo still holds the running Vocs site.
 
-## Libraries Used
-- [useHooks](https://github.com/uidotdev/usehooks)
-- [Feed Core](https://github.com/laudebugs/feed-core#readme)
-- [gray-matter](https://github.com/jonschlinkert/gray-matter)
+## Where things are
 
-## Scripts
-### `prebuild`
-> [!NOTE] This script is automatically run when you run `pnpm run build`
-Generates the list of blog posts to be used in the home page.
+| | |
+|---|---|
+| [docs/design/](docs/design/README.md) | The agreed look: open `blog-site.html` in a browser |
+| [docs/plans/astro-rebuild.md](docs/plans/astro-rebuild.md) | The plan: decisions and the order of work |
+| [docs/todos/](docs/todos/README.md) | The work board: `make todos` |
+| [docs/decisions/](docs/decisions/README.md) | ADRs |
 
-## Twoslash
+## The current site (until BL12)
 
-When using [twoslash](https://vocs.dev/docs/guides/twoslash#errors-num), i.e. the `// comments` must be at the start of the line as shown below:
+Built with [Vocs](https://vocs.dev), with [Sandpack](https://sandpack.codesandbox.io/) and [StackBlitz](https://stackblitz.com/) embeds in three posts.
 
-```ts twoslash
-function add(a: number, b: number): number {
+The Vocs files are still in the repo but nothing builds them any more: Vercel is shut down and the `pnpm dev` and `pnpm build` scripts are gone. They are deleted in the last step of [the cutover guide](docs/guides/migrate-to-cloudflare.md). Use the `site:*` commands below.
 
-// @noErrors
-  return a + b; 
-}
+When using twoslash, the `// comments` must be at the start of the line.
+
+## Checks
+
+```sh
+make check     # todo board, doc indexes, Biome, astro check and tsc
+make test      # Vitest, including one real build
+```
+
+## The Astro site (in progress)
+
+```sh
+pnpm install
+pnpm site:dev     # http://localhost:4321
+pnpm site:build   # static build into dist/
+```

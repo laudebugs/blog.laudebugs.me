@@ -1,0 +1,107 @@
+---
+import PostRow from '../components/PostRow.astro';
+import YearHeading from '../components/YearHeading.astro';
+import Base from '../layouts/Base.astro';
+import { allPosts, postPath, postYear } from '../lib/posts';
+import { groupByYear } from '../lib/tags';
+import { formatDate } from '../lib/text';
+
+const posts = await allPosts();
+const [latest, ...rest] = posts;
+const recent = groupByYear(rest.slice(0, 9), postYear);
+---
+
+<Base title="Laurence Ininda / blog">
+  <h1>Field notes on <em>work and projects</em></h1>
+  <p class="lede">
+    Thoughts on AI tooling and agentic building, working on libraries and applications on web, mobile and desktop; ideas
+    and lessons learnt.
+  </p>
+
+  {
+    latest && (
+      <a class="feat" href={postPath(latest)}>
+        <div>
+          <span class="mono kicker">latest · {formatDate(latest.data.publishedOn)}</span>
+          <h2>{latest.data.title}</h2>
+          {latest.data.summary && <p>{latest.data.summary}</p>}
+        </div>
+        {latest.data.image && <img src={`/assets/post-covers/${latest.data.image}`} alt={latest.data.imageDescription} />}
+      </a>
+    )
+  }
+
+  {
+    recent.map((group) => (
+      <>
+        <YearHeading year={group.year} />
+        {group.posts.map((post) => (
+          <PostRow post={post} />
+        ))}
+      </>
+    ))
+  }
+
+  <a class="more mono" href="/archive">All {posts.length} posts →</a>
+</Base>
+
+<style>
+  .feat {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 28px;
+    padding: 22px 0;
+    color: inherit;
+    text-decoration: none;
+    /* Rules above and below the featured post, not a box. */
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    background: color-mix(in srgb, var(--paper) 90%, transparent);
+  }
+
+  .kicker {
+    color: var(--dim);
+  }
+
+  .feat h2 {
+    margin: 8px 0 10px;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+  }
+
+  .feat:hover h2 {
+    color: var(--accent);
+  }
+
+  .feat p {
+    margin: 0;
+    color: var(--dim);
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    line-height: 1.45;
+  }
+
+  .feat img {
+    width: 100%;
+    height: 100%;
+    max-height: 190px;
+    object-fit: cover;
+  }
+
+  .more {
+    display: inline-block;
+    margin-top: 22px;
+    padding: 9px 16px;
+    color: var(--tone-a-ink);
+    text-decoration: none;
+    background: color-mix(in srgb, var(--tone-a) 65%, transparent);
+  }
+
+  @media (max-width: 860px) {
+    .feat {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

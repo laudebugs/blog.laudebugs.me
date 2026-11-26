@@ -1,0 +1,27 @@
+---
+interface Props {
+  year: string;
+  count?: number;
+  id?: string;
+}
+const { year, count, id } = Astro.props;
+---
+
+<h2 class="year mono" id={id}>
+  <span>{year}</span>
+  {count !== undefined && <span>{count} {count === 1 ? 'post' : 'posts'}</span>}
+</h2>
+
+<style>
+  .year {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 24px 0 6px;
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    background: color-mix(in srgb, var(--paper) 85%, transparent);
+  }
+</style>

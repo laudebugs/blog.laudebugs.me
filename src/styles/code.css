@@ -1,0 +1,255 @@
+/* Code blocks, as in the design: frosted glass (a tint, no border, no shadow), a label and Copy, then the code.
+   Shiki writes its colours as the --code-* variables below, so the blocks follow the light and dark themes. */
+:root {
+  --code-foreground: var(--ink);
+  --code-background: transparent;
+  --code-token-keyword: #7424d0;
+  --code-token-string: #216b27;
+  --code-token-string-expression: #216b27;
+  --code-token-function: #1a52c4;
+  --code-token-constant: #a33f08;
+  --code-token-parameter: var(--ink);
+  --code-token-punctuation: #5f6179;
+  --code-token-comment: #645f82;
+  --code-token-link: var(--tone-d-ink);
+}
+
+/* The dark values are declared twice, as in tokens.css, so the theme toggle wins in both directions. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --code-token-keyword: #cba6f7;
+    --code-token-string: #a6e3a1;
+    --code-token-string-expression: #a6e3a1;
+    --code-token-function: #89b4fa;
+    --code-token-constant: #fab387;
+    --code-token-punctuation: #9fa3be;
+    --code-token-comment: #9a96b8;
+  }
+}
+
+:root[data-theme="dark"] {
+  --code-token-keyword: #cba6f7;
+  --code-token-string: #a6e3a1;
+  --code-token-string-expression: #a6e3a1;
+  --code-token-function: #89b4fa;
+  --code-token-constant: #fab387;
+  --code-token-punctuation: #9fa3be;
+  --code-token-comment: #9a96b8;
+}
+
+.code-frame {
+  margin: 1.4rem 0 1.8rem;
+  font-family: var(--font-code);
+  font-size: 0.86rem;
+  line-height: 1.65;
+  background: color-mix(in srgb, var(--tone-a) 55%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+}
+
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 18px 0;
+  color: var(--tone-a-ink);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.code-copy {
+  padding: 6px 4px;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.code-frame pre {
+  margin: 0;
+  padding: 8px 18px 16px;
+  overflow-x: auto;
+  tab-size: 4;
+}
+
+.code-frame code {
+  font-family: inherit;
+}
+
+/* Lines: a highlighted line gets the pink mark; focus dims every other line until the block is hovered. */
+.code-frame .line {
+  display: inline-block;
+  min-width: 100%;
+}
+
+.code-frame .line.highlighted {
+  background: var(--mark);
+  margin: 0 -18px;
+  padding: 0 18px;
+  min-width: calc(100% + 36px);
+}
+
+.code-frame .line.diff {
+  position: relative;
+  min-width: calc(100% + 36px);
+  margin: 0 -18px;
+  padding: 0 18px;
+}
+
+.code-frame .line.diff::before {
+  position: absolute;
+  left: 6px;
+}
+
+.code-frame .line.diff.add {
+  background: color-mix(in srgb, var(--tone-c) 70%, transparent);
+}
+
+.code-frame .line.diff.add::before {
+  content: "+";
+}
+
+.code-frame .line.diff.remove {
+  background: color-mix(in srgb, var(--tone-b) 55%, transparent);
+}
+
+.code-frame .line.diff.remove::before {
+  content: "-";
+}
+
+.code-frame .has-focused .line:not(.focused, .error-band) {
+  opacity: 0.38;
+  transition: opacity 0.2s;
+}
+
+.code-frame:hover .has-focused .line:not(.focused, .error-band),
+.code-frame:focus-within .has-focused .line:not(.focused, .error-band) {
+  opacity: 1;
+}
+
+/* Error bands: a rust tint under the line they describe. Used for `// @error:` in HTML and for twoslash errors. */
+.code-frame .twoslash-error-line,
+.code-frame .twoslash-tag-error-line {
+  display: block;
+  min-width: calc(100% + 36px);
+  margin: 0 -18px;
+  padding: 2px 18px;
+  color: color-mix(in srgb, var(--ink) 12%, var(--tone-b-ink));
+  white-space: normal;
+  background: color-mix(in srgb, var(--tone-b) 55%, transparent);
+}
+
+/* The HTML error band is a line like any other (inline-block, so no blank line follows it), tinted like the others. */
+.code-frame .line.error-band {
+  min-width: calc(100% + 36px);
+  margin: 0 -18px;
+  padding: 0 18px;
+  color: color-mix(in srgb, var(--ink) 12%, var(--tone-b-ink));
+  white-space: normal;
+  background: color-mix(in srgb, var(--tone-b) 55%, transparent);
+}
+
+.code-frame .twoslash-error {
+  text-decoration: underline wavy var(--tone-b-ink);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+/* Twoslash type popovers: a solid tinted panel with no border and no shadow. */
+.code-frame .twoslash-hover {
+  position: relative;
+}
+
+.code-frame .twoslash:hover .twoslash-hover {
+  text-decoration: underline dotted;
+  text-underline-offset: 4px;
+}
+
+/* Hidden popups are display: none, not just transparent: an invisible absolute box on the last lines still counts as
+   scrollable overflow of the block, which made it scroll into blank space. */
+.code-frame .twoslash-popup-container {
+  position: absolute;
+  z-index: 10;
+  display: none;
+  flex-direction: column;
+  width: max-content;
+  max-width: min(60ch, 80vw);
+  color: var(--ink);
+  text-align: left;
+  white-space: pre-wrap;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--tone-a) 85%, var(--panel));
+  transform: translateY(1.1em);
+}
+
+.code-frame .twoslash-query-persisted .twoslash-popup-container,
+.code-frame .twoslash-query-line .twoslash-popup-container,
+.code-frame .twoslash-hover:hover .twoslash-popup-container,
+.code-frame .twoslash-error-hover:hover .twoslash-popup-container {
+  display: inline-flex;
+  pointer-events: auto;
+}
+
+.code-frame .twoslash-popup-arrow {
+  display: none;
+}
+
+.code-frame .twoslash-popup-code,
+.code-frame .twoslash-popup-error,
+.code-frame .twoslash-popup-docs {
+  padding: 6px 10px;
+}
+
+.code-frame .twoslash-popup-docs {
+  color: var(--dim);
+  font-family: var(--font-body);
+  font-size: 0.85em;
+}
+
+.code-frame .twoslash-popup-error {
+  color: color-mix(in srgb, var(--ink) 12%, var(--tone-b-ink));
+  font-family: var(--font-body);
+  font-size: 0.85em;
+}
+
+.code-frame .twoslash-popup-docs-tags {
+  display: flex;
+  flex-direction: column;
+}
+
+.code-frame .twoslash-popup-docs-tag-name {
+  margin-right: 0.5em;
+  font-family: var(--font-code);
+}
+
+.code-frame .twoslash-completion-list {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 240px;
+  margin: 3px 0 0;
+  padding: 4px;
+  font-size: 0.8rem;
+  background: color-mix(in srgb, var(--tone-a) 85%, var(--panel));
+}
+
+.code-frame .twoslash-completion-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  line-height: 1em;
+}
+
+.code-frame .twoslash-completions-unmatched {
+  color: var(--dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-frame .has-focused .line:not(.focused, .error-band) {
+    transition: none;
+  }
+}

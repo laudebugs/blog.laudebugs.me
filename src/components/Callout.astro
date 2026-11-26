@@ -1,0 +1,14 @@
+---
+// A quiet tinted note with a small label, no border. `:::tip` blocks in a post produce the same markup (see the remark plugin).
+interface Props {
+  type?: 'note' | 'info' | 'tip' | 'warning';
+}
+const { type = 'note' } = Astro.props;
+const tone = type === 'tip' ? 'tip' : type === 'warning' ? 'warning' : 'note';
+const label = tone === 'tip' ? 'Tip' : tone === 'warning' ? 'Warning' : 'Note';
+---
+
+<aside class={`callout callout-${tone}`}>
+  <p class="callout-label">{label}</p>
+  <slot />
+</aside>

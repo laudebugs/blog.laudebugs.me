@@ -1,0 +1,17 @@
+---
+// A StackBlitz project that loads only when the reader presses the button. Without JavaScript the island's
+// server-rendered link to the project remains.
+import FrameworkExample from './FrameworkExample';
+
+interface Props {
+  projectId: string;
+  openFile?: string;
+  view?: string;
+}
+const { projectId, openFile, view } = Astro.props;
+---
+
+<FrameworkExample client:load kind="stackblitz" projectId={projectId} openFile={openFile} view={view} />
+<noscript>
+  <p>This example runs on StackBlitz: <a href={`https://stackblitz.com/edit/${projectId}`} rel="noopener noreferrer">open the project</a>.</p>
+</noscript>

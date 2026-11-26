@@ -1,0 +1,17 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
+  "files": {
+    "includes": [
+      "src/**",
+      "tests/**",
+      "astro.config.mjs",
+      "vitest.config.ts",
+      "biome.json",
+      "tsconfig.site.json",
+      "!**/*.astro"
+    ]
+  },
+  "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 120 },
+  "javascript": { "formatter": { "quoteStyle": "single", "semicolons": "always", "trailingCommas": "all" } },
+  "linter": { "enabled": true, "rules": { "preset": "recommended" } }
+}

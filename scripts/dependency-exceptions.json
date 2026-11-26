@@ -1,0 +1,4 @@
+{
+  "note": "A release under a week old is allowed only for a known vulnerability in the version it replaces. Key: name@version. Value: the reason and the date it was recorded.",
+  "exceptions": {}
+}

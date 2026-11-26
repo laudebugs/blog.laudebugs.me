@@ -1,0 +1,13 @@
+---
+// A Sandpack example that loads only when the reader presses the button.
+import type { SandpackProps } from '@codesandbox/sandpack-react';
+import FrameworkExample from './FrameworkExample';
+
+type Props = Pick<SandpackProps, 'files' | 'template' | 'options' | 'customSetup'>;
+const { files, template, options, customSetup } = Astro.props;
+---
+
+<FrameworkExample client:load kind="sandpack" files={files} template={template} options={options} customSetup={customSetup} />
+<noscript>
+  <p>This example needs JavaScript to run. Its code is in the text above.</p>
+</noscript>

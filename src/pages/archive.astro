@@ -1,0 +1,62 @@
+---
+import PostRow from '../components/PostRow.astro';
+import YearHeading from '../components/YearHeading.astro';
+import Base from '../layouts/Base.astro';
+import { allPosts, postYear } from '../lib/posts';
+import { groupByYear } from '../lib/tags';
+
+const posts = await allPosts();
+const years = groupByYear(posts, postYear);
+const first = years.at(-1)?.year;
+---
+
+<Base title="Archive | Laurence Ininda / blog" description="Every post, newest first.">
+  <h1>Archive</h1>
+  <p class="lede">All {posts.length} posts since {first}, newest first.</p>
+
+  <ul class="chips mono" aria-label="Years">
+    {
+      years.map((group) => (
+        <li>
+          <a href={`#y${group.year}`}>
+            {group.year} <b>{group.posts.length}</b>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  {
+    years.map((group) => (
+      <section>
+        <YearHeading year={group.year} count={group.posts.length} id={`y${group.year}`} />
+        {group.posts.map((post) => (
+          <PostRow post={post} />
+        ))}
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 10px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chips a {
+    display: inline-block;
+    padding: 4px 10px;
+    color: var(--tone-a-ink);
+    text-decoration: none;
+    background: color-mix(in srgb, var(--tone-a) 65%, transparent);
+  }
+
+  .chips b {
+    font-weight: 500;
+  }
+</style>

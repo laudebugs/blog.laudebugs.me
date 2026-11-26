@@ -1,0 +1,84 @@
+<title>Blog Logo Options</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&family=Figtree:wght@400;600;700&display=swap">
+<style>
+  /* Layout: a grid of option cards; each shows the mark large, as a header lockup in light and dark, and as a solid favicon with a browser tab. */
+  :root { --paper: #fdf5fc; --grid: #f1dcf0; --ink: #2b1530; --dim: #7a5a80; --accent: #9a3fc4; color-scheme: light; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { background-color: var(--paper); background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 16px 16px; color: var(--ink); font-family: 'Figtree', system-ui, sans-serif;
+    padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  h1 { font: 500 clamp(1.8rem, 4.4vw, 2.7rem)/1.08 'Lora', Georgia, serif; margin: 0 0 10px; letter-spacing: -.02em; }
+  .lede { margin: 0 0 24px; max-width: 66ch; font-size: 1.05rem; line-height: 1.5; color: var(--dim); background: color-mix(in srgb, var(--paper) 90%, transparent); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 22px; }
+  .card { background: #fff; padding: 18px 20px 20px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+  .card .hd { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .card .hd b { font: 500 .88rem 'DM Mono', monospace; } .card .hd span { font: 400 .72rem 'DM Mono', monospace; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; }
+  .card p { margin: 0; font-size: .95rem; line-height: 1.45; color: var(--dim); }
+  .hero { display: grid; place-items: center; padding: 18px; background-color: var(--paper); background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 16px 16px; }
+  .lock { display: flex; align-items: center; gap: 12px; padding: 14px 16px; font: 600 1.25rem 'Lora', Georgia, serif; letter-spacing: -.01em; white-space: nowrap; }
+  .lock i { font-style: italic; font-weight: 400; }
+  .lock.l { background: #fdf5fc; color: #2b1530; border: 1px solid #f1dcf0; } .lock.l i { color: #9a3fc4; }
+  .lock.d { background: #17112b; color: #f0eaff; } .lock.d i { color: #c78bf0; }
+  .row2 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .fav { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 14px; background: #e9e6f0; }
+  .tab { display: flex; align-items: center; gap: 8px; background: #fff; padding: 7px 12px; font: 400 .78rem 'Figtree', sans-serif; color: #24202f; min-width: 0; flex: 1 1 170px; }
+  .tab span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  svg { display: block; flex: none; }
+  .note { font: 400 .8rem/1.5 'DM Mono', monospace; margin: 26px 0 0; color: var(--dim); max-width: 76ch; }
+</style>
+
+<div class="wrap">
+  <h1>Logo options for the blog</h1>
+  <p class="lede">Marks drawn from Bagel Fat One, the letterforms of the main site's logo. The first three put L, B and I (Laurence Bugasu Ininda) in one square with no border. Each shows the mark, the header lockup in light and dark, and the solid favicon in a browser tab.</p>
+  <div class="grid" id="grid"></div>
+  <p class="note">The see-through mark is used in the page header, and the solid tile is the favicon and app icon. All six use the blog's orchid. The main site's mark is lilac, and either colour can be used for any of them.</p>
+</div>
+
+<script>
+  var G = {"L": {"d": "M32 631Q32 677 60.5 702.5Q89 728 134 728Q181 728 209.0 702.5Q237 677 237 631V205Q237 186 247.0 178.5Q257 171 280 184Q330 213 369.0 230.5Q408 248 455 248Q520 248 553.0 214.0Q586 180 586 125Q586 66 550.5 34.0Q515 2 437 2H231Q165 2 121.0 17.5Q77 33 54.5 74.0Q32 115 32 193Z", "w": 595, "b": [32, 2, 586, 728]}, "b": {"d": "M374 0Q324 0 293.5 21.0Q263 42 249.0 76.5Q235 111 233 151H214V95Q214 54 189.0 27.0Q164 0 120 0Q74 0 50.5 27.0Q27 54 27 95V671Q27 714 50.0 742.5Q73 771 120 771Q167 771 190.5 742.5Q214 714 214 673V370L218 369Q228 411 243.5 446.0Q259 481 290.0 502.0Q321 523 376 523Q461 523 506.0 453.5Q551 384 551 268Q551 135 505.5 67.5Q460 0 374 0ZM212 276Q212 271 212.5 266.5Q213 262 214 257Q219 236 238.5 225.5Q258 215 300 215Q350 215 368.5 230.0Q387 245 387 276Q387 308 369.0 323.0Q351 338 301 338Q258 338 238.5 327.5Q219 317 214 295Q213 291 212.5 286.5Q212 282 212 276Z", "w": 569, "b": [27, 0, 551, 771]}, "/": {"d": "M86 -139Q34 -125 16.0 -77.5Q-2 -30 14 34Q28 89 46.5 125.5Q65 162 84.0 192.0Q103 222 120.5 255.0Q138 288 150 336Q163 387 168.0 448.5Q173 510 179.5 577.0Q186 644 203 710Q217 763 250.5 796.0Q284 829 337 816Q372 808 388.0 783.5Q404 759 405.0 724.5Q406 690 396 651Q381 586 352.5 526.5Q324 467 297.0 413.0Q270 359 257 308Q244 260 243.0 221.0Q242 182 245.0 145.5Q248 109 246.0 67.0Q244 25 230 -29Q215 -88 178.5 -120.5Q142 -153 86 -139Z", "w": 423, "b": [6.470588235294118, -143.21505376344086, 405.09090909090907, 819.6739130434783]}, "B": {"d": "M248 1Q202 3 162.5 14.0Q123 25 93.0 51.5Q63 78 46.5 125.0Q30 172 30 245Q30 316 49.5 368.0Q69 420 96.0 451.0Q123 482 145 489L140 508H123Q77 508 50.5 537.5Q24 567 23 617Q22 667 49.5 697.5Q77 728 123 728H398Q506 728 554.0 676.5Q602 625 602 543Q602 477 571.5 433.0Q541 389 480 380V365Q546 362 587.5 319.5Q629 277 629 194Q629 104 577.0 51.5Q525 -1 406 0ZM221 450Q221 428 229.0 421.0Q237 414 259 414H351Q389 414 409.0 425.5Q429 437 429 471Q429 506 409.0 517.0Q389 528 351 528H259Q237 528 229.0 522.0Q221 516 221 493ZM221 249Q221 227 229.5 219.0Q238 211 261 211H364Q403 211 424.0 225.0Q445 239 445 275Q445 311 424.0 324.5Q403 338 364 338H261Q238 338 229.5 331.0Q221 324 221 302Z", "w": 644, "b": [22.964912280701753, -0.018691588785046065, 629, 728]}, "I": {"d": "M136 -2Q90 -2 61.0 26.0Q32 54 32 97V626Q32 670 60.5 700.0Q89 730 136 730Q186 730 214.5 700.5Q243 671 243 628V97Q243 54 212.5 26.0Q182 -2 136 -2Z", "w": 275, "b": [32, -2, 243, 730]}};
+  var ID = 0;
+  // place a glyph so that its bounding box is centred on (cx, cy) with the given height
+  function glyph(ch, cx, cy, h, fill, extra) {
+    var g = G[ch], b = g.b, s = h / (b[3] - b[1]);
+    var x0 = cx - ((b[0] + b[2]) / 2) * s, y0 = cy + ((b[1] + b[3]) / 2) * s;
+    return '<path transform="translate(' + x0.toFixed(2) + ' ' + y0.toFixed(2) + ') scale(' + s.toFixed(4) + ' ' + (-s).toFixed(4) + ')' + (extra || '') + '" fill="' + fill + '" d="' + g.d + '"/>';
+  }
+  /* each option draws its contents on a 120 tile; c = colours */
+  var OPTS = [
+    { n: 'A1 · L B I grid', noTile: 1, d: 'L, B and I in a two by two square, with a pink block in the fourth cell. No border; the four cells make the square.',
+      draw: function (c) { return glyph('L', 33, 33, 50, c.fg) + glyph('B', 87, 33, 50, c.fg) + glyph('I', 33, 87, 50, c.fg) + '<rect x="66" y="62" width="42" height="50" fill="' + c.acc + '"/>'; } },
+    { n: 'A2 · Big L, B inside, I beside', noTile: 1, d: 'L is the biggest letter. B sits in the corner of the L, and I stands to its right, shorter than the L and sharing its baseline. All three in the main colour, no border.',
+      draw: function (c) { return glyph('L', 45, 60, 108, c.fg) + glyph('B', 60.5, 48, 38, c.fg) + glyph('I', 103, 76, 76, c.fg); } },
+    { n: 'A3 · L B I and a bar', noTile: 1, d: 'The three letters in one line over a solid highlighter bar. The width of the line and the bar set the square.',
+      draw: function (c) { return glyph('L', 26, 34, 46, c.fg) + glyph('B', 71, 34, 46, c.fg) + glyph('I', 105, 34, 46, c.fg) + '<rect x="9" y="70" width="102" height="40" fill="' + c.acc + '"/>'; } },
+    { n: 'B · Graph L', d: 'The L on a graph-paper tile, so the mark carries the blog\'s notebook background. Fine grid lines sit behind the letter.',
+      draw: function (c, solid) { var l = ''; for (var i = 24; i < 120; i += 24) l += '<path d="M' + i + ' 6V114M6 ' + i + 'H114" stroke="' + c.fg + '" stroke-width="2" opacity="' + (solid ? .28 : .3) + '"/>'; return l + glyph('L', 60, 62, 62, c.fg); } },
+    { n: 'C · Italic L', d: 'The L leaning into an italic, echoing the italic accent in the title. A little movement in an otherwise rigid tile.',
+      draw: function (c) { return glyph('L', 58, 62, 64, c.fg, ' skewX(-11)'.replace('skewX', 'skewX')); } },
+    { n: 'D · Marked L', d: 'The L with a highlighter stripe behind it, the same pink as the highlighted lines in code blocks.',
+      draw: function (c, solid) { return '<rect x="20" y="62" width="80" height="26" fill="' + c.mark + '"/>' + glyph('L', 58, 62, 64, c.fg); } },
+    { n: 'E · The b', d: 'A lowercase b for "blog", so the blog\'s tab is clearly different from the main site\'s. Same letterforms, a different letter.',
+      draw: function (c) { return glyph('b', 60, 60, 70, c.fg); } },
+    { n: 'F · L / b', d: 'The L and the italic orchid slash from the wordmark, so the mark reads "L / blog" in two shapes.',
+      draw: function (c, solid) { return glyph('L', 42, 62, 58, c.fg) + glyph('/', 82, 62, 58, c.acc); } }
+  ];
+  function tile(o, mode, size) {
+    var id = 'o' + (ID++);
+    var light = { fg: '#9a3fc4', acc: '#ffb9dc', mark: '#ffd6ec', dot: '#9a3fc4' };
+    var dark = { fg: '#c78bf0', acc: '#ffd3be', mark: '#5a2f7e', dot: '#ffd3be' };
+    var solidc = { fg: '#f4eeff', acc: '#ffd3be', mark: '#7a3d9e', dot: '#ffd3be' };
+    var c = mode === 'dark' ? dark : mode === 'solid' ? solidc : light;
+    var bg = mode === 'solid' ? '<rect width="120" height="120" fill="#2b1530"/>' : (o.noTile ? '' : '<rect x="3" y="3" width="114" height="114" fill="none" stroke="' + c.fg + '" stroke-width="5"/>');
+    if (mode === 'solid' && o.n.indexOf('B') === 0) { /* graph lines lighter on solid */ }
+    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 120 120" role="img" aria-label="' + o.n + ' logo" xmlns="http://www.w3.org/2000/svg">' + bg + o.draw(c, mode === 'solid') + '</svg>';
+  }
+  document.getElementById('grid').innerHTML = OPTS.map(function (o) {
+    return '<div class="card"><div class="hd"><b>' + o.n + '</b><span>blog mark</span></div>' +
+      '<div class="hero">' + tile(o, 'light', 150) + '</div>' +
+      '<div class="row2"><div class="lock l">' + tile(o, 'light', 38) + '<span>Laurence Ininda <i>/ blog</i></span></div><div class="lock d">' + tile(o, 'dark', 38) + '<span>Laurence Ininda <i>/ blog</i></span></div></div>' +
+      '<div class="fav">' + tile(o, 'solid', 64) + tile(o, 'solid', 32) + tile(o, 'solid', 16) + '<div class="tab">' + tile(o, 'solid', 16) + '<span>Field notes on work and projects</span></div></div>' +
+      '<p>' + o.d + '</p></div>';
+  }).join('');
+</script>
