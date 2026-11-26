@@ -10,7 +10,7 @@
 
 ## The plan in one paragraph
 
-The new site is a folder of static files, `dist/`, made by `pnpm build`. Cloudflare serves that folder with Workers static assets: no server code. You first deploy it to a Cloudflare address of its own (`*.workers.dev`) while Vercel keeps serving `blog.laudebugs.me`. A script checks that every old link still works on the new copy. Then you move the domain, watch for a few days, retire Vercel, and delete the old Vocs code. Nothing changes for readers until you move the domain, and moving it back undoes the switch.
+The new site is a folder of static files, `dist/`, made by `pnpm build`. Cloudflare serves that folder with Workers static assets: no server code. This is the runbook as it was planned: deploy to a Cloudflare address of its own (`*.workers.dev`) while Vercel keeps serving `blog.laudebugs.me`, check with a script that every old link still works on the new copy, move the domain, watch for a few days, retire Vercel, and delete the old Vocs code. In the event Vercel was shut down before the domain moved and the days of watching were skipped, so the rollback in this guide no longer exists: a bad build is fixed by rolling back the Worker or reverting the commit.
 
 ## What is already in the repository
 
