@@ -25,14 +25,16 @@ if (output === undefined) throw new Error(`Example: examples/${file.replace(/\.t
   <figcaption class="cap"><span>{caption}</span><span class="hint" hidden data-note>runs in your browser</span></figcaption>
   <div data-view><Code code={source.trimEnd()} lang="ts" theme={codeTheme} /></div>
   <textarea hidden spellcheck="false" aria-label={`Editable code for ${caption}`} data-editor>{source}</textarea>
-  <div class="cap b">
-    <span>Output</span>
-    <span class="actions">
-      <button type="button" class="edit" hidden data-edit>Edit and run</button>
-      <button type="button" class="run" hidden data-run>Run ▸</button>
-    </span>
+  <div class="op">
+    <div class="cap b">
+      <span>Output</span>
+      <span class="actions">
+        <button type="button" class="edit" hidden data-edit>Edit and run</button>
+        <button type="button" class="run" hidden data-run>Run ▸</button>
+      </span>
+    </div>
+    <pre class="out" aria-live="polite" data-out>{output.trimEnd()}</pre>
   </div>
-  <pre class="out" aria-live="polite" data-out>{output.trimEnd()}</pre>
 </figure>
 
 <script>

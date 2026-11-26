@@ -16,6 +16,11 @@
   --tone-c-ink: #1f7a5a;
   --tone-d: #bedcf5;
   --tone-d-ink: #2a6fa8;
+  --output-bg: #ffffff;
+  --output-ink: #2b1530;
+  --output-dim: #7a5a80;
+  --output-error: #b2502a;
+  --output-rule: #d9ccf5;
 
   --font-serif: "Lora", Georgia, "Times New Roman", serif;
   --font-body: "Karla", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -44,6 +49,11 @@
     --tone-c-ink: #6fd6a8;
     --tone-d: #233f66;
     --tone-d-ink: #7ebcff;
+    --output-bg: #120d24;
+    --output-ink: #f0eaff;
+    --output-dim: #a99dc9;
+    --output-error: #ff9d78;
+    --output-rule: transparent;
     color-scheme: dark;
   }
 }
@@ -64,5 +74,10 @@
   --tone-c-ink: #6fd6a8;
   --tone-d: #233f66;
   --tone-d-ink: #7ebcff;
+  --output-bg: #120d24;
+  --output-ink: #f0eaff;
+  --output-dim: #a99dc9;
+  --output-error: #ff9d78;
+  --output-rule: transparent;
   color-scheme: dark;
 }

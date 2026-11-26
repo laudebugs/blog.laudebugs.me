@@ -68,6 +68,16 @@
   opacity: 0.6;
   cursor: progress;
 }
+/* The output sits on its own background under the editor so it reads apart from the code: plain white under a thin
+   rule in light, a dark inset in dark. */
+.live .op {
+  background: var(--output-bg);
+  color: var(--output-ink);
+  border-top: 1px solid var(--output-rule);
+}
+.live .op .cap {
+  color: var(--output-dim);
+}
 .live .out {
   margin: 0;
   padding: 12px 18px;
@@ -76,7 +86,7 @@
   background: transparent;
 }
 .live .out[data-state="error"] {
-  color: var(--tone-b-ink);
+  color: var(--output-error);
 }
 /* The author styles above set `display`, which would otherwise beat the `hidden` attribute. */
 .live [hidden] {
