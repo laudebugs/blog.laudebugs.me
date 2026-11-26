@@ -6,6 +6,8 @@
 
 **Decisions this follows:** [ADR 0002](../decisions/0002-rebuild-the-blog-on-astro.md) and the plan's [D12 and D13](../plans/astro-rebuild.md). The todo is [BL12](../todos/ready/BL12-cutover.md).
 
+**Shell:** the commands work in bash and zsh. The one trap is zsh: it does not treat `#` as a comment in an interactive prompt, so paste command lines without trailing comments (or run `setopt interactive_comments` once). Replace every `<placeholder>` including the angle brackets, because zsh reads `<` and `>` as redirects.
+
 ## The plan in one paragraph
 
 The new site is a folder of static files, `dist/`, made by `pnpm site:build`. Cloudflare serves that folder with Workers static assets: no server code. You first deploy it to a Cloudflare address of its own (`*.workers.dev`) while Vercel keeps serving `blog.laudebugs.me`. A script checks that every old link still works on the new copy. Then you move the domain, watch for a few days, retire Vercel, and delete the old Vocs code. Nothing changes for readers until you move the domain, and moving it back undoes the switch.
@@ -19,6 +21,7 @@ The new site is a folder of static files, `dist/`, made by `pnpm site:build`. Cl
 | `scripts/parity.mjs` (`pnpm site:parity <address>`) | Fetches the 21 old post addresses, their Markdown copies, the feed, sitemap, `llms.txt`, `posts-index.json` and every cover from a deployed copy, and lists what fails. It only reads. |
 | `docs/guides/cloudflare/deploy.yml` | Staged workflow: builds with no secrets, then deploys from `main`. |
 | `docs/guides/cloudflare/preview.yml` | Staged workflow: a preview address for each pull request, deleted when it closes. |
+| `scripts/cloudflare-create-tokens.sh` | Creates the scoped deploy token from a temporary bootstrap token and stores it in GitHub without ever showing it (step 1). |
 | `wrangler` 4.165.0 | A pinned dev dependency, for deploying from your machine. The workflows pin the same version. |
 
 ## Before you start: two things to check
@@ -30,20 +33,40 @@ The new site is a folder of static files, `dist/`, made by `pnpm site:build`. Cl
 
 ## Steps
 
-### 1. Make a Cloudflare API token
+### 1. Make the deploy token (with a temporary one)
 
-In the Cloudflare dashboard: **My Profile → API Tokens → Create Token → Create Custom Token**.
+*Do step 2.1 first: the script writes into the `cloudflare` environment, which must exist.*
 
-- **Permission:** Account → Workers Scripts → Edit. Nothing else. Attaching the domain is a dashboard action you do yourself in step 8, so the token needs no zone or DNS permission.
-- **Account resources:** include only your account.
-- Copy the token once; Cloudflare does not show it again. Also copy your **Account ID** (Workers & Pages overview, right-hand side).
+The workflows need one Cloudflare API token. A script creates it from a temporary bootstrap token you make by hand, and puts it straight into GitHub, so the deploy token's value is never shown, saved or pasted anywhere.
+
+1. **Make the bootstrap token.** Cloudflare dashboard → Manage Account → Account API Tokens → Create Token → Custom token, with one permission: Account → Account API Tokens → Edit. Add Zone → Zone → Read only if you want the script to look up the `laudebugs.me` zone by name; otherwise pass the zone id (Zone overview, right-hand side). Set a short expiry (a day). Copy the value and your **Account ID** (Workers & Pages overview, right-hand side).
+2. **Run the script** (needs `curl`, `jq` and `gh`, signed in with `gh auth login`):
+
+   ```sh
+   export CF_ACCOUNT_ID='your-account-id'
+   export CF_BOOTSTRAP_TOKEN='the-bootstrap-token'
+   scripts/cloudflare-create-tokens.sh --dry-run
+   scripts/cloudflare-create-tokens.sh
+   scripts/cloudflare-create-tokens.sh --zone laudebugs.me
+   ```
+
+   In order: `--dry-run` shows the token it would create and creates nothing; the plain run is for before the domain is in `wrangler.jsonc`; `--zone` is for after it is (see below). Leave `CF_BOOTSTRAP_TOKEN` unset to be asked for it with a hidden prompt, which also keeps it out of your shell history.
+
+   It looks up the permission groups by name (and stops, naming the closest ones, if a name has changed), creates an account-owned token valid for a year, and pipes it into `gh secret set CLOUDFLARE_API_TOKEN --env cloudflare`, then sets `CLOUDFLARE_ACCOUNT_ID` the same way. The `cloudflare` environment must exist first (step 2.1 below creates it; do that before running the script).
+3. **Delete the bootstrap token** in the dashboard when the script finishes.
+
+What the deploy token can do:
+
+- **Without `--zone`:** only Account → Workers Scripts → Write, on your account. That is enough to deploy and to make previews, and it is all you need until the domain is added to `wrangler.jsonc` in step 8.
+- **With `--zone laudebugs.me` (or `--zone-id`):** the same, plus Workers Routes → Write and DNS → Write on that one zone. Once `routes` is in `wrangler.jsonc`, `wrangler deploy` also manages the custom domain, so a token without zone access would fail the deploy. Run the script again with `--zone` at step 8 to replace the secret, and delete the older token by the id the script printed. Cloudflare's own [CI guide](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/) scopes the Workers token to account and zone for the same reason.
+- I did not verify that these three groups are exactly the ones a custom domain needs. If the first deploy after step 8 says it lacks permission, the error names it: add it to the zone policy in the script and run it again.
 
 ### 2. Set up GitHub
 
 In the repository's **Settings**:
 
 1. **Environments → New environment → `cloudflare`.** Under deployment branches, allow `main` and pull requests from this repository if you want previews; otherwise only `main`. A required reviewer is optional.
-2. In that environment add two **secrets**: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. (You can do it with `gh secret set CLOUDFLARE_API_TOKEN --env cloudflare`.)
+2. The two **secrets** `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are set by the script in step 1. (To set them by hand instead: `gh secret set CLOUDFLARE_API_TOKEN --env cloudflare`.)
 3. Under **Variables**, add a repository variable `SITE_DEPLOY_ENABLED` with the value `false`. It is the switch: no workflow deploys until it is `true`.
 4. Under **Branches**, protect `main`: require the `gate` check and allow squash merges only. (This is the setting from the CI guide; skip it if you did it.)
 
