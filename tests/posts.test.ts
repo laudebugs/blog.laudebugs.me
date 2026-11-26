@@ -42,6 +42,16 @@ describe('the posts', () => {
   });
 });
 
+describe('cover images', () => {
+  it('show once: the layout draws the cover, so a post must not repeat it in its text', () => {
+    for (const address of expected) {
+      const html = read(join(out, address.slice(1), 'index.html'));
+      const covers = [...html.matchAll(/<img[^>]*src="(\/assets\/post-covers\/[^"]+)"/g)].map((match) => match[1]);
+      expect(new Set(covers).size, `${address} shows a cover more than once: ${covers.join(', ')}`).toBe(covers.length);
+    }
+  });
+});
+
 describe('code blocks', () => {
   it('leak no notation markers or @error lines into the page', () => {
     for (const address of expected) {

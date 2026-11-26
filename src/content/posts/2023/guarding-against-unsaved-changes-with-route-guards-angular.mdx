@@ -15,8 +15,6 @@ image: 'guarding-against-unsaved-changes-with-route-guards-angular.jpeg'
 import StackBlitzEmbed from '../../../components/StackBlitzEmbed.astro';
 import SpotifyTrack from '../../../components/SpotifyTrack.astro';
 
-![Cover Photo](/assets/post-covers/guarding-against-unsaved-changes-with-route-guards-angular.jpeg)
-
 We’ve all sometimes mistakingly closed a document editor with a paragraph or two of unsaved edits, or that browser tab where we were drafting an email. Most of the time, when we attempt to navigate away to other parts of these applications, we get a reminder through a dialog box that we have some information that hasn’t yet been synced in the cloud (if the particular app in question even has an autosave feature).
 
 Within Angular applications, we can leverage the `CanDeactivate` interface to implement a route guard which can then be added to the [route’s `canDeactivate` property](https://angular.io/api/router/Route#properties) to notify a user that they have unsaved changes in their app.
