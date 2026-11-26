@@ -5,12 +5,9 @@ import { transformerNotationDiff, transformerNotationFocus, transformerNotationH
 import { rendererRich, transformerTwoslash } from '@shikijs/twoslash';
 import { defineConfig } from 'astro/config';
 import remarkDirective from 'remark-directive';
-import { createCssVariablesTheme } from 'shiki';
 import { codeFrame } from './src/plugins/code-frame.mjs';
+import { codeTheme } from './src/plugins/code-theme.mjs';
 import { remarkCallouts } from './src/plugins/remark-callouts.mjs';
-
-// Code colours are CSS variables (--code-*), so the blocks follow the light and dark tokens in src/styles/code.css.
-const codeTheme = createCssVariablesTheme({ name: 'blog', variablePrefix: '--code-', fontStyle: true });
 
 // The blog is a static site. `site` is the production origin; previews override it with ASTRO_SITE.
 export default defineConfig({

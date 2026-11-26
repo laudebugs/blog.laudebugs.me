@@ -56,7 +56,9 @@ describe('code blocks', () => {
     for (const address of expected) {
       const html = read(join(out, address.slice(1), 'index.html'));
       // Blocks only: twoslash popups hold their own small <pre class="shiki"> previews.
-      const pre = html.match(/<pre class="astro-code/g)?.length ?? 0;
+      // The live examples (`data-example`) are framed by their own figure, not by a code frame.
+      const pre =
+        (html.match(/<pre class="astro-code/g)?.length ?? 0) - (html.match(/<figure[^>]*data-example/g)?.length ?? 0);
       expect(html.match(/class="code-frame"/g)?.length ?? 0, address).toBe(pre);
       expect(html.match(/class="code-label"/g)?.length ?? 0, address).toBe(pre);
       expect(html.match(/<button[^>]*\bdata-copy\b/g)?.length ?? 0, address).toBe(pre);

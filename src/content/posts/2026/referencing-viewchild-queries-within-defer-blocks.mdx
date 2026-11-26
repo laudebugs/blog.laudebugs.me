@@ -15,6 +15,7 @@ heading: 'Referencing `viewChild` queries within `@defer` blocks'
 ---
 
 import Callout from '../../../components/Callout.astro';
+import Example from '../../../components/Example.astro';
 
 ## A Primer on `@defer`
 
@@ -102,6 +103,10 @@ export class HomeComponent {
 ```
 
 Since `viewChild` keeps its result up to date as the application state changes, the variable `galleryComponent` is initially undefined until it inters the viewport. 
+
+The same idea in plain TypeScript, which you can edit and run here:
+
+<Example file="defer-viewchild.ts" caption="Fig. 1 · Try it" />
 
 <Callout type="tip">
 If a component is wrapped in an `@if` block, it will have the same behavior where a template reference will not have a value. Thus, we'll need to also utilize `viewChild` to reference the content within the `@if` block.

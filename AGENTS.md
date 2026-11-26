@@ -40,7 +40,7 @@ scripts/                            repo tooling (todo board, doc-index check, w
 vocs.config.ts, package.json        the current Vocs site (replaced by BL2 to BL12)
 ```
 
-The Astro site is in `src/`, `public/` and `tests/` (BL2 onward), with its config at the root (`astro.config.mjs`, `tsconfig.site.json`, `biome.json`); the posts are in `src/content/posts` (BL3) and `examples/` arrives with BL6.
+The Astro site is in `src/`, `public/` and `tests/` (BL2 onward), with its config at the root (`astro.config.mjs`, `tsconfig.site.json`, `biome.json`); the posts are in `src/content/posts` (BL3) and the tested examples in `examples/` (BL6).
 
 ## Twelve working agreements
 
@@ -59,7 +59,7 @@ The Astro site is in `src/`, `public/` and `tests/` (BL2 onward), with its confi
 
 ## Environment quirks, dated, with the reason
 
-- **2026-11-26: the posts exist twice until BL12.** `docs/pages/posts` (Vocs, what Vercel builds) and `src/content/posts` (Astro, made by `scripts/migrate-posts.mjs`). Edit a post in both, or re-run the script after editing the Vocs copy.
+- **2026-11-26: the posts exist twice until BL12.** `docs/pages/posts` (Vocs, what Vercel builds) and `src/content/posts` (Astro, made by `scripts/migrate-posts.mjs`). Edit a post in both, or re-run the script after editing the Vocs copy. The `<Example>` in the viewChild post exists only in the Astro copy, so re-running the script removes it; add it again.
 - **2026-11-26: Astro 7 runs no remark or rehype plugins by default.** `astro.config.mjs` uses `unified()` from `@astrojs/markdown-remark`.
 - **2026-11-26: Shiki is configured in `markdown.shikiConfig`, not in `unified()`.** `unified()` takes only remark and rehype options and ignores the rest silently.
 - **2026-11-26: `/assets/posts.json` is read by laudebugs.me.** Do not rename or reshape it until BL4b has shipped there; `docs/plans/astro-rebuild.md` (O5) says how it is replaced.

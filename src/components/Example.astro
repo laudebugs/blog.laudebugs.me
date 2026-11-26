@@ -1,0 +1,41 @@
+---
+// Code from a tested file in examples/, shown with the output recorded next to it. With JavaScript, "Edit and run"
+// turns the code into an editor and runs it in a worker; without JavaScript the code and its recorded output remain.
+import { Code } from 'astro:components';
+import { codeTheme } from '../plugins/code-theme.mjs';
+
+interface Props {
+  /** The file in examples/, such as `defer-viewchild.ts`. */
+  file: string;
+  /** What the figure is called; defaults to the file name. */
+  caption?: string;
+}
+
+const SOURCES = import.meta.glob<string>('/examples/*.ts', { query: '?raw', import: 'default', eager: true });
+const OUTPUTS = import.meta.glob<string>('/examples/*.out.txt', { query: '?raw', import: 'default', eager: true });
+
+const { file, caption = file } = Astro.props;
+const source = SOURCES[`/examples/${file}`];
+const output = OUTPUTS[`/examples/${file.replace(/\.ts$/, '.out.txt')}`];
+if (source === undefined) throw new Error(`Example: examples/${file} does not exist`);
+if (output === undefined) throw new Error(`Example: examples/${file.replace(/\.ts$/, '.out.txt')} (the recorded output) does not exist`);
+---
+
+<figure class="live" data-example>
+  <figcaption class="cap"><span>{caption}</span><span class="hint" hidden data-note>runs in your browser</span></figcaption>
+  <div data-view><Code code={source.trimEnd()} lang="ts" theme={codeTheme} /></div>
+  <textarea hidden spellcheck="false" aria-label={`Editable code for ${caption}`} data-editor>{source}</textarea>
+  <div class="cap b">
+    <span>Output</span>
+    <span class="actions">
+      <button type="button" class="edit" hidden data-edit>Edit and run</button>
+      <button type="button" class="run" hidden data-run>Run ▸</button>
+    </span>
+  </div>
+  <pre class="out" aria-live="polite" data-out>{output.trimEnd()}</pre>
+</figure>
+
+<script>
+  import { initExamples } from '../scripts/example';
+  initExamples();
+</script>
