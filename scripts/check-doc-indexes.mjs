@@ -8,8 +8,8 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const DOCS = join(ROOT, "docs");
-// docs/{components,helpers,pages,public,snippets} are the current Vocs site; BL3 moves them out of docs/ and this exemption goes with them.
-const SKIP = [/^docs\/(components|helpers|pages|public|snippets)$/, /^docs\/todos\/(ready|ongoing|done)$/, /^docs\/research\/[^/]+\/(notes|sources)$/, /^docs\/reference\/[^/]+\/source$/];
+// docs/{components,helpers,pages,public,snippets} are the current Vocs site, and docs/dist is its (gitignored) build output; BL3 moves them out of docs/ and this exemption goes with them.
+const SKIP = [/^docs\/(components|helpers|pages|public|snippets|dist)$/, /^docs\/todos\/(ready|ongoing|done)$/, /^docs\/research\/[^/]+\/(notes|sources)$/, /^docs\/reference\/[^/]+\/source$/];
 const problems = [];
 // A link target must match whole: "](name)", "](name#anchor)", or "](name/...)" (not a substring of another name).
 const linked = (readme, target) => readme.includes(`](${target}`) && new RegExp(`\\]\\(${target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(\\)|#|/)`).test(readme);
