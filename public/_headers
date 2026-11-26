@@ -4,6 +4,11 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
+# laudebugs.me reads this file from the browser, which another origin may only do if the response allows it. It is
+# public data, so any origin may read it.
+/assets/posts-index.json
+  Access-Control-Allow-Origin: *
+
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

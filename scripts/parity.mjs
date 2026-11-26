@@ -35,8 +35,11 @@ async function main() {
   const failures = (await Promise.all(paths.map((path) => check(base, path)))).filter(Boolean);
   // The index file is what laudebugs.me reads, so its shape matters as much as its presence.
   try {
-    const index = await (await fetch(new URL('/assets/posts-index.json', base))).json();
+    const response = await fetch(new URL('/assets/posts-index.json', base), { headers: { Origin: 'https://laudebugs.me' } });
+    const index = await response.json();
     if (index.version !== 1 || index.posts?.length !== addresses.length) failures.push('/assets/posts-index.json: wrong shape or post count');
+    // Without this header a browser on laudebugs.me refuses to read the file and its post list stays empty.
+    if (!response.headers.get('access-control-allow-origin')) failures.push('/assets/posts-index.json: no Access-Control-Allow-Origin header');
   } catch (error) {
     failures.push(`/assets/posts-index.json: ${error.message}`);
   }
