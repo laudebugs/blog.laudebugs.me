@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | ID | `BL12` |
-| Status | `ready` |
+| Status | `ongoing` |
 | Plan | [plan](../../plans/astro-rebuild.md), D12, D13 |
 | Depends on | BL6, BL7, BL9, BL10 |
 | ADRs | None |

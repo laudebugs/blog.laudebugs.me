@@ -4,7 +4,7 @@
 
 **Time:** about an hour of work, plus a few days of watching before Vercel is retired.
 
-**Decisions this follows:** [ADR 0002](../decisions/0002-rebuild-the-blog-on-astro.md) and the plan's [D12 and D13](../plans/astro-rebuild.md). The todo is [BL12](../todos/ready/BL12-cutover.md).
+**Decisions this follows:** [ADR 0002](../decisions/0002-rebuild-the-blog-on-astro.md) and the plan's [D12 and D13](../plans/astro-rebuild.md). The todo is [BL12](../todos/ongoing/BL12-cutover.md).
 
 **Shell:** the commands work in bash and zsh. The one trap is zsh: it does not treat `#` as a comment in an interactive prompt, so paste command lines without trailing comments (or run `setopt interactive_comments` once). Replace every `<placeholder>` including the angle brackets, because zsh reads `<` and `>` as redirects.
 
