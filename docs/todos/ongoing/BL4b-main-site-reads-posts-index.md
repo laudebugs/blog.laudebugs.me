@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | ID | `BL4b` |
-| Status | `ready` |
+| Status | `ongoing` |
 | Plan | [plan](../../plans/astro-rebuild.md), O5 |
 | Depends on | BL4 |
 | ADRs | None |
 | Branch | `feat/bl4b-posts-index` |
 | PR title | `feat: read the blog post index, falling back to the old file` |
 | Size | S |
-| PR | — |
+| PR | [laudebugs.me#9](https://github.com/laudebugs/laudebugs.me/pull/9) |
 
 ## Goal
 

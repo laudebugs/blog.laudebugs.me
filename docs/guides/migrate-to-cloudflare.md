@@ -149,7 +149,7 @@ Do this when parity is clean and you have a quiet hour.
 
 ### 9. Check what depends on the old address
 
-- **`laudebugs.me`** reads `/assets/posts.json` today. The new site does not serve that file; the replacement is `/assets/posts-index.json` and [BL4b](../todos/ready/BL4b-main-site-reads-posts-index.md) makes `laudebugs.me` read it, with a fallback. **Ship BL4b before you move the domain**, or the main site's post list will break when the old file disappears. This is the one step that can hurt readers.
+- **`laudebugs.me`** reads `/assets/posts.json` today. The new site does not serve that file; the replacement is `/assets/posts-index.json` and [BL4b](../todos/ongoing/BL4b-main-site-reads-posts-index.md) makes `laudebugs.me` read it, with a fallback. **Ship BL4b before you move the domain**, or the main site's post list will break when the old file disappears. This is the one step that can hurt readers.
 - **Feed readers** that subscribed to the old site: the old site had no feed, so none can. The new feed is `/rss.xml`.
 - **Search Console and analytics**, if you use them: the sitemap moves to `/sitemap-index.xml`. Resubmit it.
 - **Links in `laudebugs.me`, GitHub profile and social profiles** keep working because the addresses did not change.
